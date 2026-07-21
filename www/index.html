@@ -302,7 +302,8 @@
     .pilar-track::-webkit-scrollbar{ display:none; }
     .pilar-track.dragging{ cursor:grabbing; scroll-snap-type:none; }
     .pilar-track img{
-        height:100%; flex:0 0 82%; object-fit:cover; display:block;
+        height:100%; flex:0 0 82%; object-fit:contain; display:block;
+        background:var(--panel-2);
         scroll-snap-align:start; -webkit-user-drag:none;
         filter:contrast(1.06) saturate(1.02) brightness(0.99);
     }
