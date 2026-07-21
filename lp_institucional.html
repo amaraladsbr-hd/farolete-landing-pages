@@ -11,6 +11,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Farolete Casa de Peças | Para-brisas, Peças e Acessórios — Sarzedo, MG</title>
 <meta name="description" content="Há mais de 20 anos em Sarzedo: para-brisas, vidros automotivos, peças de reposição multimarcas e acessórios. Um só WhatsApp pra resolver.">
+<meta name="keywords" content="troca de para-brisa Sarzedo, vidros automotivos Sarzedo, autopeças Sarzedo, peças de reposição multimarcas, acessórios automotivos Sarzedo MG, Farolete Casa de Peças">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Farolete Casa de Peças">
+<link rel="canonical" href="https://www.farolete.com.br/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="business.business">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Farolete Casa de Peças">
+<meta property="og:title" content="Farolete Casa de Peças | Para-brisas, Peças e Acessórios — Sarzedo, MG">
+<meta property="og:description" content="Há mais de 20 anos em Sarzedo: para-brisas, vidros automotivos, peças de reposição multimarcas e acessórios. Um só WhatsApp pra resolver.">
+<meta property="og:url" content="https://www.farolete.com.br/">
+<meta property="og:image" content="https://www.farolete.com.br/assets/imagens/fachada_web.jpg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Farolete Casa de Peças | Para-brisas, Peças e Acessórios — Sarzedo, MG">
+<meta name="twitter:description" content="Há mais de 20 anos em Sarzedo: para-brisas, vidros automotivos, peças de reposição multimarcas e acessórios. Um só WhatsApp pra resolver.">
+<meta name="twitter:image" content="https://www.farolete.com.br/assets/imagens/fachada_web.jpg">
+
+<!-- Dados estruturados (Schema.org) para Google -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AutoPartsStore",
+  "name": "Farolete Casa de Peças",
+  "image": "https://www.farolete.com.br/assets/imagens/fachada_web.jpg",
+  "url": "https://www.farolete.com.br/",
+  "telephone": "+5531999971820",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Av. Zumbi dos Palmares, 138 - Liberdade",
+    "addressLocality": "Sarzedo",
+    "addressRegion": "MG",
+    "postalCode": "32450-000",
+    "addressCountry": "BR"
+  },
+  "areaServed": ["Sarzedo", "Ibirité"],
+  "sameAs": [
+    "https://www.instagram.com/farolete_sarzedo"
+  ]
+}
+</script>
 <script>
     (function(){
         try{
@@ -49,7 +93,7 @@
     body, .hero-title, .hero-desc, .service-content p, .b2b h3, .review-quote,
     .selo p, .acc-body p, .cta-final p, .map-footer p, .footer-addr,
     nav, .marquee-wrap, .service, .tambem, .avaliacoes, .confianca, .faq,
-    .cta-final, .localizacao, footer, .pilar, .review-card,
+    .cta-final, .localizacao, footer, .pilar, .review-card, .sobre, .sobre-text p,
     .selo, .chip, .btn-ghost, .map-frame{
         transition:var(--theme-transition);
     }
@@ -249,13 +293,30 @@
         background:linear-gradient(180deg, transparent 40%, rgba(10,10,9,0.82) 100%);
         pointer-events:none;
     }
-    .pilar-track{ display:flex; height:100%; }
-    .pilar-track img{
-        height:100%; flex-shrink:0; object-fit:cover; display:block;
-        filter:grayscale(0.25) contrast(1.1) saturate(0.9) brightness(0.97);
+    .pilar-track{
+        display:flex; height:100%; overflow-x:auto; overscroll-behavior-x:contain;
+        scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+        scrollbar-width:none; cursor:grab; touch-action:pan-y;
+        -webkit-user-select:none; user-select:none;
     }
-    .pilar-track.n3{ width:600%; animation:marquee 20s linear infinite; }
-    .pilar-track.n3 img{ width:16.6667%; }
+    .pilar-track::-webkit-scrollbar{ display:none; }
+    .pilar-track.dragging{ cursor:grabbing; scroll-snap-type:none; }
+    .pilar-track img{
+        height:100%; flex:0 0 82%; object-fit:cover; display:block;
+        scroll-snap-align:start; -webkit-user-drag:none;
+        filter:contrast(1.06) saturate(1.02) brightness(0.99);
+    }
+    .segment-label{
+        height:100%; flex:0 0 46%; scroll-snap-align:start;
+        display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.7rem;
+        background:linear-gradient(160deg, var(--panel-2) 0%, #100f0c 100%);
+        color:var(--amber); text-align:center; padding:1.5rem;
+    }
+    .segment-label svg{ width:32px; height:32px; animation:segPulse 2.4s ease-in-out infinite; }
+    .segment-label span{
+        font-family:'Anton', sans-serif; font-size:1rem; text-transform:uppercase; letter-spacing:0.5px;
+        line-height:1.2; color:var(--white);
+    }
 
     .pilar-media.placeholder{
         display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0.6rem;
@@ -320,6 +381,29 @@
         padding:0.7rem 1.3rem; transition:all 0.25s;
     }
     .chip:hover{ border-color:var(--amber); color:var(--amber); }
+
+    /* ─── SOBRE NOS ─── */
+    .sobre{
+        display:grid; grid-template-columns:0.9fr 1.1fr; gap:4vw;
+        align-items:center; padding:9vw 6vw;
+    }
+    .sobre-text h2{
+        font-family:'Anton', sans-serif; font-size:clamp(1.8rem, 3.2vw, 2.6rem);
+        text-transform:uppercase; line-height:1.18; letter-spacing:0.3px; margin:1rem 0 1.4rem;
+    }
+    .sobre-text p{ color:var(--muted); font-size:0.98rem; line-height:1.75; margin-bottom:1.8rem; max-width:480px; }
+    .sobre-grid{
+        display:grid; grid-template-columns:1.3fr 1fr 1fr; grid-template-rows:1fr 1fr;
+        gap:0.9rem; height:min(520px, 60vw);
+    }
+    .sobre-grid img{
+        width:100%; height:100%; object-fit:cover; border-radius:2px;
+        filter:contrast(1.05) saturate(1.03);
+    }
+    .sobre-grid img:nth-child(1){ grid-row:1 / 3; grid-column:1; }
+    .sobre-grid img:nth-child(2){ grid-row:1; grid-column:2 / 4; }
+    .sobre-grid img:nth-child(3){ grid-row:2; grid-column:2; }
+    .sobre-grid img:nth-child(4){ grid-row:2; grid-column:3; }
 
     /* ─── AVALIACOES ─── */
     .avaliacoes{ position:relative; overflow:hidden; padding:8vw 6vw; }
@@ -489,12 +573,9 @@
         66%{ transform:translate(-6%,6%) scale(0.96); }
     }
     @keyframes marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
-    @keyframes pilarFade{
-        0%{ opacity:0; }
-        4%{ opacity:1; }
-        30%{ opacity:1; }
-        36%{ opacity:0; }
-        100%{ opacity:0; }
+    @keyframes segPulse{
+        0%,100%{ transform:scale(1); opacity:0.75; }
+        50%{ transform:scale(1.12); opacity:1; }
     }
     @keyframes logoGlow{
         0%,100%{ filter:drop-shadow(0 0 4px rgba(255,201,60,0.4)); }
@@ -505,6 +586,9 @@
     @media (max-width:900px){
         .pilares-grid{ grid-template-columns:1fr; }
         .pilar{ aspect-ratio:4/3; }
+        .sobre{ grid-template-columns:1fr; gap:2.5rem; }
+        .sobre-text p{ max-width:none; }
+        .sobre-grid{ height:min(420px, 90vw); }
         .selos-grid{ grid-template-columns:repeat(2, 1fr); }
         .reviews-grid{ grid-template-columns:1fr; }
         .map-frame{ aspect-ratio:4/3; }
@@ -532,6 +616,7 @@
     </div>
     <ul class="nav-links">
         <li><a href="#catalogo">Catálogo</a></li>
+        <li><a href="#sobre">Quem Somos</a></li>
         <li><a href="#avaliacoes">Avaliações</a></li>
         <li><a href="#duvidas">Dúvidas</a></li>
     </ul>
@@ -591,13 +676,10 @@
     <div class="pilares-grid">
         <div class="pilar">
             <div class="pilar-media">
-                <div class="pilar-track n3">
-                    <img src="assets/imagens/hero_banner_web.jpg" alt="Instalação de para-brisa na Farolete">
-                    <img src="assets/imagens/windshield_before_web.jpg" alt="Para-brisa trincado antes da troca">
-                    <img src="assets/imagens/windshield_after_web.jpg" alt="Para-brisa novo depois da troca">
-                    <img src="assets/imagens/hero_banner_web.jpg" alt="" aria-hidden="true">
-                    <img src="assets/imagens/windshield_before_web.jpg" alt="" aria-hidden="true">
-                    <img src="assets/imagens/windshield_after_web.jpg" alt="" aria-hidden="true">
+                <div class="pilar-track">
+                    <img src="assets/imagens/windshield_before_web.jpg" alt="Para-brisa trincado antes da troca" draggable="false">
+                    <img src="assets/imagens/windshield_after_web.jpg" alt="Para-brisa novo depois da troca" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_parabrisa.jpg" alt="Para-brisa novo pronto para instalação" draggable="false">
                 </div>
             </div>
             <div class="pilar-overlay">
@@ -606,9 +688,27 @@
             </div>
         </div>
         <div class="pilar">
-            <div class="pilar-media placeholder">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 15l-5-5-9 9"/></svg>
-                <span>Fotos de lanternas, faróis, borrachas e fechaduras em breve</span>
+            <div class="pilar-media">
+                <div class="pilar-track">
+                    <div class="segment-label">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0012 3z"/></svg>
+                        <span>Iluminação</span>
+                    </div>
+                    <img src="assets/imagens/catalogo/catalogo_farol_principal.jpg" alt="Farol principal para reposição" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_farol_milha.jpg" alt="Farol de milha" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_lanterna_traseira.jpg" alt="Lanterna traseira" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_lanterna_pisca.jpg" alt="Lanterna de pisca" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_lampada_h1.jpg" alt="Lâmpada H1" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_lampada_h4.jpg" alt="Lâmpada H4" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_lampada_1polo.jpg" alt="Lâmpada 1 polo" draggable="false">
+                    <div class="segment-label">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10" width="9" height="7" rx="1"/><circle cx="17" cy="8" r="2.4"/><path d="M13 13.5h2.2"/></svg>
+                        <span>Trancas &amp; Mecanismos</span>
+                    </div>
+                    <img src="assets/imagens/catalogo/catalogo_macaneta.jpg" alt="Maçaneta externa de porta" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_fechadura.jpg" alt="Fechadura de porta" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_cilindro.jpg" alt="Cilindro de ignição" draggable="false">
+                </div>
             </div>
             <div class="pilar-overlay">
                 <p class="pilar-num mono">02 · PEÇAS</p>
@@ -616,9 +716,30 @@
             </div>
         </div>
         <div class="pilar">
-            <div class="pilar-media placeholder">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 15l-5-5-9 9"/></svg>
-                <span>Fotos de parachoques, calotas e LED em breve</span>
+            <div class="pilar-media">
+                <div class="pilar-track">
+                    <div class="segment-label">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12l2-6h14l2 6M3 12v5h18v-5M3 12h18"/></svg>
+                        <span>Visual Externo</span>
+                    </div>
+                    <img src="assets/imagens/catalogo/catalogo_parachoque.jpg" alt="Parachoque dianteiro para reposição" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_grade.jpg" alt="Grade dianteira" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_friso.jpg" alt="Friso lateral de porta" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_moldura_paralama.jpg" alt="Moldura de paralama" draggable="false">
+                    <div class="segment-label">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h4l2-3h4l2 3h4M12 8v8M8 16h8"/></svg>
+                        <span>Retrovisores</span>
+                    </div>
+                    <img src="assets/imagens/catalogo/catalogo_retrovisor.jpg" alt="Retrovisor completo" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_capa_retrovisor.jpg" alt="Capa de retrovisor" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_refil_espelho.jpg" alt="Refil de espelho de retrovisor" draggable="false">
+                    <div class="segment-label">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.6"/><path d="M12 4v3.4M12 16.6V20M4 12h3.4M16.6 12H20"/></svg>
+                        <span>Rodas</span>
+                    </div>
+                    <img src="assets/imagens/catalogo/catalogo_calota.jpg" alt="Calota esportiva aro 14" draggable="false">
+                    <img src="assets/imagens/catalogo/catalogo_roda_liga.jpg" alt="Roda de liga leve aro 15" draggable="false">
+                </div>
             </div>
             <div class="pilar-overlay">
                 <p class="pilar-num mono">03 · ACESSÓRIOS</p>
@@ -643,6 +764,22 @@
         <span class="chip">Atendimento a frotas</span>
         <span class="chip">Parceria com mecânicos</span>
         <span class="chip">Condições especiais por volume</span>
+    </div>
+</section>
+
+<!-- SOBRE NOS -->
+<section class="sobre reveal" id="sobre">
+    <div class="sobre-text">
+        <span class="label">Quem somos</span>
+        <h2>Mais de 20 anos<br>cuidando do seu carro<br>em Sarzedo.</h2>
+        <p>A Farolete não é loja nova — o trabalho começou em 1991 e virou referência em vidros automotivos e peças de reposição na cidade. Hoje, na Unidade Zumbi dos Palmares, seguimos com estoque físico de verdade, atendimento no mesmo dia e a mesma dedicação de sempre.</p>
+        <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta">Conhecer a loja <span class="btn-arrow">→</span></a>
+    </div>
+    <div class="sobre-grid">
+        <img src="assets/imagens/loja/loja_fachada.jpg" alt="Fachada da Farolete Casa de Peças em Sarzedo, MG">
+        <img src="assets/imagens/loja/loja_balcao.jpg" alt="Balcão de atendimento da Farolete com peças e acessórios">
+        <img src="assets/imagens/loja/loja_calotas.jpg" alt="Parede de calotas em estoque na Farolete">
+        <img src="assets/imagens/loja/loja_detalhe.jpg" alt="Produtos no balcão da Farolete">
     </div>
 </section>
 
@@ -846,6 +983,58 @@
             localStorage.setItem('farolete-theme', 'light');
         }
         refreshThemeButton();
+    });
+
+    // Carrossel dos pilares: arrastavel no mouse, swipe nativo no touch, autoplay quando ocioso
+    document.querySelectorAll('.pilar-track').forEach(track => {
+        let isDown = false, startX = 0, startScroll = 0, autoplayTimer = null;
+
+        function slideWidth(){
+            const first = track.firstElementChild;
+            return first ? first.getBoundingClientRect().width + 12 : track.clientWidth * 0.8;
+        }
+        function startAutoplay(){
+            stopAutoplay();
+            autoplayTimer = setInterval(() => {
+                const maxScroll = track.scrollWidth - track.clientWidth;
+                let next = track.scrollLeft + slideWidth();
+                if (next >= maxScroll - 4) next = 0;
+                track.scrollTo({ left: next, behavior: 'smooth' });
+            }, 3400);
+        }
+        function stopAutoplay(){
+            if (autoplayTimer){ clearInterval(autoplayTimer); autoplayTimer = null; }
+        }
+        function scheduleResume(){
+            stopAutoplay();
+            setTimeout(startAutoplay, 3000);
+        }
+
+        track.addEventListener('pointerdown', e => {
+            if (e.pointerType !== 'mouse') { stopAutoplay(); return; }
+            isDown = true;
+            track.classList.add('dragging');
+            startX = e.clientX;
+            startScroll = track.scrollLeft;
+            stopAutoplay();
+            track.setPointerCapture(e.pointerId);
+        });
+        track.addEventListener('pointermove', e => {
+            if (!isDown || e.pointerType !== 'mouse') return;
+            track.scrollLeft = startScroll - (e.clientX - startX);
+        });
+        function releaseMouse(){
+            if (!isDown) return;
+            isDown = false;
+            track.classList.remove('dragging');
+            scheduleResume();
+        }
+        track.addEventListener('pointerup', releaseMouse);
+        track.addEventListener('pointercancel', releaseMouse);
+        track.addEventListener('pointerleave', releaseMouse);
+        track.addEventListener('touchend', scheduleResume, { passive: true });
+
+        startAutoplay();
     });
 </script>
 </body>
