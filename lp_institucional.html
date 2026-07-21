@@ -93,7 +93,7 @@
     body, .hero-title, .hero-desc, .service-content p, .b2b h3, .review-quote,
     .selo p, .acc-body p, .cta-final p, .map-footer p, .footer-addr,
     nav, .marquee-wrap, .service, .tambem, .avaliacoes, .confianca, .faq,
-    .cta-final, .localizacao, footer, .pilar, .review-card, .sobre, .sobre-text p,
+    .cta-final, .localizacao, footer, .produtos-media, .review-card, .sobre, .sobre-text p,
     .selo, .chip, .btn-ghost, .map-frame{
         transition:var(--theme-transition);
     }
@@ -278,68 +278,36 @@
     }
     .section-head p{ color:var(--muted); max-width:560px; margin:1.3rem auto 0; font-size:1rem; line-height:1.7; }
 
-    .pilares-grid{
-        display:grid; grid-template-columns:repeat(3, 1fr); gap:2.5rem;
-    }
-    .pilar{
+    .produtos-media{
         position:relative; overflow:hidden; border-radius:2px;
-        aspect-ratio:4/5; background:var(--panel-2);
+        aspect-ratio:21/9; background:var(--panel-2);
         border-top:2px solid var(--amber);
     }
-    .pilar-media{ position:absolute; inset:0; overflow:hidden; }
-    .pilar-media::after{
-        content:'';
-        position:absolute; inset:0; z-index:1;
-        background:linear-gradient(180deg, transparent 40%, rgba(10,10,9,0.82) 100%);
-        pointer-events:none;
-    }
-    .pilar-track{
+    .produtos-track{
         display:flex; height:100%; overflow-x:auto; overscroll-behavior-x:contain;
         scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
         scrollbar-width:none; cursor:grab; touch-action:pan-y;
         -webkit-user-select:none; user-select:none;
     }
-    .pilar-track::-webkit-scrollbar{ display:none; }
-    .pilar-track.dragging{ cursor:grabbing; scroll-snap-type:none; }
-    .pilar-track img{
-        height:100%; flex:0 0 82%; object-fit:contain; display:block;
+    .produtos-track::-webkit-scrollbar{ display:none; }
+    .produtos-track.dragging{ cursor:grabbing; scroll-snap-type:none; }
+    .produtos-track img{
+        height:100%; flex:0 0 26%; object-fit:contain; display:block;
         background:var(--panel-2);
         scroll-snap-align:start; -webkit-user-drag:none;
         filter:contrast(1.06) saturate(1.02) brightness(0.99);
     }
     .segment-label{
-        height:100%; flex:0 0 46%; scroll-snap-align:start;
+        height:100%; flex:0 0 16%; scroll-snap-align:start;
         display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.7rem;
         background:linear-gradient(160deg, var(--panel-2) 0%, #100f0c 100%);
         color:var(--amber); text-align:center; padding:1.5rem;
     }
-    .segment-label svg{ width:32px; height:32px; animation:segPulse 2.4s ease-in-out infinite; }
+    .segment-label svg{ width:30px; height:30px; animation:segPulse 2.4s ease-in-out infinite; }
     .segment-label span{
-        font-family:'Anton', sans-serif; font-size:1rem; text-transform:uppercase; letter-spacing:0.5px;
+        font-family:'Anton', sans-serif; font-size:0.92rem; text-transform:uppercase; letter-spacing:0.5px;
         line-height:1.2; color:var(--white);
     }
-
-    .pilar-media.placeholder{
-        display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0.6rem;
-        border:1px dashed var(--line);
-    }
-    .pilar-media.placeholder svg{ width:26px; height:26px; opacity:0.45; }
-    .pilar-media.placeholder span{
-        font-family:'Barlow Condensed', sans-serif; font-size:0.72rem; letter-spacing:1.5px;
-        text-transform:uppercase; color:var(--muted); text-align:center; padding:0 2rem;
-    }
-
-    .pilar-overlay{
-        position:absolute; left:0; right:0; bottom:0; z-index:2;
-        padding:1.7rem 1.6rem 1.9rem; text-align:center;
-    }
-    .pilar-overlay .pilar-num{
-        font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--amber);
-        letter-spacing:1px; margin-bottom:0.6rem; display:block;
-    }
-    .pilar-overlay h3{
-        font-family:'Anton', sans-serif; font-size:1.5rem; text-transform:uppercase;
-        line-height:1.16; letter-spacing:0.2px; color:#f5f3ee;
     }
 
     /* ─── CTA MEIO DE PAGINA ─── */
@@ -397,14 +365,22 @@
         display:grid; grid-template-columns:1.3fr 1fr 1fr; grid-template-rows:1fr 1fr;
         gap:0.9rem; height:min(520px, 60vw);
     }
+    .sobre-grid figure{
+        position:relative; overflow:hidden; border-radius:2px;
+        background:
+            radial-gradient(circle at 50% 40%, rgba(255,201,60,0.16), transparent 65%),
+            linear-gradient(160deg, var(--panel-2) 0%, #100f0c 100%);
+        margin:0;
+    }
     .sobre-grid img{
-        width:100%; height:100%; object-fit:cover; border-radius:2px;
+        position:relative; z-index:1;
+        width:100%; height:100%; object-fit:contain; display:block;
         filter:contrast(1.05) saturate(1.03);
     }
-    .sobre-grid img:nth-child(1){ grid-row:1 / 3; grid-column:1; }
-    .sobre-grid img:nth-child(2){ grid-row:1; grid-column:2 / 4; }
-    .sobre-grid img:nth-child(3){ grid-row:2; grid-column:2; }
-    .sobre-grid img:nth-child(4){ grid-row:2; grid-column:3; }
+    .sobre-grid figure:nth-child(1){ grid-row:1 / 3; grid-column:1; }
+    .sobre-grid figure:nth-child(2){ grid-row:1; grid-column:2 / 4; }
+    .sobre-grid figure:nth-child(3){ grid-row:2; grid-column:2; }
+    .sobre-grid figure:nth-child(4){ grid-row:2; grid-column:3; }
 
     /* ─── AVALIACOES ─── */
     .avaliacoes{ position:relative; overflow:hidden; padding:8vw 6vw; }
@@ -585,8 +561,9 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width:900px){
-        .pilares-grid{ grid-template-columns:1fr; }
-        .pilar{ aspect-ratio:4/3; }
+        .produtos-media{ aspect-ratio:4/3; }
+        .produtos-track img{ flex-basis:62%; }
+        .segment-label{ flex-basis:42%; }
         .sobre{ grid-template-columns:1fr; gap:2.5rem; }
         .sobre-text p{ max-width:none; }
         .sobre-grid{ height:min(420px, 90vw); }
@@ -671,79 +648,55 @@
 <section class="pilares reveal" id="catalogo">
     <div class="section-head">
         <span class="label">O que você encontra</span>
-        <h2>Três frentes,<br>uma só loja.</h2>
+        <h2>Nossos Produtos</h2>
         <p>Da troca de para-brisa até a peça de reposição que ninguém mais acha — a Farolete resolve.</p>
     </div>
-    <div class="pilares-grid">
-        <div class="pilar">
-            <div class="pilar-media">
-                <div class="pilar-track">
-                    <img src="assets/imagens/catalogo/catalogo_parabrisa.jpg" alt="Para-brisa novo pronto para instalação" draggable="false">
-                </div>
+    <div class="produtos-media">
+        <div class="produtos-track">
+            <div class="segment-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4l16 4-2 12-14-3z"/><path d="M4 4l7 15"/></svg>
+                <span>Vidros</span>
             </div>
-            <div class="pilar-overlay">
-                <p class="pilar-num mono">01 · VIDROS</p>
-                <h3>Para-brisas &amp; Vidros</h3>
+            <img src="assets/imagens/catalogo/catalogo_parabrisa.jpg" alt="Para-brisa novo pronto para instalação" draggable="false">
+            <div class="segment-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0012 3z"/></svg>
+                <span>Iluminação</span>
             </div>
-        </div>
-        <div class="pilar">
-            <div class="pilar-media">
-                <div class="pilar-track">
-                    <div class="segment-label">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0012 3z"/></svg>
-                        <span>Iluminação</span>
-                    </div>
-                    <img src="assets/imagens/catalogo/catalogo_farol_principal.jpg" alt="Farol principal para reposição" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_farol_milha.jpg" alt="Farol de milha" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_lanterna_traseira.jpg" alt="Lanterna traseira" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_lanterna_pisca.jpg" alt="Lanterna de pisca" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_lampada_h1.jpg" alt="Lâmpada H1" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_lampada_h4.jpg" alt="Lâmpada H4" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_lampada_1polo.jpg" alt="Lâmpada 1 polo" draggable="false">
-                    <div class="segment-label">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10" width="9" height="7" rx="1"/><circle cx="17" cy="8" r="2.4"/><path d="M13 13.5h2.2"/></svg>
-                        <span>Trancas &amp; Mecanismos</span>
-                    </div>
-                    <img src="assets/imagens/catalogo/catalogo_macaneta.jpg" alt="Maçaneta externa de porta" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_fechadura.jpg" alt="Fechadura de porta" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_cilindro.jpg" alt="Cilindro de ignição" draggable="false">
-                </div>
+            <img src="assets/imagens/catalogo/catalogo_farol_principal.jpg" alt="Farol principal para reposição" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_farol_milha.jpg" alt="Farol de milha" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_lanterna_traseira.jpg" alt="Lanterna traseira" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_lanterna_pisca.jpg" alt="Lanterna de pisca" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_lampada_h4.jpg" alt="Lâmpada H4" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_lampada_1polo.jpg" alt="Lâmpada 1 polo" draggable="false">
+            <div class="segment-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10" width="9" height="7" rx="1"/><circle cx="17" cy="8" r="2.4"/><path d="M13 13.5h2.2"/></svg>
+                <span>Trancas &amp; Mecanismos</span>
             </div>
-            <div class="pilar-overlay">
-                <p class="pilar-num mono">02 · PEÇAS</p>
-                <h3>Peças &amp; Reposição</h3>
+            <img src="assets/imagens/catalogo/catalogo_macaneta.jpg" alt="Maçaneta externa de porta" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_fechadura.jpg" alt="Fechadura de porta" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_cilindro.jpg" alt="Cilindro de ignição" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_borracha_porta.jpg" alt="Borracha de vedação de porta" draggable="false">
+            <div class="segment-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12l2-6h14l2 6M3 12v5h18v-5M3 12h18"/></svg>
+                <span>Visual Externo</span>
             </div>
-        </div>
-        <div class="pilar">
-            <div class="pilar-media">
-                <div class="pilar-track">
-                    <div class="segment-label">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12l2-6h14l2 6M3 12v5h18v-5M3 12h18"/></svg>
-                        <span>Visual Externo</span>
-                    </div>
-                    <img src="assets/imagens/catalogo/catalogo_parachoque.jpg" alt="Parachoque dianteiro para reposição" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_grade.jpg" alt="Grade dianteira" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_friso.jpg" alt="Friso lateral de porta" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_moldura_paralama.jpg" alt="Moldura de paralama" draggable="false">
-                    <div class="segment-label">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h4l2-3h4l2 3h4M12 8v8M8 16h8"/></svg>
-                        <span>Retrovisores</span>
-                    </div>
-                    <img src="assets/imagens/catalogo/catalogo_retrovisor.jpg" alt="Retrovisor completo" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_capa_retrovisor.jpg" alt="Capa de retrovisor" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_refil_espelho.jpg" alt="Refil de espelho de retrovisor" draggable="false">
-                    <div class="segment-label">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.6"/><path d="M12 4v3.4M12 16.6V20M4 12h3.4M16.6 12H20"/></svg>
-                        <span>Rodas</span>
-                    </div>
-                    <img src="assets/imagens/catalogo/catalogo_calota.jpg" alt="Calota esportiva aro 14" draggable="false">
-                    <img src="assets/imagens/catalogo/catalogo_roda_liga.jpg" alt="Roda de liga leve aro 15" draggable="false">
-                </div>
+            <img src="assets/imagens/catalogo/catalogo_parachoque.jpg" alt="Parachoque dianteiro para reposição" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_grade.jpg" alt="Grade dianteira" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_friso.jpg" alt="Friso lateral de porta" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_moldura_paralama.jpg" alt="Moldura de paralama" draggable="false">
+            <div class="segment-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h4l2-3h4l2 3h4M12 8v8M8 16h8"/></svg>
+                <span>Retrovisores</span>
             </div>
-            <div class="pilar-overlay">
-                <p class="pilar-num mono">03 · ACESSÓRIOS</p>
-                <h3>Acessórios &amp; Acabamentos</h3>
+            <img src="assets/imagens/catalogo/catalogo_retrovisor.jpg" alt="Retrovisor completo" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_capa_retrovisor.jpg" alt="Capa de retrovisor" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_refil_espelho.jpg" alt="Refil de espelho de retrovisor" draggable="false">
+            <div class="segment-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.6"/><path d="M12 4v3.4M12 16.6V20M4 12h3.4M16.6 12H20"/></svg>
+                <span>Rodas</span>
             </div>
+            <img src="assets/imagens/catalogo/catalogo_calota.jpg" alt="Calota esportiva aro 14" draggable="false">
+            <img src="assets/imagens/catalogo/catalogo_roda_liga.jpg" alt="Roda de liga leve aro 15" draggable="false">
         </div>
     </div>
 </section>
@@ -775,10 +728,10 @@
         <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta">Conhecer a loja <span class="btn-arrow">→</span></a>
     </div>
     <div class="sobre-grid">
-        <img src="assets/imagens/loja/loja_fachada.jpg" alt="Fachada da Farolete Casa de Peças em Sarzedo, MG">
-        <img src="assets/imagens/loja/loja_balcao.jpg" alt="Balcão de atendimento da Farolete com peças e acessórios">
-        <img src="assets/imagens/loja/loja_calotas.jpg" alt="Parede de calotas em estoque na Farolete">
-        <img src="assets/imagens/loja/loja_detalhe.jpg" alt="Produtos no balcão da Farolete">
+        <figure><img src="assets/imagens/loja/loja_fachada.jpg" alt="Fachada da Farolete Casa de Peças em Sarzedo, MG"></figure>
+        <figure><img src="assets/imagens/loja/loja_balcao.jpg" alt="Balcão de atendimento da Farolete com peças e acessórios"></figure>
+        <figure><img src="assets/imagens/loja/loja_calotas.jpg" alt="Parede de calotas em estoque na Farolete"></figure>
+        <figure><img src="assets/imagens/loja/loja_detalhe.jpg" alt="Produtos no balcão da Farolete"></figure>
     </div>
 </section>
 
@@ -984,8 +937,8 @@
         refreshThemeButton();
     });
 
-    // Carrossel dos pilares: arrastavel no mouse, swipe nativo no touch, autoplay quando ocioso
-    document.querySelectorAll('.pilar-track').forEach(track => {
+    // Carrossel de produtos: arrastavel no mouse, swipe nativo no touch, autoplay quando ocioso
+    document.querySelectorAll('.produtos-track').forEach(track => {
         let isDown = false, startX = 0, startScroll = 0, autoplayTimer = null;
 
         function slideWidth(){
