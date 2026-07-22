@@ -20,6 +20,19 @@
 <meta name="robots" content="index, follow">
 <meta name="author" content="Farolete Casa de Peças">
 <link rel="canonical" href="https://para-brisas.farolete.com.br/">
+<link rel="icon" href="assets/imagens/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/imagens/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/imagens/favicon-48.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/imagens/favicon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/imagens/favicon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/imagens/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#ffc93c">
+<meta name="msapplication-TileColor" content="#ffc93c">
+<meta name="msapplication-TileImage" content="assets/imagens/favicon-192.png">
+<script src="assets/js/site-config.js"></script>
+<script src="assets/js/leads-store.js"></script>
+<script src="assets/js/tracking.js"></script>
 
 <!-- Open Graph -->
 <meta property="og:type" content="business.business">
@@ -1220,12 +1233,14 @@
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
+<script src="assets/js/lead-gate.js"></script>
 <script>
     // TODO: substituir pelo numero real da unidade Zumbi dos Palmares antes de publicar
     const WHATSAPP_NUMBER = '5531999971820';
     const WHATSAPP_MSG = 'Olá! Vi a página da Farolete e preciso trocar o para-brisa do meu carro.';
 
     document.querySelectorAll('.whats-cta').forEach(el => {
+        el.setAttribute('data-msg', WHATSAPP_MSG);
         el.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MSG)}`;
         el.target = '_blank';
         el.rel = 'noopener';

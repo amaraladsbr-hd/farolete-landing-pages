@@ -3,8 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Catálogo | Farolete</title>
+<title>Admin Farolete | Catálogo, Leads e Rastreamento</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/imagens/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/imagens/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/imagens/favicon-48.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/imagens/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/imagens/apple-touch-icon.png">
+<meta name="theme-color" content="#ffc93c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,7 +19,7 @@
     --black:#080807; --panel:#141210; --panel-2:#1c1914;
     --amber:#ffc93c; --amber-deep:#ff8f1c; --white:#f7f4ee;
     --muted:#a39d91; --line:rgba(247,244,238,0.12); --ink:#080807;
-    --danger:#ff5a3c;
+    --danger:#ff5a3c; --ok:#3dd68c;
   }
   *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
   body{
@@ -50,8 +56,22 @@
   .btn-danger{ background:transparent; color:var(--danger); border:1px solid rgba(255,90,60,0.4); padding:0.55rem 0.9rem; }
   .btn-danger:hover{ background:rgba(255,90,60,0.12); }
 
-  main{ padding:2rem 5vw 4rem; display:grid; grid-template-columns:360px 1fr; gap:1.6rem; }
-  @media (max-width:960px){ main{ grid-template-columns:1fr; } }
+  .tabs{
+    display:flex; gap:0.4rem; padding:1rem 5vw 0; flex-wrap:wrap;
+    border-bottom:1px solid var(--line);
+  }
+  .tab-btn{
+    padding:0.75rem 1.2rem; background:transparent; color:var(--muted);
+    border:1px solid transparent; border-bottom:none;
+  }
+  .tab-btn.active{
+    color:var(--ink); background:var(--amber);
+  }
+  .tab-panel{ display:none; padding:2rem 5vw 4rem; }
+  .tab-panel.active{ display:block; }
+
+  .layout-catalog{ display:grid; grid-template-columns:360px 1fr; gap:1.6rem; }
+  @media (max-width:960px){ .layout-catalog{ grid-template-columns:1fr; } }
 
   .panel{
     background:var(--panel); border:1px solid var(--line); padding:1.4rem;
@@ -60,6 +80,11 @@
     font-family:'Anton', sans-serif; font-size:1.25rem; text-transform:uppercase;
     margin-bottom:1rem; letter-spacing:0.4px;
   }
+  .panel-head{
+    display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap;
+    margin-bottom:1rem;
+  }
+  .panel-head h2{ margin-bottom:0; }
   .field{ margin-bottom:1rem; }
   .field label{
     display:block; font-family:'Barlow Condensed', sans-serif; font-weight:600;
@@ -70,7 +95,8 @@
     width:100%; background:var(--panel-2); border:1px solid var(--line);
     color:var(--white); padding:0.75rem 0.85rem; font:inherit;
   }
-  .field input:focus, .field select:focus{ outline:1px solid var(--amber); }
+  .field textarea{ min-height:90px; resize:vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline:1px solid var(--amber); }
   .preview{
     width:100%; aspect-ratio:4/3; object-fit:contain; display:none;
     background:#0e0d0b; border:1px solid var(--line); margin-top:0.6rem;
@@ -93,6 +119,45 @@
   .card .name{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; margin:0.25rem 0 0.7rem; }
   .card .actions{ display:flex; gap:0.4rem; }
   .empty{ color:var(--muted); padding:2rem; text-align:center; border:1px dashed var(--line); }
+
+  .stats-row{ display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:0.8rem; margin-bottom:1.2rem; }
+  .stat-box{
+    background:var(--panel-2); border:1px solid var(--line); padding:1rem 1.1rem;
+  }
+  .stat-box strong{
+    display:block; font-family:'Anton', sans-serif; font-size:1.6rem; color:var(--amber); line-height:1;
+  }
+  .stat-box span{
+    font-family:'Barlow Condensed', sans-serif; font-size:0.72rem; letter-spacing:1px;
+    text-transform:uppercase; color:var(--muted);
+  }
+
+  .leads-table-wrap{ overflow:auto; border:1px solid var(--line); }
+  table.leads{
+    width:100%; border-collapse:collapse; font-size:0.9rem; min-width:720px;
+  }
+  table.leads th, table.leads td{
+    text-align:left; padding:0.75rem 0.85rem; border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.leads th{
+    background:var(--panel-2); font-family:'Barlow Condensed', sans-serif;
+    font-weight:700; letter-spacing:1px; text-transform:uppercase; font-size:0.75rem;
+    color:var(--amber); position:sticky; top:0;
+  }
+  table.leads tr:hover td{ background:rgba(255,201,60,0.04); }
+  .utm-chip{
+    display:inline-block; margin:0.15rem 0.25rem 0.15rem 0;
+    padding:0.2rem 0.45rem; background:rgba(255,201,60,0.1);
+    border:1px solid rgba(255,201,60,0.25); font-size:0.72rem; color:var(--amber);
+  }
+  .muted{ color:var(--muted); }
+
+  .tracking-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+  @media (max-width:800px){ .tracking-grid{ grid-template-columns:1fr; } }
+  .badge-on{ color:var(--ok); font-weight:600; }
+  .badge-off{ color:var(--muted); }
+
   .toast{
     position:fixed; bottom:1.2rem; right:1.2rem; background:var(--amber); color:var(--ink);
     padding:0.85rem 1.2rem; font-family:'Barlow Condensed', sans-serif; font-weight:700;
@@ -100,65 +165,304 @@
     transition:opacity 0.25s; z-index:50;
   }
   .toast.show{ opacity:1; }
+
+  #app{ display:none; }
+  body.is-authed #app{ display:block; }
+  body.is-authed #loginGate{ display:none; }
+  #loginGate{
+    min-height:100svh; display:flex; align-items:center; justify-content:center;
+    padding:2rem 5vw;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(255,201,60,0.1), transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(255,143,28,0.08), transparent 45%),
+      var(--black);
+  }
+  .login-card{
+    width:100%; max-width:400px;
+    background:var(--panel); border:1px solid var(--line);
+    padding:2rem 1.6rem 1.8rem;
+    box-shadow:0 20px 50px rgba(0,0,0,0.45);
+  }
+  .login-card h1{
+    font-family:'Anton', sans-serif; font-size:1.7rem;
+    text-transform:uppercase; color:var(--amber); letter-spacing:0.5px;
+    margin-bottom:0.35rem;
+  }
+  .login-card .sub{ color:var(--muted); font-size:0.9rem; margin-bottom:1.6rem; line-height:1.5; }
+  .login-error{
+    display:none; color:var(--danger); font-size:0.88rem;
+    margin-bottom:0.9rem; padding:0.65rem 0.75rem;
+    border:1px solid rgba(255,90,60,0.35); background:rgba(255,90,60,0.08);
+  }
+  .login-error.show{ display:block; }
+  .login-card .btn{ width:100%; margin-top:0.4rem; padding:0.9rem 1.15rem; }
+  .login-foot{ margin-top:1.2rem; text-align:center; font-size:0.78rem; color:var(--muted); }
+  .login-foot a{ color:var(--amber); text-decoration:none; }
 </style>
 </head>
 <body>
+<div id="loginGate" aria-label="Login do admin">
+  <form class="login-card" id="loginForm" autocomplete="on">
+    <h1>Farolete Admin</h1>
+    <p class="sub">Área restrita — catálogo, leads e rastreamento.</p>
+    <div class="login-error" id="loginError" role="alert">Usuário ou senha incorretos.</div>
+    <div class="field">
+      <label for="loginUser">Usuário</label>
+      <input id="loginUser" name="username" type="text" autocomplete="username" required autofocus>
+    </div>
+    <div class="field">
+      <label for="loginPass">Senha</label>
+      <input id="loginPass" name="password" type="password" autocomplete="current-password" required>
+    </div>
+    <button type="submit" class="btn">Entrar</button>
+    <p class="login-foot"><a href="lp_institucional.html">← Voltar ao site</a></p>
+  </form>
+</div>
+
+<div id="app">
 <header>
   <div>
-    <h1>Admin · Catálogo Farolete</h1>
-    <p>Local no PC — produtos salvos neste navegador e aparecem no site institucional.</p>
+    <h1>Admin · Farolete</h1>
+    <p>Catálogo, leads com UTM e tags de rastreamento.</p>
   </div>
   <div class="header-actions">
     <a class="btn-ghost" href="lp_institucional.html">Ver site</a>
-    <button type="button" class="btn-ghost" id="btnExport">Exportar JSON</button>
-    <label class="btn-ghost" for="importFile">Importar JSON</label>
-    <input type="file" id="importFile" accept="application/json,.json" hidden>
-    <button type="button" class="btn-ghost" id="btnReset">Restaurar padrão</button>
+    <button type="button" class="btn-danger" id="btnLogout">Sair</button>
   </div>
 </header>
 
-<main>
-  <section class="panel">
-    <h2 id="formTitle">Adicionar produto</h2>
-    <form id="productForm">
-      <input type="hidden" id="editId" value="">
-      <div class="field">
-        <label for="name">Nome</label>
-        <input id="name" required maxlength="80" placeholder="Ex: Farol auxiliar">
-      </div>
-      <div class="field">
-        <label for="category">Categoria</label>
-        <select id="category" required></select>
-      </div>
-      <div class="field">
-        <label for="imageFile">Foto do produto</label>
-        <input id="imageFile" type="file" accept="image/*">
-        <img id="imagePreview" class="preview" alt="Prévia">
-      </div>
-      <div class="field">
-        <label for="imageUrl">Ou URL / caminho da imagem</label>
-        <input id="imageUrl" placeholder="assets/imagens/catalogo/hq/…">
-      </div>
-      <div class="form-actions">
-        <button type="submit" class="btn" id="btnSave">Salvar produto</button>
-        <button type="button" class="btn-ghost" id="btnCancel" hidden>Cancelar edição</button>
-      </div>
-      <p class="hint">Dica: prefira JPG até ~1MB. A imagem fica salva no navegador (localStorage). Depois abra o site institucional no mesmo browser pra ver.</p>
-    </form>
-  </section>
+<nav class="tabs" role="tablist">
+  <button type="button" class="tab-btn active" data-tab="catalogo" role="tab">Catálogo</button>
+  <button type="button" class="tab-btn" data-tab="leads" role="tab">Leads <span id="leadsBadge"></span></button>
+  <button type="button" class="tab-btn" data-tab="rastreamento" role="tab">Rastreamento</button>
+</nav>
 
+<!-- TAB CATÁLOGO -->
+<section class="tab-panel active" id="tab-catalogo">
+  <div class="layout-catalog">
+    <section class="panel">
+      <h2 id="formTitle">Adicionar produto</h2>
+      <form id="productForm">
+        <input type="hidden" id="editId" value="">
+        <div class="field">
+          <label for="name">Nome</label>
+          <input id="name" required maxlength="80" placeholder="Ex: Farol auxiliar">
+        </div>
+        <div class="field">
+          <label for="category">Categoria</label>
+          <select id="category" required></select>
+        </div>
+        <div class="field">
+          <label for="imageFile">Foto do produto</label>
+          <input id="imageFile" type="file" accept="image/*">
+          <img id="imagePreview" class="preview" alt="Prévia">
+        </div>
+        <div class="field">
+          <label for="imageUrl">Ou URL / caminho da imagem</label>
+          <input id="imageUrl" placeholder="assets/imagens/catalogo/hq/…">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn" id="btnSave">Salvar produto</button>
+          <button type="button" class="btn-ghost" id="btnCancel" hidden>Cancelar edição</button>
+        </div>
+        <p class="hint">A imagem fica no navegador (localStorage). Abra o site no mesmo browser pra ver.</p>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Produtos (<span id="count">0</span>)</h2>
+        <div class="header-actions">
+          <button type="button" class="btn-ghost" id="btnExport">Exportar JSON</button>
+          <label class="btn-ghost" for="importFile">Importar JSON</label>
+          <input type="file" id="importFile" accept="application/json,.json" hidden>
+          <button type="button" class="btn-ghost" id="btnReset">Restaurar padrão</button>
+        </div>
+      </div>
+      <div class="grid" id="list"></div>
+    </section>
+  </div>
+</section>
+
+<!-- TAB LEADS -->
+<section class="tab-panel" id="tab-leads">
+  <div class="stats-row">
+    <div class="stat-box"><strong id="statTotal">0</strong><span>Leads totais</span></div>
+    <div class="stat-box"><strong id="statToday">0</strong><span>Hoje</span></div>
+    <div class="stat-box"><strong id="statUtm">0</strong><span>Com UTM</span></div>
+  </div>
   <section class="panel">
-    <h2>Produtos no catálogo (<span id="count">0</span>)</h2>
-    <div class="grid" id="list"></div>
+    <div class="panel-head">
+      <h2>Leads capturados</h2>
+      <div class="header-actions">
+        <button type="button" class="btn-ghost" id="btnExportLeads">Exportar CSV</button>
+        <button type="button" class="btn-ghost" id="btnExportLeadsJson">Exportar JSON</button>
+        <label class="btn-ghost" for="importLeadsFile">Importar JSON</label>
+        <input type="file" id="importLeadsFile" accept="application/json,.json" hidden>
+        <button type="button" class="btn-danger" id="btnClearLeads">Limpar todos</button>
+      </div>
+    </div>
+    <p class="hint" style="margin-top:0;margin-bottom:1rem;">
+      Cada clique no WhatsApp do site/LP pede nome + telefone com DDD. UTMs da URL (utm_source, campanha, gclid, fbclid…) ficam salvos com o lead.
+      Para receber leads de visitantes em outro computador, configure um <strong>Webhook</strong> na aba Rastreamento (Make, n8n ou Google Apps Script).
+    </p>
+    <div class="leads-table-wrap">
+      <table class="leads">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Página</th>
+            <th>UTMs / origem</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="leadsBody"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="leadsEmpty" hidden>Nenhum lead ainda. Teste clicando num botão de WhatsApp no site.</div>
   </section>
-</main>
+</section>
+
+<!-- TAB RASTREAMENTO -->
+<section class="tab-panel" id="tab-rastreamento">
+  <div class="tracking-grid">
+    <section class="panel">
+      <h2>Tags &amp; pixels</h2>
+      <form id="trackingForm">
+        <div class="field">
+          <label for="gtmId">Google Tag Manager</label>
+          <input id="gtmId" placeholder="GTM-XXXXXXX" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="metaPixelId">Meta Pixel (Facebook / Instagram)</label>
+          <input id="metaPixelId" placeholder="Ex: 123456789012345" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="googleAdsId">Google Ads (gtag / AW-…)</label>
+          <input id="googleAdsId" placeholder="AW-XXXXXXXXXX" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="tiktokPixelId">TikTok Pixel</label>
+          <input id="tiktokPixelId" placeholder="Ex: CXXXXXXXXXXXXXXX" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="leadsWebhook">Webhook de leads (opcional)</label>
+          <input id="leadsWebhook" placeholder="https://hook… / Apps Script / Make">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn">Salvar rastreamento</button>
+          <button type="button" class="btn-ghost" id="btnDownloadConfig">Baixar site-config.js</button>
+        </div>
+        <p class="hint">
+          O GTM <strong>GTM-K9C67C98</strong> já vem ativo no site e nas LPs.
+          Pixel e demais IDs: salve aqui (vale neste navegador) e use <strong>Baixar site-config.js</strong> pra publicar o arquivo em <code>assets/js/site-config.js</code>.
+        </p>
+      </form>
+    </section>
+    <section class="panel">
+      <h2>Status atual</h2>
+      <div class="field"><label>GTM</label><p id="statusGtm" class="muted">—</p></div>
+      <div class="field"><label>Meta Pixel</label><p id="statusMeta" class="muted">—</p></div>
+      <div class="field"><label>Google Ads</label><p id="statusAds" class="muted">—</p></div>
+      <div class="field"><label>TikTok</label><p id="statusTt" class="muted">—</p></div>
+      <div class="field"><label>Webhook</label><p id="statusHook" class="muted">—</p></div>
+      <p class="hint">
+        Evento GTM disparado no lead: <code>farolete_lead</code> (com nome, telefone e UTMs no dataLayer).
+        Também dispara Contact/Lead no Meta Pixel quando o ID estiver preenchido.
+      </p>
+    </section>
+  </div>
+</section>
+</div>
 
 <div class="toast" id="toast"></div>
 
+<script src="assets/js/site-config.js"></script>
 <script src="assets/js/catalog-store.js"></script>
+<script src="assets/js/leads-store.js"></script>
 <script>
-  const { CATEGORIES, getProducts, saveProducts, resetProducts, uid, categoryLabel } = FaroleteCatalog;
+(function () {
+  const AUTH_KEY = 'farolete_admin_session_v1';
+  const AUTH_HASH = '6b51a229c056f7673e6a84888688acb1e0afab34afde610f431d0a52fbedc238';
 
+  async function sha256(text){
+    const data = new TextEncoder().encode(text);
+    const buf = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  function isAuthed(){
+    try { return sessionStorage.getItem(AUTH_KEY) === AUTH_HASH; } catch (_) { return false; }
+  }
+  function setAuthed(on){
+    try {
+      if (on) sessionStorage.setItem(AUTH_KEY, AUTH_HASH);
+      else sessionStorage.removeItem(AUTH_KEY);
+    } catch (_) {}
+    document.body.classList.toggle('is-authed', !!on);
+  }
+
+  const loginForm = document.getElementById('loginForm');
+  const loginError = document.getElementById('loginError');
+  const loginUser = document.getElementById('loginUser');
+  const loginPass = document.getElementById('loginPass');
+
+  setAuthed(isAuthed());
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loginError.classList.remove('show');
+    const hash = await sha256(loginUser.value.trim() + '|' + loginPass.value);
+    if (hash !== AUTH_HASH){
+      loginError.classList.add('show');
+      loginPass.value = '';
+      loginPass.focus();
+      return;
+    }
+    setAuthed(true);
+    loginPass.value = '';
+    if (window.__faroleteAdminBoot) window.__faroleteAdminBoot();
+  });
+
+  document.getElementById('btnLogout').addEventListener('click', () => {
+    setAuthed(false);
+    loginUser.value = '';
+    loginPass.value = '';
+    loginUser.focus();
+  });
+})();
+</script>
+<script>
+function startAdmin(){
+  if (!window.FaroleteCatalog || !window.FaroleteLeads) return;
+  if (document.body.dataset.adminStarted === '1') return;
+  document.body.dataset.adminStarted = '1';
+
+  const toast = document.getElementById('toast');
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  }
+
+  /* ─── TABS ─── */
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      if (btn.dataset.tab === 'leads') renderLeads();
+      if (btn.dataset.tab === 'rastreamento') fillTracking();
+    });
+  });
+
+  /* ─── CATÁLOGO ─── */
+  const { CATEGORIES, getProducts, saveProducts, resetProducts, uid, categoryLabel } = FaroleteCatalog;
   const form = document.getElementById('productForm');
   const editId = document.getElementById('editId');
   const nameEl = document.getElementById('name');
@@ -170,7 +474,6 @@
   const countEl = document.getElementById('count');
   const formTitle = document.getElementById('formTitle');
   const btnCancel = document.getElementById('btnCancel');
-  const toast = document.getElementById('toast');
 
   let products = getProducts();
   let pendingDataUrl = '';
@@ -181,18 +484,9 @@
     categoryEl.appendChild(opt);
   });
 
-  function showToast(msg){
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2200);
-  }
+  function persist(){ saveProducts(products); renderCatalog(); }
 
-  function persist(){
-    saveProducts(products);
-    render();
-  }
-
-  function render(){
+  function renderCatalog(){
     countEl.textContent = String(products.length);
     listEl.innerHTML = '';
     if (!products.length){
@@ -214,10 +508,6 @@
         </div>`;
       listEl.appendChild(card);
     });
-  }
-
-  function escapeHtml(str){
-    return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
   }
 
   function clearForm(){
@@ -279,10 +569,7 @@
     const name = nameEl.value.trim();
     const category = categoryEl.value;
     const image = pendingDataUrl || imageUrl.value.trim();
-    if (!name || !image){
-      showToast('Nome e imagem são obrigatórios');
-      return;
-    }
+    if (!name || !image){ showToast('Nome e imagem são obrigatórios'); return; }
     const id = editId.value || uid();
     const existing = products.findIndex(p => p.id === id);
     const item = { id, name, category, image };
@@ -306,10 +593,7 @@
       categoryEl.value = p.category in CATEGORIES ? p.category : 'outros';
       imageUrl.value = p.image.startsWith('data:') ? '' : p.image;
       pendingDataUrl = p.image.startsWith('data:') ? p.image : '';
-      if (p.image){
-        imagePreview.src = p.image;
-        imagePreview.classList.add('show');
-      }
+      if (p.image){ imagePreview.src = p.image; imagePreview.classList.add('show'); }
       formTitle.textContent = 'Editar produto';
       btnCancel.hidden = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -323,9 +607,9 @@
   });
 
   document.getElementById('btnReset').addEventListener('click', () => {
-    if (!confirm('Restaurar o catálogo padrão da Farolete? Produtos extras serão removidos.')) return;
+    if (!confirm('Restaurar o catálogo padrão da Farolete?')) return;
     products = resetProducts();
-    render();
+    renderCatalog();
     clearForm();
     showToast('Catálogo padrão restaurado');
   });
@@ -347,25 +631,168 @@
     reader.onload = () => {
       try {
         const data = JSON.parse(reader.result);
-        if (!Array.isArray(data)) throw new Error('formato inválido');
+        if (!Array.isArray(data)) throw new Error('formato');
         products = data.filter(p => p && p.name && p.image).map(p => ({
-          id: p.id || uid(),
-          name: String(p.name),
-          category: p.category || 'outros',
-          image: String(p.image)
+          id: p.id || uid(), name: String(p.name), category: p.category || 'outros', image: String(p.image)
         }));
-        persist();
-        clearForm();
-        showToast('Catálogo importado');
-      } catch (err) {
-        showToast('JSON inválido');
-      }
+        persist(); clearForm(); showToast('Catálogo importado');
+      } catch (err) { showToast('JSON inválido'); }
     };
     reader.readAsText(file);
     e.target.value = '';
   });
 
-  render();
+  /* ─── LEADS ─── */
+  function renderLeads(){
+    const leads = FaroleteLeads.getLeads();
+    const body = document.getElementById('leadsBody');
+    const empty = document.getElementById('leadsEmpty');
+    const badge = document.getElementById('leadsBadge');
+    badge.textContent = leads.length ? '(' + leads.length + ')' : '';
+
+    const today = new Date().toISOString().slice(0, 10);
+    document.getElementById('statTotal').textContent = String(leads.length);
+    document.getElementById('statToday').textContent = String(leads.filter(l => (l.createdAt || '').slice(0, 10) === today).length);
+    document.getElementById('statUtm').textContent = String(leads.filter(l => l.utm && Object.keys(l.utm).some(k => k.startsWith('utm_') || k === 'gclid' || k === 'fbclid')).length);
+
+    body.innerHTML = '';
+    empty.hidden = leads.length > 0;
+    leads.forEach(l => {
+      const utm = l.utm || {};
+      const chips = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid']
+        .filter(k => utm[k])
+        .map(k => `<span class="utm-chip">${escapeHtml(k.replace('utm_',''))}: ${escapeHtml(utm[k])}</span>`)
+        .join('') || '<span class="muted">direto / sem UTM</span>';
+      const tr = document.createElement('tr');
+      const when = l.createdAt ? new Date(l.createdAt).toLocaleString('pt-BR') : '—';
+      tr.innerHTML = `
+        <td>${escapeHtml(when)}</td>
+        <td><strong>${escapeHtml(l.name)}</strong></td>
+        <td><a href="https://wa.me/55${escapeHtml(l.phoneDigits || '')}" target="_blank" rel="noopener">${escapeHtml(l.phone)}</a></td>
+        <td class="muted">${escapeHtml(l.pageTitle || l.page || '—')}<br><small>${escapeHtml(l.page || '')}</small></td>
+        <td>${chips}</td>
+        <td><button type="button" class="btn-danger" data-lead-del="${l.id}">Excluir</button></td>`;
+      body.appendChild(tr);
+    });
+  }
+
+  document.getElementById('leadsBody').addEventListener('click', (e) => {
+    const id = e.target.getAttribute('data-lead-del');
+    if (!id) return;
+    if (!confirm('Excluir este lead?')) return;
+    FaroleteLeads.deleteLead(id);
+    renderLeads();
+    showToast('Lead excluído');
+  });
+
+  document.getElementById('btnClearLeads').addEventListener('click', () => {
+    if (!confirm('Apagar TODOS os leads?')) return;
+    FaroleteLeads.clearLeads();
+    renderLeads();
+    showToast('Leads limpos');
+  });
+
+  document.getElementById('btnExportLeads').addEventListener('click', () => {
+    const leads = FaroleteLeads.getLeads();
+    const header = ['data','nome','telefone','pagina','titulo','utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid','mensagem'];
+    const rows = leads.map(l => {
+      const u = l.utm || {};
+      return [l.createdAt, l.name, l.phone, l.page, l.pageTitle, u.utm_source, u.utm_medium, u.utm_campaign, u.utm_content, u.utm_term, u.gclid, u.fbclid, (l.message || '').replace(/\n/g,' ')]
+        .map(v => '"' + String(v || '').replace(/"/g, '""') + '"').join(',');
+    });
+    const blob = new Blob([[header.join(',')].concat(rows).join('\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'farolete-leads.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast('CSV exportado');
+  });
+
+  document.getElementById('btnExportLeadsJson').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(FaroleteLeads.getLeads(), null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'farolete-leads.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast('JSON de leads exportado');
+  });
+
+  document.getElementById('importLeadsFile').addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        if (!Array.isArray(data)) throw new Error('formato');
+        const merged = FaroleteLeads.getLeads();
+        const ids = new Set(merged.map(l => l.id));
+        data.forEach(l => {
+          if (!l || !l.name || !l.phone) return;
+          if (!l.id) l.id = FaroleteLeads.uid();
+          if (!ids.has(l.id)) { merged.push(l); ids.add(l.id); }
+        });
+        merged.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+        FaroleteLeads.saveLeads(merged);
+        renderLeads();
+        showToast('Leads importados');
+      } catch (err) { showToast('JSON inválido'); }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  /* ─── RASTREAMENTO ─── */
+  function fillTracking(){
+    const cfg = FaroleteLeads.getTracking();
+    document.getElementById('gtmId').value = cfg.gtmId || '';
+    document.getElementById('metaPixelId').value = cfg.metaPixelId || '';
+    document.getElementById('googleAdsId').value = cfg.googleAdsId || '';
+    document.getElementById('tiktokPixelId').value = cfg.tiktokPixelId || '';
+    document.getElementById('leadsWebhook').value = cfg.leadsWebhook || '';
+    const on = (v) => v ? `<span class="badge-on">Ativo · ${escapeHtml(v)}</span>` : '<span class="badge-off">Não configurado</span>';
+    document.getElementById('statusGtm').innerHTML = on(cfg.gtmId);
+    document.getElementById('statusMeta').innerHTML = on(cfg.metaPixelId);
+    document.getElementById('statusAds').innerHTML = on(cfg.googleAdsId);
+    document.getElementById('statusTt').innerHTML = on(cfg.tiktokPixelId);
+    document.getElementById('statusHook').innerHTML = on(cfg.leadsWebhook);
+  }
+
+  document.getElementById('trackingForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    FaroleteLeads.saveTracking({
+      gtmId: document.getElementById('gtmId').value,
+      metaPixelId: document.getElementById('metaPixelId').value,
+      googleAdsId: document.getElementById('googleAdsId').value,
+      tiktokPixelId: document.getElementById('tiktokPixelId').value,
+      leadsWebhook: document.getElementById('leadsWebhook').value
+    });
+    fillTracking();
+    showToast('Rastreamento salvo');
+  });
+
+  document.getElementById('btnDownloadConfig').addEventListener('click', () => {
+    const cfg = FaroleteLeads.getTracking();
+    const wa = (window.FaroleteSiteConfig && FaroleteSiteConfig.whatsapp) || '5531999971820';
+    const js = `/* Farolete — config pública de rastreamento (publicar junto com o site) */\n(function (global) {\n  global.FaroleteSiteConfig = {\n    whatsapp: '${wa}',\n    gtmId: '${(cfg.gtmId || '').replace(/'/g, "\\'")}',\n    metaPixelId: '${(cfg.metaPixelId || '').replace(/'/g, "\\'")}',\n    googleAdsId: '${(cfg.googleAdsId || '').replace(/'/g, "\\'")}',\n    tiktokPixelId: '${(cfg.tiktokPixelId || '').replace(/'/g, "\\'")}',\n    leadsWebhook: '${(cfg.leadsWebhook || '').replace(/'/g, "\\'")}'\n  };\n})(window);\n`;
+    const blob = new Blob([js], { type: 'text/javascript' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'site-config.js';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast('Baixe e substitua assets/js/site-config.js');
+  });
+
+  renderCatalog();
+  renderLeads();
+  fillTracking();
+}
+
+window.__faroleteAdminBoot = startAdmin;
+if (document.body.classList.contains('is-authed')) startAdmin();
 </script>
 </body>
 </html>

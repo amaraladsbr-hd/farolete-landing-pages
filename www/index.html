@@ -15,6 +15,19 @@
 <meta name="robots" content="index, follow">
 <meta name="author" content="Farolete Casa de Peças">
 <link rel="canonical" href="https://www.farolete.com.br/">
+<link rel="icon" href="assets/imagens/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/imagens/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/imagens/favicon-48.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/imagens/favicon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/imagens/favicon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/imagens/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#ffc93c">
+<meta name="msapplication-TileColor" content="#ffc93c">
+<meta name="msapplication-TileImage" content="assets/imagens/favicon-192.png">
+<script src="assets/js/site-config.js"></script>
+<script src="assets/js/leads-store.js"></script>
+<script src="assets/js/tracking.js"></script>
 
 <meta property="og:type" content="business.business">
 <meta property="og:locale" content="pt_BR">
@@ -35,6 +48,7 @@
   "@type": "AutoPartsStore",
   "name": "Farolete Casa de Peças",
   "image": "https://www.farolete.com.br/assets/imagens/fachada_hero.jpg",
+  "logo": "https://www.farolete.com.br/assets/imagens/favicon-512.png",
   "url": "https://www.farolete.com.br/",
   "telephone": "+5531999971820",
   "priceRange": "$$",
@@ -47,6 +61,20 @@
     "addressCountry": "BR"
   },
   "areaServed": ["Sarzedo", "Ibirité"],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "08:00",
+      "closes": "12:00"
+    }
+  ],
   "sameAs": [
     "https://www.instagram.com/farolete_sarzedo"
   ]
@@ -189,11 +217,13 @@
         padding:6.5rem 5vw 3.2rem;
         overflow:hidden;
     }
-    .hero-bg{ position:absolute; inset:0; z-index:0; }
+    .hero-bg{ position:absolute; inset:0; z-index:0; overflow:hidden; }
     .hero-bg img{
         width:100%; height:100%; object-fit:cover; object-position:center 38%;
-        transform:scale(1.02);
+        transform-origin:center 40%;
         filter:contrast(1.05) saturate(1.04) brightness(0.82);
+        animation:kenBurnsHero 28s ease-in-out infinite alternate;
+        will-change:transform;
     }
     .hero-bg::after{
         content:'';
@@ -276,6 +306,29 @@
     }
     .marquee-track span.dot{ color:var(--ink); font-size:1.1rem; opacity:0.55; }
 
+    /* ─── INFO BAR (horário / tel / endereço) ─── */
+    .info-bar{
+        display:grid; grid-template-columns:repeat(3, 1fr);
+        gap:1px; background:var(--line);
+        border-bottom:1px solid var(--line);
+    }
+    .info-bar-item{
+        background:var(--black);
+        padding:1.15rem 1.4rem;
+        display:flex; flex-direction:column; gap:0.25rem;
+        text-align:center;
+    }
+    .info-bar-item .ib-label{
+        font-family:'Barlow Condensed', sans-serif; font-weight:600;
+        font-size:0.7rem; letter-spacing:2px; text-transform:uppercase; color:var(--amber);
+    }
+    .info-bar-item .ib-value{
+        font-family:'Barlow Condensed', sans-serif; font-weight:700;
+        font-size:0.95rem; letter-spacing:0.5px; color:var(--white);
+    }
+    .info-bar-item a{ color:var(--white); text-decoration:none; }
+    .info-bar-item a:hover{ color:var(--amber); }
+
     /* ─── SECTION HEADS ─── */
     .section-head{ text-align:center; margin-bottom:clamp(2.8rem, 5vw, 4rem); }
     .section-head .label{ display:block; margin-bottom:1rem; }
@@ -336,14 +389,11 @@
         cursor:grab;
         touch-action:pan-y;
         -webkit-user-select:none; user-select:none;
-        animation:catSlide 60s linear infinite;
         will-change:transform;
+        transform:translate3d(0,0,0);
     }
-    .produtos-track:hover,
-    .produtos-track.is-paused{ animation-play-state:paused; }
     .produtos-track.dragging{
         cursor:grabbing;
-        animation:none;
         touch-action:none;
     }
 
@@ -457,10 +507,35 @@
         display:flex; justify-content:center; margin-top:clamp(2.4rem, 4vw, 3.2rem); padding:0 6vw;
     }
 
-    @keyframes catSlide{
-        from{ transform:translateX(0); }
-        to{ transform:translateX(-50%); }
+    /* ─── SERVICOS (clareza estilo concorrência premium) ─── */
+    .servicos{
+        position:relative;
+        background:
+            radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,201,60,0.07), transparent 55%),
+            var(--black);
+        padding:var(--fold-pad) 6vw;
+        border-bottom:1px solid var(--line);
     }
+    .servicos-grid{
+        display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line);
+        margin-top:0.5rem;
+    }
+    .servico-card{
+        background:var(--panel); padding:2.2rem 1.6rem;
+        display:flex; flex-direction:column; gap:0.85rem;
+        transition:background 0.3s ease;
+    }
+    .servico-card:hover{ background:var(--panel-2); }
+    .servico-num{
+        font-family:'JetBrains Mono', monospace; font-size:0.75rem;
+        letter-spacing:1px; color:var(--amber);
+    }
+    .servico-card h3{
+        font-family:'Anton', sans-serif; font-size:1.25rem;
+        text-transform:uppercase; letter-spacing:0.4px; line-height:1.15;
+    }
+    .servico-card p{ color:var(--muted); font-size:0.92rem; line-height:1.6; flex-grow:1; }
+    .servico-card .btn-ghost{ align-self:flex-start; margin-top:0.4rem; }
 
     /* ─── CTA MID (banda âmbar cheia) ─── */
     .cta-mid{
@@ -537,21 +612,23 @@
         isolation:isolate;
     }
     .sobre-bg{
-        position:absolute; inset:0; z-index:0;
+        position:absolute; inset:-4%; z-index:0;
         display:grid;
         grid-template-columns:1.35fr 1fr 1fr;
         grid-template-rows:1.15fr 0.95fr;
         gap:0.4rem;
-        transform:scale(1.03);
     }
     .sobre-bg img{
         width:100%; height:100%; object-fit:cover; display:block;
         filter:saturate(1.08) contrast(1.08) brightness(0.88);
+        transform-origin:center center;
+        animation:kenBurnsSobre 26s ease-in-out infinite alternate;
+        will-change:transform;
     }
-    .sobre-bg img:nth-child(1){ grid-row:1 / 3; grid-column:1; object-position:center 40%; }
-    .sobre-bg img:nth-child(2){ grid-row:1; grid-column:2 / 4; object-position:center 35%; }
-    .sobre-bg img:nth-child(3){ grid-row:2; grid-column:2; object-position:center; }
-    .sobre-bg img:nth-child(4){ grid-row:2; grid-column:3; object-position:center; }
+    .sobre-bg img:nth-child(1){ grid-row:1 / 3; grid-column:1; object-position:center 40%; animation-duration:32s; }
+    .sobre-bg img:nth-child(2){ grid-row:1; grid-column:2 / 4; object-position:center 35%; animation-duration:28s; animation-delay:-9s; }
+    .sobre-bg img:nth-child(3){ grid-row:2; grid-column:2; object-position:center; animation-duration:24s; animation-delay:-4s; }
+    .sobre-bg img:nth-child(4){ grid-row:2; grid-column:3; object-position:center; animation-duration:30s; animation-delay:-14s; }
     .sobre-bg::after{
         content:'';
         position:absolute; inset:0;
@@ -709,13 +786,49 @@
     /* ─── LOCALIZACAO (banda aço) ─── */
     .localizacao{
         background:
-            radial-gradient(ellipse at 30% 0%, rgba(255,201,60,0.06), transparent 45%),
+            radial-gradient(ellipse 60% 50% at 30% 0%, rgba(255,201,60,0.06), transparent 45%),
             var(--panel-2);
         border-top:1px solid var(--line);
         padding:var(--fold-pad) 6vw;
     }
+    .local-grid{
+        display:grid; grid-template-columns:1.4fr 1fr; gap:1.4rem; align-items:stretch;
+    }
+    .local-card{
+        background:var(--panel); border:1px solid var(--line);
+        padding:2rem 1.6rem; display:flex; flex-direction:column; gap:1.1rem;
+    }
+    .local-card h3{
+        font-family:'Anton', sans-serif; font-size:1.35rem;
+        text-transform:uppercase; letter-spacing:0.4px;
+    }
+    .hours-list{ list-style:none; display:flex; flex-direction:column; gap:0.55rem; }
+    .hours-list li{
+        display:flex; justify-content:space-between; gap:1rem;
+        font-size:0.92rem; padding-bottom:0.55rem;
+        border-bottom:1px solid var(--line);
+    }
+    .hours-list li:last-child{ border-bottom:none; padding-bottom:0; }
+    .hours-list .day{ color:var(--muted); }
+    .hours-list .time{
+        color:var(--white); font-family:'Barlow Condensed', sans-serif;
+        font-weight:700; letter-spacing:0.5px;
+    }
+    .hours-list .closed{ color:#ff5a3c; }
+    .local-contacts{ display:flex; flex-direction:column; gap:0.55rem; margin-top:auto; }
+    .local-contacts a{
+        color:var(--amber); text-decoration:none;
+        font-family:'Barlow Condensed', sans-serif; font-weight:700;
+        letter-spacing:1px; text-transform:uppercase; font-size:0.9rem;
+    }
+    .local-contacts a:hover{ color:var(--amber-deep); }
+    .local-contacts .addr{
+        color:var(--muted); font-size:0.9rem; line-height:1.6;
+        font-family:'Barlow', sans-serif; font-weight:400;
+        text-transform:none; letter-spacing:0;
+    }
     .map-frame{
-        position:relative; width:100%; aspect-ratio:21/9; overflow:hidden;
+        position:relative; width:100%; height:100%; min-height:280px; aspect-ratio:16/10; overflow:hidden;
         box-shadow:0 0 0 2px var(--amber); filter:grayscale(0.2) contrast(1.05);
     }
     .map-frame::before{
@@ -723,7 +836,7 @@
         background:repeating-linear-gradient(135deg, var(--ink) 0 10px, var(--amber) 10px 20px);
     }
     .map-frame iframe{ position:relative; z-index:1; width:100%; height:100%; border:0; display:block; }
-    .map-footer{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-top:1.6rem; }
+    .map-footer{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-top:1.2rem; }
     .map-footer p{ color:var(--muted); font-size:0.9rem; letter-spacing:0.5px; }
 
     /* ─── FOOTER (fecha no preto) ─── */
@@ -788,6 +901,14 @@
         animation-duration:20s; animation-direction:reverse;
     }
 
+    @keyframes kenBurnsHero{
+        0%{ transform:scale(1.06) translate(0%, 0%); }
+        100%{ transform:scale(1.16) translate(-2.2%, -1.4%); }
+    }
+    @keyframes kenBurnsSobre{
+        0%{ transform:scale(1.04) translate(0%, 0%); }
+        100%{ transform:scale(1.13) translate(-2%, 1.2%); }
+    }
     @keyframes brandIn{
         from{ opacity:0; transform:translateY(18px); }
         to{ opacity:1; transform:translateY(0); }
@@ -810,7 +931,7 @@
     /* ─── RESPONSIVE ─── */
     @media (max-width:980px){
         .prod-card{ width:clamp(200px, 72vw, 280px); }
-        .produtos-track{ animation-duration:50s; gap:0.9rem; }
+        .produtos-track{ gap:0.9rem; }
         .sobre{ min-height:auto; padding:12vw 6vw; }
         .sobre-bg{ grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; }
         .sobre-bg img:nth-child(1){ grid-row:1; grid-column:1; }
@@ -828,7 +949,10 @@
         .sobre-text p{ max-width:none; }
         .selos-grid{ grid-template-columns:repeat(2, 1fr); }
         .reviews-grid{ grid-template-columns:1fr; }
-        .map-frame{ aspect-ratio:4/3; }
+        .servicos-grid{ grid-template-columns:1fr 1fr; }
+        .info-bar{ grid-template-columns:1fr; }
+        .local-grid{ grid-template-columns:1fr; }
+        .map-frame{ aspect-ratio:4/3; min-height:220px; }
         .map-footer{ flex-direction:column; align-items:flex-start; }
         .nav-links{ display:none; }
         footer{ flex-direction:column; }
@@ -840,6 +964,7 @@
         .nav-logo span{ display:none; }
         nav .btn-whats{ padding:0.65rem 1rem; font-size:0.78rem; }
         .brand-mark{ font-size:clamp(2.8rem, 14vw, 4rem); }
+        .servicos-grid{ grid-template-columns:1fr; }
         .cat-filters{ justify-content:flex-start; flex-wrap:nowrap; overflow-x:auto; padding-bottom:1rem; scrollbar-width:none; }
         .cat-filters::-webkit-scrollbar{ display:none; }
         .cat-filter{ flex:0 0 auto; }
@@ -847,7 +972,8 @@
 
     @media (prefers-reduced-motion: reduce){
         .reveal, .brand-mark, .brand-sub, .hero-title, .hero-desc, .hero-ctas{ animation:none; opacity:1; transform:none; }
-        .marquee-track, .logo-badge img, .mobile-cta-fab, .bg-glow, .produtos-track{ animation:none; }
+        .marquee-track, .logo-badge img, .mobile-cta-fab, .bg-glow{ animation:none; }
+        .hero-bg img, .sobre-bg img{ animation:none; transform:scale(1.06); }
     }
 </style>
 </head>
@@ -861,9 +987,9 @@
         <span>Casa de Peças · Sarzedo, MG</span>
     </div>
     <ul class="nav-links">
+        <li><a href="#servicos">Serviços</a></li>
         <li><a href="#catalogo">Catálogo</a></li>
         <li><a href="#sobre">Quem Somos</a></li>
-        <li><a href="#avaliacoes">Avaliações</a></li>
         <li><a href="#localizacao">Local</a></li>
     </ul>
     <a href="https://wa.me/5531999971820" class="btn-whats whats-cta" data-msg="Olá! Vi a página da Farolete e quero saber mais.">
@@ -913,6 +1039,59 @@
         <span>BORRACHAS DE VEDAÇÃO</span><span class="dot">•</span>
     </div>
 </div>
+
+<!-- INFO BAR -->
+<div class="info-bar" aria-label="Informações rápidas">
+    <div class="info-bar-item">
+        <span class="ib-label">Horário</span>
+        <span class="ib-value">Seg–Sex 8h–18h · Sáb 8h–12h</span>
+    </div>
+    <div class="info-bar-item">
+        <span class="ib-label">Telefone / WhatsApp</span>
+        <span class="ib-value"><a href="tel:+553135774344">(31) 3577-4344</a> · <a href="https://wa.me/5531999971820" class="whats-cta" data-msg="Olá! Vi a página da Farolete e quero saber mais.">(31) 99997-1820</a></span>
+    </div>
+    <div class="info-bar-item">
+        <span class="ib-label">Endereço</span>
+        <span class="ib-value">Av. Zumbi dos Palmares, 138 — Sarzedo/MG</span>
+    </div>
+</div>
+
+<!-- SERVICOS -->
+<section class="servicos reveal" id="servicos">
+    <div class="section-head">
+        <span class="label">Nossos serviços</span>
+        <h2>Soluções pra<br>cuidar do seu carro.</h2>
+        <p>Vidros, peças e acessórios com atendimento direto na loja — sem enrolação.</p>
+    </div>
+    <div class="servicos-grid">
+        <article class="servico-card">
+            <span class="servico-num">01</span>
+            <h3>Troca de para-brisa</h3>
+            <p>Vidros homologados INMETRO, instalação com qualidade e liberação no mesmo dia na maioria dos casos.</p>
+            <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Preciso trocar o para-brisa do meu carro.">Pedir orçamento <span class="btn-arrow">→</span></a>
+        </article>
+        <article class="servico-card">
+            <span class="servico-num">02</span>
+            <h3>Vidros automotivos</h3>
+            <p>Laterais, traseiros e peças de vedação — estoque físico pra resolver na hora.</p>
+            <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Preciso de um vidro automotivo.">Consultar vidro <span class="btn-arrow">→</span></a>
+        </article>
+        <article class="servico-card">
+            <span class="servico-num">03</span>
+            <h3>Peças e acessórios</h3>
+            <p>Faróis, lanternas, retrovisores, maçanetas, calotas e muito mais — multimarcas.</p>
+            <a href="#catalogo" class="btn-ghost">Ver catálogo <span class="btn-arrow">→</span></a>
+        </article>
+        <article class="servico-card">
+            <span class="servico-num">04</span>
+            <h3>Frotas e oficinas</h3>
+            <p>Atendimento diferenciado pra frotistas e mecânicos parceiros da região.</p>
+            <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Sou frotista/mecânico e quero condições especiais.">Falar sobre parceria <span class="btn-arrow">→</span></a>
+        </article>
+    </div>
+</section>
+
+<div class="hazard-fold" aria-hidden="true"></div>
 
 <!-- CATALOGO -->
 <section class="catalogo reveal" id="catalogo">
@@ -1090,6 +1269,10 @@
             <div class="acc-body"><p>Vidros com garantia contra vazamento e ruído de vento. Peças seguem a garantia do fabricante/distribuidor — consulte no ato da compra.</p></div>
         </div>
         <div class="acc-item">
+            <button class="acc-trigger" type="button">Qual o horário de funcionamento? <div class="acc-icon"></div></button>
+            <div class="acc-body"><p>Segunda a sexta das 8h às 18h. Sábado das 8h às 12h. Domingo fechado.</p></div>
+        </div>
+        <div class="acc-item">
             <button class="acc-trigger" type="button">Quais formas de pagamento são aceitas? <div class="acc-icon"></div></button>
             <div class="acc-body"><p>Aceitamos PIX e cartões de crédito e débito.</p></div>
         </div>
@@ -1116,16 +1299,33 @@
         <span class="label">Onde estamos</span>
         <h2>Nos encontre<br>em Sarzedo.</h2>
     </div>
-    <div class="map-frame">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3748.1930113258836!2d-44.1440501!3d-20.0423567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa6c7d3e840e22f%3A0x8ce795158bce023b!2sFAROLETE!5e0!3m2!1spt-BR!2sbr!4v1783342037138!5m2!1spt-BR!2sbr"
-                loading="lazy"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-                title="Localização da Farolete no Google Maps"></iframe>
-    </div>
-    <div class="map-footer">
-        <p>Av. Zumbi dos Palmares, 138 — Bairro Liberdade, Sarzedo/MG</p>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=Av.+Zumbi+dos+Palmares,+138+-+Liberdade,+Sarzedo+-+MG,+32450-000" class="btn-ghost" target="_blank" rel="noopener">Como chegar <span class="btn-arrow">→</span></a>
+    <div class="local-grid">
+        <div>
+            <div class="map-frame">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3748.1930113258836!2d-44.1440501!3d-20.0423567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa6c7d3e840e22f%3A0x8ce795158bce023b!2sFAROLETE!5e0!3m2!1spt-BR!2sbr!4v1783342037138!5m2!1spt-BR!2sbr"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                        title="Localização da Farolete no Google Maps"></iframe>
+            </div>
+            <div class="map-footer">
+                <p>Av. Zumbi dos Palmares, 138 — Bairro Liberdade, Sarzedo/MG</p>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Av.+Zumbi+dos+Palmares,+138+-+Liberdade,+Sarzedo+-+MG,+32450-000" class="btn-ghost" target="_blank" rel="noopener">Como chegar <span class="btn-arrow">→</span></a>
+            </div>
+        </div>
+        <aside class="local-card">
+            <h3>Horário de funcionamento</h3>
+            <ul class="hours-list">
+                <li><span class="day">Segunda a sexta</span><span class="time">08h – 18h</span></li>
+                <li><span class="day">Sábado</span><span class="time">08h – 12h</span></li>
+                <li><span class="day">Domingo</span><span class="time closed">Fechado</span></li>
+            </ul>
+            <div class="local-contacts">
+                <p class="addr">Av. Zumbi dos Palmares, 138<br>Bairro Liberdade · Sarzedo/MG</p>
+                <a href="tel:+553135774344">Tel. (31) 3577-4344</a>
+                <a href="https://wa.me/5531999971820" class="whats-cta" data-msg="Olá! Vi a página da Farolete e quero saber mais.">WhatsApp (31) 99997-1820</a>
+            </div>
+        </aside>
     </div>
 </section>
 
@@ -1137,7 +1337,8 @@
         <div class="footer-logo-badge"><img src="assets/imagens/logo_badge_v2.png" alt="Farolete Casa de Peças"></div>
         <p class="footer-addr">
             Av. Zumbi dos Palmares, 138 — Bairro Liberdade, Sarzedo/MG<br>
-            Tel: 3577.4344 · WhatsApp: (31) 99997-1820
+            Tel: (31) 3577-4344 · WhatsApp: (31) 99997-1820<br>
+            Seg–Sex 8h–18h · Sáb 8h–12h · Dom fechado
         </p>
         <a href="https://www.instagram.com/farolete_sarzedo" target="_blank" rel="noopener" class="footer-social">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
@@ -1155,6 +1356,7 @@
 </a>
 
 <script src="assets/js/catalog-store.js"></script>
+<script src="assets/js/lead-gate.js"></script>
 <script>
     const WHATSAPP_NUMBER = '5531999971820';
     const WHATSAPP_MSG_DEFAULT = 'Olá! Vi a página da Farolete e quero saber mais.';
@@ -1189,13 +1391,14 @@
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Catálogo: render do store (admin) + loop + filtros + drag mobile/desktop
+    // Catálogo: render + loop JS (mantém posição no drag) + filtros
     (function initSmartCatalog(){
         const track = document.getElementById('produtosTrack');
         if (!track || !window.FaroleteCatalog) return;
 
         const { getProducts, categoryLabel } = FaroleteCatalog;
         const WA_MAIS = 'https://wa.me/5531999971820?text=' + encodeURIComponent('Olá! Quero consultar uma peça que não vi no catálogo do site.');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         function escapeHtml(str){
             return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
@@ -1225,6 +1428,36 @@
             return Array.from(track.querySelectorAll('.prod-card:not(.is-clone)'));
         }
 
+        let offset = 0;
+        let half = 0;
+        let dragging = false;
+        let hoverPaused = false;
+        let filterPaused = false;
+        let lastTs = 0;
+        let vel = 0;
+
+        function measureHalf(){
+            const sources = sourceCards().filter(c => !c.classList.contains('is-hidden'));
+            const clones = track.querySelectorAll('.is-clone');
+            if (!sources.length || !clones.length){
+                half = track.scrollWidth / 2;
+                return;
+            }
+            half = clones[0].offsetLeft - sources[0].offsetLeft;
+            if (!half || half < 40) half = track.scrollWidth / 2;
+        }
+
+        function normalize(){
+            if (half <= 0) return;
+            while (offset <= -half) offset += half;
+            while (offset > 0) offset -= half;
+        }
+
+        function apply(){
+            normalize();
+            track.style.transform = `translate3d(${offset}px,0,0)`;
+        }
+
         function syncClones(){
             track.querySelectorAll('.is-clone').forEach(n => n.remove());
             const visible = sourceCards().filter(c => !c.classList.contains('is-hidden'));
@@ -1235,15 +1468,15 @@
                 if (clone.tagName === 'A') clone.setAttribute('tabindex', '-1');
                 track.appendChild(clone);
             });
-            track.style.transform = '';
-            track.style.animation = 'none';
-            void track.offsetWidth;
-            track.style.animation = '';
-            track.style.animationDuration = Math.max(26, Math.max(visible.length, 4) * 2.7) + 's';
+            offset = 0;
+            measureHalf();
+            apply();
         }
 
         renderProducts();
         syncClones();
+        requestAnimationFrame(() => { measureHalf(); apply(); });
+        window.addEventListener('resize', () => { measureHalf(); apply(); });
 
         document.querySelectorAll('.cat-filter').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -1262,26 +1495,41 @@
                     card.classList.toggle('is-hidden', !show);
                 });
                 syncClones();
-                track.classList.add('is-paused');
+                filterPaused = true;
                 clearTimeout(track._resumeTimer);
-                track._resumeTimer = setTimeout(() => track.classList.remove('is-paused'), 1600);
+                track._resumeTimer = setTimeout(() => { filterPaused = false; }, 1200);
             });
         });
 
+        // autoplay contínuo — não reinicia ao soltar o dedo
+        function tick(ts){
+            if (!lastTs) lastTs = ts;
+            const dt = Math.min(40, ts - lastTs);
+            lastTs = ts;
+
+            if (!dragging && !hoverPaused && !filterPaused && !reduceMotion && half > 0){
+                // velocidade base + inércia residual do arraste
+                const base = 0.038; // ~38px/s
+                offset -= (base + Math.max(0, vel)) * dt;
+                vel *= 0.95;
+                if (vel < 0.001) vel = 0;
+                apply();
+            } else if (dragging){
+                vel = 0;
+            }
+            requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+
+        track.addEventListener('mouseenter', () => { hoverPaused = true; });
+        track.addEventListener('mouseleave', () => { if (!dragging) hoverPaused = false; });
+
         let isDown = false;
-        let axis = null; // null | 'x' | 'y'
-        let startX = 0, startY = 0, baseX = 0;
+        let axis = null;
+        let startX = 0, startY = 0, baseOffset = 0;
         let moved = false;
         let activePointer = null;
-
-        function getTranslateX(){
-            const matrix = getComputedStyle(track).transform;
-            if (!matrix || matrix === 'none') return 0;
-            const vals = matrix.match(/matrix.*\((.+)\)/);
-            if (!vals) return 0;
-            const parts = vals[1].split(',');
-            return parseFloat(parts.length > 4 ? parts[4] : parts[0]) || 0;
-        }
+        let lastMoveX = 0, lastMoveT = 0;
 
         function beginDrag(e){
             isDown = true;
@@ -1290,12 +1538,14 @@
             activePointer = e.pointerId;
             startX = e.clientX;
             startY = e.clientY;
-            baseX = getTranslateX();
+            baseOffset = offset;
+            lastMoveX = e.clientX;
+            lastMoveT = performance.now();
+            vel = 0;
             track.classList.add('is-paused');
             if (axis === 'x'){
+                dragging = true;
                 track.classList.add('dragging');
-                track.style.animation = 'none';
-                track.style.transform = `translateX(${baseX}px)`;
                 try { track.setPointerCapture(e.pointerId); } catch (_) {}
             }
         }
@@ -1307,15 +1557,12 @@
             isDown = false;
             axis = null;
             activePointer = null;
-            track.classList.remove('dragging');
-            track.style.transform = '';
-            track.style.animation = '';
-            clearTimeout(track._resumeTimer);
-            track._resumeTimer = setTimeout(() => track.classList.remove('is-paused'), 700);
-            if (wasDragX){
-                // evita abrir o link "E muito mais" depois de arrastar
-                track._blockClickUntil = Date.now() + 350;
-            }
+            dragging = false;
+            track.classList.remove('dragging', 'is-paused');
+            hoverPaused = track.matches(':hover');
+            // mantém offset atual — não zera
+            apply();
+            if (wasDragX) track._blockClickUntil = Date.now() + 350;
         }
 
         track.addEventListener('pointerdown', e => {
@@ -1332,22 +1579,31 @@
                 if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
                 axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
                 if (axis === 'y'){
-                    // deixa o scroll vertical da página
                     isDown = false;
                     activePointer = null;
+                    dragging = false;
                     track.classList.remove('is-paused', 'dragging');
                     return;
                 }
+                dragging = true;
                 track.classList.add('dragging');
-                track.style.animation = 'none';
-                track.style.transform = `translateX(${baseX}px)`;
                 try { track.setPointerCapture(e.pointerId); } catch (_) {}
             }
 
             if (axis !== 'x') return;
             moved = Math.abs(dx) > 4;
             e.preventDefault();
-            track.style.transform = `translateX(${baseX + dx}px)`;
+
+            const now = performance.now();
+            const ddx = e.clientX - lastMoveX;
+            const ddt = now - lastMoveT || 16;
+            // inércia na direção do arraste (px/ms)
+            vel = Math.max(0, (-ddx / ddt) * 0.35);
+            lastMoveX = e.clientX;
+            lastMoveT = now;
+
+            offset = baseOffset + dx;
+            apply();
         }, { passive: false });
 
         track.addEventListener('pointerup', release);
