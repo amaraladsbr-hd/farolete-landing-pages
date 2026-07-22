@@ -333,14 +333,19 @@
     .produtos-track{
         display:flex; width:max-content; gap:1.15rem; padding:0.5rem 1.5rem;
         align-items:stretch;
-        cursor:grab; touch-action:pan-y;
+        cursor:grab;
+        touch-action:pan-y;
         -webkit-user-select:none; user-select:none;
         animation:catSlide 60s linear infinite;
         will-change:transform;
     }
     .produtos-track:hover,
     .produtos-track.is-paused{ animation-play-state:paused; }
-    .produtos-track.dragging{ cursor:grabbing; animation:none; }
+    .produtos-track.dragging{
+        cursor:grabbing;
+        animation:none;
+        touch-action:none;
+    }
 
     .prod-card{
         position:relative; flex:0 0 auto;
@@ -409,6 +414,45 @@
     .prod-card:hover img{ transform:scale(1.045); }
     .prod-card.is-hidden{ display:none; }
 
+    .prod-card-mais{
+        justify-content:center;
+        min-height:100%;
+        background:
+            radial-gradient(ellipse at 50% 40%, rgba(255,201,60,0.22), transparent 60%),
+            linear-gradient(165deg, #241c0e 0%, #100e0a 55%, #1a1408 100%);
+        border-color:rgba(255,201,60,0.55);
+        text-decoration:none;
+        color:inherit;
+    }
+    .prod-card-mais::before{ opacity:1; }
+    .prod-card-mais::after{ bottom:10px; opacity:0.9; }
+    .prod-mais-inner{
+        flex:1; display:flex; flex-direction:column;
+        align-items:center; justify-content:center; text-align:center;
+        gap:0.85rem; padding:2rem 1.4rem;
+    }
+    .prod-mais-label{
+        font-family:'Anton', sans-serif;
+        font-size:clamp(1.55rem, 2.4vw, 2rem);
+        line-height:1.05; text-transform:uppercase;
+        letter-spacing:0.5px; color:var(--amber);
+    }
+    .prod-mais-inner p{
+        font-size:0.92rem; line-height:1.5; color:rgba(247,244,238,0.72);
+        max-width:16ch;
+    }
+    .prod-mais-cta{
+        font-family:'Barlow Condensed', sans-serif; font-weight:700;
+        font-size:0.85rem; letter-spacing:1.5px; text-transform:uppercase;
+        color:var(--ink); background:var(--amber);
+        padding:0.55rem 1rem; margin-top:0.35rem;
+    }
+    .prod-card-mais:hover{
+        border-color:rgba(255,201,60,0.9);
+        transform:translateY(-8px);
+    }
+    .prod-card-mais:hover .prod-mais-cta{ background:var(--amber-deep); }
+
     .catalogo-cta{
         display:flex; justify-content:center; margin-top:clamp(2.4rem, 4vw, 3.2rem); padding:0 6vw;
     }
@@ -447,7 +491,7 @@
     .b2b{
         position:relative; overflow:hidden;
         background:
-            radial-gradient(ellipse at 50% -10%, rgba(255,201,60,0.09), transparent 50%),
+            radial-gradient(ellipse 70% 55% at 50% -10%, rgba(255,201,60,0.1), transparent 60%),
             var(--black);
         border-bottom:1px solid var(--line);
         padding:var(--fold-pad) 6vw;
@@ -558,7 +602,7 @@
     .avaliacoes{
         position:relative; overflow:hidden;
         background:
-            radial-gradient(ellipse at 90% 20%, rgba(255,201,60,0.08), transparent 45%),
+            radial-gradient(ellipse 60% 70% at 90% 20%, rgba(255,201,60,0.09), transparent 62%),
             var(--band-warm);
         padding:var(--fold-pad) 6vw;
         border-top:1px solid var(--line);
@@ -606,13 +650,20 @@
 
     /* ─── FAQ (banda preta — contraste com confiança) ─── */
     .faq-band{
+        position:relative;
+        overflow:hidden;
         background:
-            radial-gradient(ellipse at 0% 40%, rgba(255,143,28,0.06), transparent 42%),
+            radial-gradient(ellipse 70% 80% at 18% 45%, rgba(255,201,60,0.11), transparent 62%),
+            radial-gradient(ellipse 55% 70% at 88% 70%, rgba(255,143,28,0.07), transparent 58%),
             var(--black);
         border-top:1px solid var(--line);
         border-bottom:1px solid var(--line);
     }
-    .faq{ position:relative; overflow:hidden; padding:var(--fold-pad) 6vw; max-width:880px; margin:0 auto; }
+    .faq{
+        position:relative; z-index:1;
+        padding:var(--fold-pad) 6vw;
+        max-width:880px; margin:0 auto;
+    }
     .faq-head{ margin-bottom:clamp(2.8rem, 5vw, 3.8rem); }
     .faq-head h2{ font-family:'Anton', sans-serif; font-size:clamp(2rem, 4vw, 3.2rem); text-transform:uppercase; line-height:1.05; }
     .accordion{ border-top:1px solid var(--line); }
@@ -634,11 +685,11 @@
 
     /* ─── CTA FINAL (banda âmbar profunda) ─── */
     .cta-final{
-        padding:clamp(5rem, 10vw, 8rem) 6vw;
+        padding:clamp(5.5rem, 11vw, 9rem) 6vw clamp(5rem, 10vw, 8rem);
         text-align:center; position:relative; overflow:hidden;
         background:
-            radial-gradient(ellipse at 50% 120%, rgba(255,143,28,0.22), transparent 55%),
-            radial-gradient(ellipse at 50% -20%, rgba(255,201,60,0.14), transparent 50%),
+            radial-gradient(ellipse 80% 60% at 50% 120%, rgba(255,143,28,0.2), transparent 60%),
+            radial-gradient(ellipse 70% 50% at 50% -10%, rgba(255,201,60,0.12), transparent 55%),
             linear-gradient(180deg, #12100c 0%, #0a0908 100%);
     }
     .cta-final::before{
@@ -646,11 +697,14 @@
         background:repeating-linear-gradient(135deg, var(--ink) 0 16px, var(--amber) 16px 32px);
     }
     .cta-final h2{
+        position:relative; z-index:1;
         font-family:'Anton', sans-serif; font-size:clamp(2.2rem, 5.4vw, 4.4rem);
         text-transform:uppercase; line-height:1.05; margin-bottom:1.6rem;
+        margin-top:0.6rem;
     }
     .cta-final h2 .hl{ color:var(--amber); }
-    .cta-final p{ font-size:1rem; color:var(--muted); letter-spacing:1px; margin-bottom:3rem; }
+    .cta-final p{ position:relative; z-index:1; font-size:1rem; color:var(--muted); letter-spacing:1px; margin-bottom:3rem; }
+    .cta-final .btn-whats{ position:relative; z-index:1; }
 
     /* ─── LOCALIZACAO (banda aço) ─── */
     .localizacao{
@@ -715,15 +769,22 @@
     .reveal.in-view{ opacity:1; transform:translateY(0); }
     .bg-glow{
         position:absolute;
-        width:52vw; max-width:640px; aspect-ratio:1/1;
+        width:min(72vw, 820px); aspect-ratio:1/1;
         border-radius:50%;
-        background:radial-gradient(circle, rgba(255,201,60,0.16), rgba(255,201,60,0.04) 55%, transparent 72%);
-        filter:blur(10px);
+        background:radial-gradient(circle,
+            rgba(255,201,60,0.18) 0%,
+            rgba(255,201,60,0.07) 35%,
+            rgba(255,201,60,0.02) 58%,
+            transparent 72%);
+        filter:blur(18px);
         pointer-events:none; z-index:0;
         animation:driftGlow 16s ease-in-out infinite;
     }
     .bg-glow.glow-2{
-        background:radial-gradient(circle, rgba(255,143,28,0.14), rgba(255,143,28,0.03) 55%, transparent 72%);
+        background:radial-gradient(circle,
+            rgba(255,143,28,0.16) 0%,
+            rgba(255,143,28,0.05) 38%,
+            transparent 70%);
         animation-duration:20s; animation-direction:reverse;
     }
 
@@ -1008,8 +1069,9 @@
 
 <!-- FAQ -->
 <div class="faq-band">
+    <div class="bg-glow" style="top:8%; left:-8%; width:min(72vw, 820px);" aria-hidden="true"></div>
+    <div class="bg-glow glow-2" style="bottom:-18%; right:-12%; width:min(58vw, 640px);" aria-hidden="true"></div>
 <section class="faq reveal" id="duvidas">
-    <div class="bg-glow" style="top:10%; left:-20%;" aria-hidden="true"></div>
     <div class="faq-head">
         <span class="label">Dúvidas frequentes</span>
         <h2>Tudo o que você<br>precisa saber.</h2>
@@ -1127,15 +1189,27 @@
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Catálogo: render do store (admin) + loop + filtros
+    // Catálogo: render do store (admin) + loop + filtros + drag mobile/desktop
     (function initSmartCatalog(){
         const track = document.getElementById('produtosTrack');
         if (!track || !window.FaroleteCatalog) return;
 
         const { getProducts, categoryLabel } = FaroleteCatalog;
+        const WA_MAIS = 'https://wa.me/5531999971820?text=' + encodeURIComponent('Olá! Quero consultar uma peça que não vi no catálogo do site.');
 
         function escapeHtml(str){
             return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+        }
+
+        function maisCardHtml(){
+            return `
+                <a class="prod-card prod-card-mais" data-cat="__mais__" href="${WA_MAIS}" target="_blank" rel="noopener">
+                    <div class="prod-mais-inner">
+                        <span class="prod-mais-label">E muito mais</span>
+                        <p>O estoque da loja vai além destas fotos — consulta no WhatsApp.</p>
+                        <span class="prod-mais-cta">Consultar peça</span>
+                    </div>
+                </a>`;
         }
 
         function renderProducts(){
@@ -1144,7 +1218,7 @@
                 <figure class="prod-card" data-cat="${escapeHtml(p.category || 'outros')}">
                     <div class="prod-frame"><img src="${p.image}" alt="${escapeHtml(p.name)}" draggable="false" decoding="async"></div>
                     <figcaption><span class="prod-tag">${escapeHtml(categoryLabel(p.category))}</span>${escapeHtml(p.name)}</figcaption>
-                </figure>`).join('');
+                </figure>`).join('') + maisCardHtml();
         }
 
         function sourceCards(){
@@ -1158,6 +1232,7 @@
                 const clone = card.cloneNode(true);
                 clone.classList.add('is-clone');
                 clone.setAttribute('aria-hidden', 'true');
+                if (clone.tagName === 'A') clone.setAttribute('tabindex', '-1');
                 track.appendChild(clone);
             });
             track.style.transform = '';
@@ -1179,6 +1254,10 @@
                     b.setAttribute('aria-selected', on ? 'true' : 'false');
                 });
                 sourceCards().forEach(card => {
+                    if (card.classList.contains('prod-card-mais')) {
+                        card.classList.remove('is-hidden');
+                        return;
+                    }
                     const show = cat === 'all' || card.dataset.cat === cat;
                     card.classList.toggle('is-hidden', !show);
                 });
@@ -1189,7 +1268,11 @@
             });
         });
 
-        let isDown = false, startX = 0, baseX = 0;
+        let isDown = false;
+        let axis = null; // null | 'x' | 'y'
+        let startX = 0, startY = 0, baseX = 0;
+        let moved = false;
+        let activePointer = null;
 
         function getTranslateX(){
             const matrix = getComputedStyle(track).transform;
@@ -1200,32 +1283,85 @@
             return parseFloat(parts.length > 4 ? parts[4] : parts[0]) || 0;
         }
 
-        track.addEventListener('pointerdown', e => {
-            if (e.pointerType === 'touch') return;
+        function beginDrag(e){
             isDown = true;
-            track.classList.add('dragging', 'is-paused');
+            axis = e.pointerType === 'mouse' ? 'x' : null;
+            moved = false;
+            activePointer = e.pointerId;
             startX = e.clientX;
+            startY = e.clientY;
             baseX = getTranslateX();
-            track.style.animation = 'none';
-            track.style.transform = `translateX(${baseX}px)`;
-            track.setPointerCapture(e.pointerId);
-        });
-        track.addEventListener('pointermove', e => {
+            track.classList.add('is-paused');
+            if (axis === 'x'){
+                track.classList.add('dragging');
+                track.style.animation = 'none';
+                track.style.transform = `translateX(${baseX}px)`;
+                try { track.setPointerCapture(e.pointerId); } catch (_) {}
+            }
+        }
+
+        function release(e){
             if (!isDown) return;
-            track.style.transform = `translateX(${baseX + (e.clientX - startX)}px)`;
-        });
-        function release(){
-            if (!isDown) return;
+            if (e && activePointer != null && e.pointerId !== activePointer) return;
+            const wasDragX = axis === 'x' && moved;
             isDown = false;
+            axis = null;
+            activePointer = null;
             track.classList.remove('dragging');
             track.style.transform = '';
             track.style.animation = '';
             clearTimeout(track._resumeTimer);
-            track._resumeTimer = setTimeout(() => track.classList.remove('is-paused'), 500);
+            track._resumeTimer = setTimeout(() => track.classList.remove('is-paused'), 700);
+            if (wasDragX){
+                // evita abrir o link "E muito mais" depois de arrastar
+                track._blockClickUntil = Date.now() + 350;
+            }
         }
+
+        track.addEventListener('pointerdown', e => {
+            if (e.button != null && e.button !== 0) return;
+            beginDrag(e);
+        });
+
+        track.addEventListener('pointermove', e => {
+            if (!isDown || e.pointerId !== activePointer) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+
+            if (axis === null){
+                if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+                axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+                if (axis === 'y'){
+                    // deixa o scroll vertical da página
+                    isDown = false;
+                    activePointer = null;
+                    track.classList.remove('is-paused', 'dragging');
+                    return;
+                }
+                track.classList.add('dragging');
+                track.style.animation = 'none';
+                track.style.transform = `translateX(${baseX}px)`;
+                try { track.setPointerCapture(e.pointerId); } catch (_) {}
+            }
+
+            if (axis !== 'x') return;
+            moved = Math.abs(dx) > 4;
+            e.preventDefault();
+            track.style.transform = `translateX(${baseX + dx}px)`;
+        }, { passive: false });
+
         track.addEventListener('pointerup', release);
         track.addEventListener('pointercancel', release);
-        track.addEventListener('pointerleave', release);
+        track.addEventListener('pointerleave', e => {
+            if (e.pointerType === 'mouse') release(e);
+        });
+
+        track.addEventListener('click', e => {
+            if (track._blockClickUntil && Date.now() < track._blockClickUntil){
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }, true);
     })();
 </script>
 </body>
