@@ -1142,7 +1142,7 @@
             const products = getProducts();
             track.innerHTML = products.map(p => `
                 <figure class="prod-card" data-cat="${escapeHtml(p.category || 'outros')}">
-                    <div class="prod-frame"><img src="${p.image}" alt="${escapeHtml(p.name)}" draggable="false" loading="lazy" decoding="async"></div>
+                    <div class="prod-frame"><img src="${p.image}" alt="${escapeHtml(p.name)}" draggable="false" decoding="async"></div>
                     <figcaption><span class="prod-tag">${escapeHtml(categoryLabel(p.category))}</span>${escapeHtml(p.name)}</figcaption>
                 </figure>`).join('');
         }
