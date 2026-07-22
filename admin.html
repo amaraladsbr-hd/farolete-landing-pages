@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Catálogo | Farolete</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#080807; --panel:#141210; --panel-2:#1c1914;
+    --amber:#ffc93c; --amber-deep:#ff8f1c; --white:#f7f4ee;
+    --muted:#a39d91; --line:rgba(247,244,238,0.12); --ink:#080807;
+    --danger:#ff5a3c;
+  }
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:var(--black); color:var(--white);
+    font-family:'Barlow', sans-serif; min-height:100svh;
+  }
+  header{
+    display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap;
+    padding:1.2rem 5vw; border-bottom:1px solid var(--line);
+    background:rgba(8,8,7,0.95); position:sticky; top:0; z-index:10;
+  }
+  header h1{
+    font-family:'Anton', sans-serif; font-size:1.5rem; letter-spacing:0.5px;
+    text-transform:uppercase; color:var(--amber);
+  }
+  header p{ color:var(--muted); font-size:0.9rem; }
+  .header-actions{ display:flex; gap:0.7rem; flex-wrap:wrap; }
+  a, button, label.btn{
+    font-family:'Barlow Condensed', sans-serif; font-weight:700;
+    letter-spacing:1px; text-transform:uppercase; font-size:0.82rem;
+    text-decoration:none; cursor:pointer; border:none;
+  }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:0.7rem 1.15rem; background:var(--amber); color:var(--ink);
+  }
+  .btn:hover{ background:var(--amber-deep); }
+  .btn-ghost{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:0.7rem 1.15rem; background:transparent; color:var(--white);
+    border:1px solid var(--line);
+  }
+  .btn-ghost:hover{ border-color:var(--amber); color:var(--amber); }
+  .btn-danger{ background:transparent; color:var(--danger); border:1px solid rgba(255,90,60,0.4); padding:0.55rem 0.9rem; }
+  .btn-danger:hover{ background:rgba(255,90,60,0.12); }
+
+  main{ padding:2rem 5vw 4rem; display:grid; grid-template-columns:360px 1fr; gap:1.6rem; }
+  @media (max-width:960px){ main{ grid-template-columns:1fr; } }
+
+  .panel{
+    background:var(--panel); border:1px solid var(--line); padding:1.4rem;
+  }
+  .panel h2{
+    font-family:'Anton', sans-serif; font-size:1.25rem; text-transform:uppercase;
+    margin-bottom:1rem; letter-spacing:0.4px;
+  }
+  .field{ margin-bottom:1rem; }
+  .field label{
+    display:block; font-family:'Barlow Condensed', sans-serif; font-weight:600;
+    font-size:0.75rem; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--amber); margin-bottom:0.4rem;
+  }
+  .field input, .field select, .field textarea{
+    width:100%; background:var(--panel-2); border:1px solid var(--line);
+    color:var(--white); padding:0.75rem 0.85rem; font:inherit;
+  }
+  .field input:focus, .field select:focus{ outline:1px solid var(--amber); }
+  .preview{
+    width:100%; aspect-ratio:4/3; object-fit:contain; display:none;
+    background:#0e0d0b; border:1px solid var(--line); margin-top:0.6rem;
+  }
+  .preview.show{ display:block; }
+  .form-actions{ display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:1.2rem; }
+  .hint{ color:var(--muted); font-size:0.85rem; line-height:1.5; margin-top:0.8rem; }
+
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:0.9rem;
+  }
+  .card{
+    background:linear-gradient(165deg, #1a1712, #0e0d0b);
+    border:1px solid rgba(255,201,60,0.22); overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .card img{ width:100%; aspect-ratio:4/3; object-fit:contain; background:#12100c; }
+  .card .meta{ padding:0.75rem; border-top:1px solid rgba(255,201,60,0.15); }
+  .card .tag{ color:var(--amber); font-size:0.68rem; letter-spacing:1.4px; text-transform:uppercase; font-family:'Barlow Condensed', sans-serif; font-weight:600; }
+  .card .name{ font-family:'Barlow Condensed', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; margin:0.25rem 0 0.7rem; }
+  .card .actions{ display:flex; gap:0.4rem; }
+  .empty{ color:var(--muted); padding:2rem; text-align:center; border:1px dashed var(--line); }
+  .toast{
+    position:fixed; bottom:1.2rem; right:1.2rem; background:var(--amber); color:var(--ink);
+    padding:0.85rem 1.2rem; font-family:'Barlow Condensed', sans-serif; font-weight:700;
+    letter-spacing:1px; text-transform:uppercase; opacity:0; pointer-events:none;
+    transition:opacity 0.25s; z-index:50;
+  }
+  .toast.show{ opacity:1; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Admin · Catálogo Farolete</h1>
+    <p>Local no PC — produtos salvos neste navegador e aparecem no site institucional.</p>
+  </div>
+  <div class="header-actions">
+    <a class="btn-ghost" href="lp_institucional.html">Ver site</a>
+    <button type="button" class="btn-ghost" id="btnExport">Exportar JSON</button>
+    <label class="btn-ghost" for="importFile">Importar JSON</label>
+    <input type="file" id="importFile" accept="application/json,.json" hidden>
+    <button type="button" class="btn-ghost" id="btnReset">Restaurar padrão</button>
+  </div>
+</header>
+
+<main>
+  <section class="panel">
+    <h2 id="formTitle">Adicionar produto</h2>
+    <form id="productForm">
+      <input type="hidden" id="editId" value="">
+      <div class="field">
+        <label for="name">Nome</label>
+        <input id="name" required maxlength="80" placeholder="Ex: Farol auxiliar">
+      </div>
+      <div class="field">
+        <label for="category">Categoria</label>
+        <select id="category" required></select>
+      </div>
+      <div class="field">
+        <label for="imageFile">Foto do produto</label>
+        <input id="imageFile" type="file" accept="image/*">
+        <img id="imagePreview" class="preview" alt="Prévia">
+      </div>
+      <div class="field">
+        <label for="imageUrl">Ou URL / caminho da imagem</label>
+        <input id="imageUrl" placeholder="assets/imagens/catalogo/hq/…">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn" id="btnSave">Salvar produto</button>
+        <button type="button" class="btn-ghost" id="btnCancel" hidden>Cancelar edição</button>
+      </div>
+      <p class="hint">Dica: prefira JPG até ~1MB. A imagem fica salva no navegador (localStorage). Depois abra o site institucional no mesmo browser pra ver.</p>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Produtos no catálogo (<span id="count">0</span>)</h2>
+    <div class="grid" id="list"></div>
+  </section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="assets/js/catalog-store.js"></script>
+<script>
+  const { CATEGORIES, getProducts, saveProducts, resetProducts, uid, categoryLabel } = FaroleteCatalog;
+
+  const form = document.getElementById('productForm');
+  const editId = document.getElementById('editId');
+  const nameEl = document.getElementById('name');
+  const categoryEl = document.getElementById('category');
+  const imageFile = document.getElementById('imageFile');
+  const imageUrl = document.getElementById('imageUrl');
+  const imagePreview = document.getElementById('imagePreview');
+  const listEl = document.getElementById('list');
+  const countEl = document.getElementById('count');
+  const formTitle = document.getElementById('formTitle');
+  const btnCancel = document.getElementById('btnCancel');
+  const toast = document.getElementById('toast');
+
+  let products = getProducts();
+  let pendingDataUrl = '';
+
+  Object.entries(CATEGORIES).forEach(([value, label]) => {
+    const opt = document.createElement('option');
+    opt.value = value; opt.textContent = label;
+    categoryEl.appendChild(opt);
+  });
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  function persist(){
+    saveProducts(products);
+    render();
+  }
+
+  function render(){
+    countEl.textContent = String(products.length);
+    listEl.innerHTML = '';
+    if (!products.length){
+      listEl.innerHTML = '<div class="empty">Nenhum produto. Adicione à esquerda ou restaure o padrão.</div>';
+      return;
+    }
+    products.forEach(p => {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="${p.image}" alt="${escapeHtml(p.name)}" loading="lazy">
+        <div class="meta">
+          <div class="tag">${escapeHtml(categoryLabel(p.category))}</div>
+          <div class="name">${escapeHtml(p.name)}</div>
+          <div class="actions">
+            <button type="button" class="btn-ghost" data-edit="${p.id}">Editar</button>
+            <button type="button" class="btn-danger" data-del="${p.id}">Excluir</button>
+          </div>
+        </div>`;
+      listEl.appendChild(card);
+    });
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  }
+
+  function clearForm(){
+    editId.value = '';
+    nameEl.value = '';
+    categoryEl.value = 'vidros';
+    imageFile.value = '';
+    imageUrl.value = '';
+    pendingDataUrl = '';
+    imagePreview.src = '';
+    imagePreview.classList.remove('show');
+    formTitle.textContent = 'Adicionar produto';
+    btnCancel.hidden = true;
+  }
+
+  imageFile.addEventListener('change', () => {
+    const file = imageFile.files && imageFile.files[0];
+    if (!file) return;
+    if (file.size > 2.5 * 1024 * 1024){
+      showToast('Imagem grande demais (máx ~2.5MB)');
+      imageFile.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      compressImage(reader.result, (dataUrl) => {
+        pendingDataUrl = dataUrl;
+        imagePreview.src = dataUrl;
+        imagePreview.classList.add('show');
+        imageUrl.value = '';
+      });
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function compressImage(dataUrl, cb){
+    const img = new Image();
+    img.onload = () => {
+      const max = 1200;
+      let { width, height } = img;
+      if (width > max || height > max){
+        const ratio = Math.min(max / width, max / height);
+        width = Math.round(width * ratio);
+        height = Math.round(height * ratio);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#12100c';
+      ctx.fillRect(0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height);
+      cb(canvas.toDataURL('image/jpeg', 0.88));
+    };
+    img.src = dataUrl;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = nameEl.value.trim();
+    const category = categoryEl.value;
+    const image = pendingDataUrl || imageUrl.value.trim();
+    if (!name || !image){
+      showToast('Nome e imagem são obrigatórios');
+      return;
+    }
+    const id = editId.value || uid();
+    const existing = products.findIndex(p => p.id === id);
+    const item = { id, name, category, image };
+    if (existing >= 0) products[existing] = item;
+    else products.unshift(item);
+    persist();
+    clearForm();
+    showToast(existing >= 0 ? 'Produto atualizado' : 'Produto adicionado');
+  });
+
+  btnCancel.addEventListener('click', clearForm);
+
+  listEl.addEventListener('click', (e) => {
+    const edit = e.target.getAttribute('data-edit');
+    const del = e.target.getAttribute('data-del');
+    if (edit){
+      const p = products.find(x => x.id === edit);
+      if (!p) return;
+      editId.value = p.id;
+      nameEl.value = p.name;
+      categoryEl.value = p.category in CATEGORIES ? p.category : 'outros';
+      imageUrl.value = p.image.startsWith('data:') ? '' : p.image;
+      pendingDataUrl = p.image.startsWith('data:') ? p.image : '';
+      if (p.image){
+        imagePreview.src = p.image;
+        imagePreview.classList.add('show');
+      }
+      formTitle.textContent = 'Editar produto';
+      btnCancel.hidden = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    if (del){
+      if (!confirm('Excluir este produto?')) return;
+      products = products.filter(p => p.id !== del);
+      persist();
+      showToast('Produto excluído');
+    }
+  });
+
+  document.getElementById('btnReset').addEventListener('click', () => {
+    if (!confirm('Restaurar o catálogo padrão da Farolete? Produtos extras serão removidos.')) return;
+    products = resetProducts();
+    render();
+    clearForm();
+    showToast('Catálogo padrão restaurado');
+  });
+
+  document.getElementById('btnExport').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(products, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'farolete-catalogo.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast('JSON exportado');
+  });
+
+  document.getElementById('importFile').addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        if (!Array.isArray(data)) throw new Error('formato inválido');
+        products = data.filter(p => p && p.name && p.image).map(p => ({
+          id: p.id || uid(),
+          name: String(p.name),
+          category: p.category || 'outros',
+          image: String(p.image)
+        }));
+        persist();
+        clearForm();
+        showToast('Catálogo importado');
+      } catch (err) {
+        showToast('JSON inválido');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  render();
+</script>
+</body>
+</html>
