@@ -8,8 +8,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Farolete Casa de Peças | Para-brisas, Peças e Acessórios — Sarzedo, MG</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Farolete Casa de Peças | Para-brisas, Peças e Acessórios | Sarzedo, MG</title>
 <meta name="description" content="Farolete Casa de Peças em Sarzedo: para-brisas, faróis, lanternas, borrachas, lâmpadas, para-choques, calotas, vidros de porta, palhetas, retrovisores e mais. Atendimento especializado via WhatsApp.">
 <meta name="keywords" content="autopeças Sarzedo, para-brisa Sarzedo, farol lanterna Sarzedo, Farolete Casa de Peças, vidro de porta, calotas Sarzedo MG">
 <meta name="robots" content="index, follow">
@@ -32,14 +32,14 @@
 <meta property="og:type" content="business.business">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Farolete Casa de Peças">
-<meta property="og:title" content="Farolete Casa de Peças | Para-brisas, Peças e Acessórios — Sarzedo, MG">
-<meta property="og:description" content="Farolete em Sarzedo: para-brisas, faróis, lanternas, peças e acessórios. Atendimento especializado — fale no WhatsApp.">
+<meta property="og:title" content="Farolete Casa de Peças | Para-brisas, Peças e Acessórios | Sarzedo, MG">
+<meta property="og:description" content="Farolete em Sarzedo: para-brisas, faróis, lanternas, peças e acessórios. Atendimento especializado. Fale no WhatsApp.">
 <meta property="og:url" content="https://www.farolete.com.br/">
 <meta property="og:image" content="https://www.farolete.com.br/assets/imagens/fachada_hero.jpg">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Farolete Casa de Peças | Para-brisas, Peças e Acessórios — Sarzedo, MG">
-<meta name="twitter:description" content="Farolete em Sarzedo: para-brisas, faróis, lanternas, peças e acessórios. Atendimento especializado — fale no WhatsApp.">
+<meta name="twitter:title" content="Farolete Casa de Peças | Para-brisas, Peças e Acessórios | Sarzedo, MG">
+<meta name="twitter:description" content="Farolete em Sarzedo: para-brisas, faróis, lanternas, peças e acessórios. Atendimento especializado. Fale no WhatsApp.">
 <meta name="twitter:image" content="https://www.farolete.com.br/assets/imagens/fachada_hero.jpg">
 
 <script type="application/ld+json">
@@ -145,12 +145,13 @@
     nav{
         position:fixed; top:0; left:0; right:0; z-index:100;
         display:flex; justify-content:space-between; align-items:center;
-        padding:0.75rem 5vw;
+        gap:0.75rem;
+        padding:max(0.75rem, env(safe-area-inset-top)) max(5vw, env(safe-area-inset-right)) 0.75rem max(5vw, env(safe-area-inset-left));
         background:rgba(8,8,7,0.92);
         backdrop-filter:blur(10px);
         border-bottom:1px solid var(--line);
     }
-    .nav-logo{ display:flex; align-items:center; gap:0.75rem; }
+    .nav-logo{ display:flex; align-items:center; gap:0.75rem; min-width:0; }
     .logo-badge{ position:relative; width:52px; height:58px; flex-shrink:0; }
     .logo-badge img{
         width:100%; height:100%; object-fit:contain;
@@ -177,7 +178,7 @@
         font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:0.9rem;
         letter-spacing:1px; text-transform:uppercase; color:var(--ink); background:var(--amber);
         padding:0.85rem 1.8rem; border:none; border-radius:4px;
-        overflow:hidden; isolation:isolate;
+        overflow:hidden; isolation:isolate; flex-shrink:0;
         box-shadow:0 2px 0 rgba(0,0,0,0.25), 0 6px 16px rgba(255,201,60,0.18);
         transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease;
     }
@@ -507,7 +508,7 @@
         display:flex; justify-content:center; margin-top:clamp(2.4rem, 4vw, 3.2rem); padding:0 6vw;
     }
 
-    /* ─── SERVICOS (clareza estilo concorrência premium) ─── */
+    /* ─── SERVICOS ─── */
     .servicos{
         position:relative;
         background:
@@ -521,21 +522,40 @@
         margin-top:0.5rem;
     }
     .servico-card{
-        background:var(--panel); padding:2.2rem 1.6rem;
-        display:flex; flex-direction:column; gap:0.85rem;
+        background:var(--panel);
+        display:flex; flex-direction:column;
         transition:background 0.3s ease;
+        overflow:hidden;
     }
     .servico-card:hover{ background:var(--panel-2); }
+    .servico-media{
+        position:relative; aspect-ratio:4/3; overflow:hidden; background:#0c0b0a;
+    }
+    .servico-media img{
+        width:100%; height:100%; object-fit:cover; object-position:center;
+        filter:contrast(1.04) saturate(1.05);
+        transition:transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .servico-media::after{
+        content:'';
+        position:absolute; inset:0; pointer-events:none;
+        background:linear-gradient(180deg, transparent 55%, rgba(8,8,7,0.35) 100%);
+    }
+    .servico-card:hover .servico-media img{ transform:scale(1.05); }
+    .servico-body{
+        padding:1.35rem 1.35rem 1.55rem;
+        display:flex; flex-direction:column; gap:0.7rem; flex:1;
+    }
     .servico-num{
         font-family:'JetBrains Mono', monospace; font-size:0.75rem;
         letter-spacing:1px; color:var(--amber);
     }
     .servico-card h3{
-        font-family:'Anton', sans-serif; font-size:1.25rem;
+        font-family:'Anton', sans-serif; font-size:1.2rem;
         text-transform:uppercase; letter-spacing:0.4px; line-height:1.15;
     }
     .servico-card p{ color:var(--muted); font-size:0.92rem; line-height:1.6; flex-grow:1; }
-    .servico-card .btn-ghost{ align-self:flex-start; margin-top:0.4rem; }
+    .servico-card .btn-ghost{ align-self:flex-start; margin-top:0.2rem; }
 
     /* ─── CTA MID (banda âmbar cheia) ─── */
     .cta-mid{
@@ -602,60 +622,52 @@
     }
     .b2b-cta{ margin-top:2.4rem; display:flex; justify-content:center; }
 
-    /* ─── SOBRE (foto + respiro generoso) ─── */
+    /* ─── SOBRE (fachada em destaque + texto) ─── */
     .sobre{
         position:relative;
-        overflow:hidden;
-        min-height:min(780px, 94svh);
-        display:flex; align-items:center;
-        padding:clamp(5rem, 11vw, 8.5rem) 6vw;
-        isolation:isolate;
-    }
-    .sobre-bg{
-        position:absolute; inset:-4%; z-index:0;
         display:grid;
-        grid-template-columns:1.35fr 1fr 1fr;
-        grid-template-rows:1.15fr 0.95fr;
-        gap:0.4rem;
+        grid-template-columns:1.15fr 1fr;
+        background:var(--black);
+        border-bottom:1px solid var(--line);
+        isolation:isolate;
+        min-height:0;
+        overflow:hidden;
+        padding:0;
+        align-items:stretch;
     }
-    .sobre-bg img{
-        width:100%; height:100%; object-fit:cover; display:block;
-        filter:saturate(1.08) contrast(1.08) brightness(0.88);
-        transform-origin:center center;
-        animation:kenBurnsSobre 26s ease-in-out infinite alternate;
-        will-change:transform;
+    .sobre-photo{
+        position:relative;
+        min-height:min(560px, 72svh);
+        overflow:hidden;
+        background:var(--panel);
     }
-    .sobre-bg img:nth-child(1){ grid-row:1 / 3; grid-column:1; object-position:center 40%; animation-duration:32s; }
-    .sobre-bg img:nth-child(2){ grid-row:1; grid-column:2 / 4; object-position:center 35%; animation-duration:28s; animation-delay:-9s; }
-    .sobre-bg img:nth-child(3){ grid-row:2; grid-column:2; object-position:center; animation-duration:24s; animation-delay:-4s; }
-    .sobre-bg img:nth-child(4){ grid-row:2; grid-column:3; object-position:center; animation-duration:30s; animation-delay:-14s; }
-    .sobre-bg::after{
+    .sobre-photo img{
+        width:100%; height:100%; object-fit:cover; object-position:center 42%;
+        display:block;
+        filter:contrast(1.04) saturate(1.05) brightness(0.92);
+    }
+    .sobre-photo::after{
         content:'';
         position:absolute; inset:0;
         background:
-            linear-gradient(90deg,
-                rgba(8,8,7,0.94) 0%,
-                rgba(8,8,7,0.82) 26%,
-                rgba(8,8,7,0.42) 52%,
-                rgba(8,8,7,0.18) 74%,
-                rgba(8,8,7,0.35) 100%),
-            linear-gradient(0deg,
-                rgba(8,8,7,0.65) 0%,
-                transparent 38%,
-                transparent 68%,
-                rgba(8,8,7,0.4) 100%),
-            radial-gradient(ellipse at 22% 55%, rgba(255,201,60,0.14), transparent 48%);
+            linear-gradient(90deg, transparent 55%, rgba(8,8,7,0.55) 100%),
+            linear-gradient(0deg, rgba(8,8,7,0.35) 0%, transparent 40%);
         pointer-events:none;
     }
     .sobre-text{
         position:relative; z-index:1;
-        max-width:560px;
+        max-width:none;
+        padding:clamp(2.8rem, 6vw, 5rem) clamp(1.6rem, 5vw, 4rem);
+        display:flex; flex-direction:column; justify-content:center;
+        background:
+            radial-gradient(ellipse 70% 50% at 0% 50%, rgba(255,201,60,0.08), transparent 55%),
+            var(--panel);
     }
     .sobre-text .label{ display:block; margin-bottom:1rem; }
     .sobre-text h2{
         font-family:'Anton', sans-serif; font-size:clamp(1.9rem, 3.6vw, 3rem);
         text-transform:uppercase; line-height:1.12; letter-spacing:0.3px; margin:0 0 1.4rem;
-        text-shadow:0 2px 24px rgba(0,0,0,0.45);
+        text-shadow:none;
     }
     .sobre-text p{
         color:rgba(245,243,238,0.78); font-size:1.02rem; line-height:1.75;
@@ -725,19 +737,21 @@
     .selo.selo-cta p{ color:rgba(10,10,9,0.75); }
     .selo.selo-cta a{ text-decoration:underline; font-weight:600; }
 
-    /* ─── FAQ (banda preta — contraste com confiança) ─── */
+    /* ─── FAQ ─── */
     .faq-band{
         position:relative;
         overflow:hidden;
-        background:
-            radial-gradient(ellipse 70% 80% at 18% 45%, rgba(255,201,60,0.11), transparent 62%),
-            radial-gradient(ellipse 55% 70% at 88% 70%, rgba(255,143,28,0.07), transparent 58%),
-            var(--black);
+        background:var(--black);
         border-top:1px solid var(--line);
         border-bottom:1px solid var(--line);
     }
+    .faq-band .bg-glow{
+        opacity:0.35;
+        z-index:0;
+        filter:blur(28px);
+    }
     .faq{
-        position:relative; z-index:1;
+        position:relative; z-index:2;
         padding:var(--fold-pad) 6vw;
         max-width:880px; margin:0 auto;
     }
@@ -792,15 +806,18 @@
         padding:var(--fold-pad) 6vw;
     }
     .local-grid{
-        display:grid; grid-template-columns:1.4fr 1fr; gap:1.4rem; align-items:stretch;
+        display:grid; grid-template-columns:1.4fr 1fr; gap:1.4rem; align-items:start;
     }
+    .local-map-col{ display:flex; flex-direction:column; gap:0; min-width:0; }
     .local-card{
         background:var(--panel); border:1px solid var(--line);
         padding:2rem 1.6rem; display:flex; flex-direction:column; gap:1.1rem;
+        position:relative; z-index:1;
     }
     .local-card h3{
         font-family:'Anton', sans-serif; font-size:1.35rem;
         text-transform:uppercase; letter-spacing:0.4px;
+        position:relative; z-index:1; background:var(--panel);
     }
     .hours-list{ list-style:none; display:flex; flex-direction:column; gap:0.55rem; }
     .hours-list li{
@@ -827,17 +844,17 @@
         font-family:'Barlow', sans-serif; font-weight:400;
         text-transform:none; letter-spacing:0;
     }
+    .local-card .btn-ghost{ align-self:flex-start; margin-top:0.4rem; }
     .map-frame{
-        position:relative; width:100%; height:100%; min-height:280px; aspect-ratio:16/10; overflow:hidden;
+        position:relative; width:100%; height:auto; min-height:280px; aspect-ratio:16/10; overflow:hidden;
         box-shadow:0 0 0 2px var(--amber); filter:grayscale(0.2) contrast(1.05);
     }
     .map-frame::before{
         content:''; position:absolute; top:0; left:0; right:0; height:6px; z-index:2;
         background:repeating-linear-gradient(135deg, var(--ink) 0 10px, var(--amber) 10px 20px);
     }
-    .map-frame iframe{ position:relative; z-index:1; width:100%; height:100%; border:0; display:block; }
-    .map-footer{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-top:1.2rem; }
-    .map-footer p{ color:var(--muted); font-size:0.9rem; letter-spacing:0.5px; }
+    .map-frame iframe{ position:absolute; inset:0; z-index:1; width:100%; height:100%; border:0; display:block; }
+    .map-footer{ display:none; }
 
     /* ─── FOOTER (fecha no preto) ─── */
     footer{
@@ -864,8 +881,9 @@
     /* ─── FAB ─── */
     .mobile-cta-fab{
         display:flex; position:fixed; z-index:200;
-        right:1.1rem; bottom:calc(1.1rem + env(safe-area-inset-bottom));
-        width:58px; height:58px; border-radius:50%;
+        right:max(1rem, calc(env(safe-area-inset-right) + 0.75rem));
+        bottom:max(1rem, calc(env(safe-area-inset-bottom) + 0.75rem));
+        width:56px; height:56px; border-radius:50%;
         background:var(--amber); color:var(--ink);
         align-items:center; justify-content:center;
         text-decoration:none;
@@ -873,9 +891,10 @@
         animation:fabPulse 2.6s ease-in-out infinite;
         transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
     }
-    .mobile-cta-fab svg{ width:28px; height:28px; }
+    .mobile-cta-fab svg{ width:26px; height:26px; }
     .mobile-cta-fab:hover{ transform:scale(1.08) rotate(-8deg); }
     .mobile-cta-fab:active{ transform:scale(0.94); }
+    body.fl-gate-open .mobile-cta-fab{ visibility:hidden; pointer-events:none; }
 
     /* ─── REVEAL / GLOW ─── */
     .reveal{ opacity:0; transform:translateY(24px); transition:all 0.8s cubic-bezier(0.22,1,0.36,1); }
@@ -932,29 +951,22 @@
     @media (max-width:980px){
         .prod-card{ width:clamp(200px, 72vw, 280px); }
         .produtos-track{ gap:0.9rem; }
-        .sobre{ min-height:auto; padding:12vw 6vw; }
-        .sobre-bg{ grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; }
-        .sobre-bg img:nth-child(1){ grid-row:1; grid-column:1; }
-        .sobre-bg img:nth-child(2){ grid-row:1; grid-column:2; }
-        .sobre-bg img:nth-child(3){ grid-row:2; grid-column:1; }
-        .sobre-bg img:nth-child(4){ grid-row:2; grid-column:2; }
-        .sobre-bg::after{
-            background:
-                linear-gradient(180deg,
-                    rgba(10,10,9,0.55) 0%,
-                    rgba(10,10,9,0.82) 40%,
-                    rgba(10,10,9,0.94) 100%),
-                radial-gradient(ellipse at 50% 80%, rgba(255,201,60,0.1), transparent 55%);
+        .sobre{ grid-template-columns:1fr; }
+        .sobre-photo{ min-height:min(42svh, 320px); order:-1; }
+        .sobre-photo::after{
+            background:linear-gradient(180deg, transparent 40%, rgba(8,8,7,0.55) 100%);
         }
+        .sobre-text{ padding:2.4rem 6vw 3.2rem; }
         .sobre-text p{ max-width:none; }
         .selos-grid{ grid-template-columns:repeat(2, 1fr); }
         .reviews-grid{ grid-template-columns:1fr; }
         .servicos-grid{ grid-template-columns:1fr 1fr; }
         .info-bar{ grid-template-columns:1fr; }
         .local-grid{ grid-template-columns:1fr; }
-        .map-frame{ aspect-ratio:4/3; min-height:220px; }
-        .map-footer{ flex-direction:column; align-items:flex-start; }
+        .map-frame{ aspect-ratio:4/3; min-height:220px; height:auto; }
         .nav-links{ display:none; }
+        .faq-band .bg-glow{ display:none; }
+        body{ padding-bottom:calc(4.5rem + env(safe-area-inset-bottom)); }
         footer{ flex-direction:column; }
         .footer-info{ text-align:left; }
         .hero{ min-height:68svh; padding:5.8rem 5vw 2.6rem; }
@@ -962,18 +974,29 @@
     }
     @media (max-width:520px){
         .nav-logo span{ display:none; }
-        nav .btn-whats{ padding:0.65rem 1rem; font-size:0.78rem; }
+        nav .btn-whats{
+            padding:0.62rem 0.9rem;
+            font-size:0.72rem;
+            letter-spacing:0.6px;
+            gap:0.4rem;
+        }
+        nav .btn-whats .btn-icon{ width:15px; height:15px; }
+        .logo-badge{ width:42px; height:46px; }
         .brand-mark{ font-size:clamp(2.8rem, 14vw, 4rem); }
         .servicos-grid{ grid-template-columns:1fr; }
         .cat-filters{ justify-content:flex-start; flex-wrap:nowrap; overflow-x:auto; padding-bottom:1rem; scrollbar-width:none; }
         .cat-filters::-webkit-scrollbar{ display:none; }
         .cat-filter{ flex:0 0 auto; }
     }
+    @media (hover: none){
+        .btn-whats:hover, .mobile-cta-fab:hover{ transform:none; }
+        .servico-card:hover .servico-media img{ transform:none; }
+    }
 
     @media (prefers-reduced-motion: reduce){
         .reveal, .brand-mark, .brand-sub, .hero-title, .hero-desc, .hero-ctas{ animation:none; opacity:1; transform:none; }
         .marquee-track, .logo-badge img, .mobile-cta-fab, .bg-glow{ animation:none; }
-        .hero-bg img, .sobre-bg img{ animation:none; transform:scale(1.06); }
+        .hero-bg img{ animation:none; transform:scale(1.06); }
     }
 </style>
 </head>
@@ -1007,7 +1030,7 @@
         <p class="brand-mark">Farolete</p>
         <p class="brand-sub">Casa de Peças · Sarzedo / MG</p>
         <h1 class="hero-title">Para-brisas, <span class="hl">peças</span> e acessórios pro seu carro.</h1>
-        <p class="hero-desc">Desde <strong>2014</strong> em Sarzedo e região. Para-brisas, faróis, lanternas, borrachas, lâmpadas, para-choques, calotas, vidros, palhetas, retrovisores e mais — <strong>atendimento especializado</strong>.</p>
+        <p class="hero-desc">Desde <strong>2014</strong> em Sarzedo e região. Para-brisas, faróis, lanternas, borrachas, lâmpadas, para-choques, calotas, vidros, palhetas, retrovisores e mais. <strong>Atendimento especializado</strong>.</p>
         <div class="hero-ctas">
             <a href="https://wa.me/5531999971820" class="btn-whats whats-cta" data-msg="Olá! Vi a página da Farolete e quero saber mais.">
                 <svg class="btn-icon" viewBox="0 0 32 32" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.001 3C9.11 3 3.5 8.61 3.5 15.5c0 2.6.77 5.02 2.09 7.05L3.5 29l6.62-2.06a12.44 12.44 0 005.88 1.48h.01c6.89 0 12.5-5.61 12.5-12.5S22.89 3 16.001 3zm0 22.75c-1.9 0-3.76-.51-5.38-1.47l-.39-.23-4.02 1.25 1.28-3.92-.25-.4a10.2 10.2 0 01-1.6-5.48c0-5.66 4.61-10.27 10.27-10.27S26.27 9.84 26.27 15.5 21.66 25.75 16.001 25.75zm5.62-7.7c-.31-.15-1.82-.9-2.1-1-.28-.1-.49-.15-.69.15-.21.31-.79 1-.97 1.2-.18.21-.36.23-.67.08-.31-.15-1.29-.48-2.46-1.53-.91-.81-1.52-1.81-1.7-2.12-.18-.31-.02-.47.13-.62.14-.14.31-.36.46-.54.15-.18.2-.31.31-.51.1-.21.05-.39-.02-.54-.08-.15-.69-1.67-.95-2.29-.25-.6-.5-.52-.69-.53-.18-.01-.38-.01-.59-.01s-.54.08-.82.39c-.28.31-1.08 1.05-1.08 2.57s1.1 2.98 1.26 3.19c.15.21 2.17 3.31 5.26 4.65.73.32 1.31.51 1.75.65.74.24 1.41.2 1.94.12.59-.09 1.82-.74 2.08-1.46.26-.72.26-1.33.18-1.46-.08-.13-.28-.2-.59-.36z"/></svg>
@@ -1059,8 +1082,8 @@
         <span class="ib-value"><a href="https://wa.me/5531999971820" class="whats-cta" data-msg="Olá! Vi a página da Farolete e quero saber mais.">(31) 99997-1820</a></span>
     </div>
     <div class="info-bar-item">
-        <span class="ib-label">Unidades em Sarzedo</span>
-        <span class="ib-value">Zumbi 138 · Rodoviários 292</span>
+        <span class="ib-label">Endereço</span>
+        <span class="ib-value">Zumbi dos Palmares, 138</span>
     </div>
 </div>
 
@@ -1069,32 +1092,52 @@
     <div class="section-head">
         <span class="label">Nossos serviços</span>
         <h2>Soluções pra<br>cuidar do seu carro.</h2>
-        <p>Vidros, peças e acessórios com atendimento direto na loja — sem enrolação.</p>
+        <p>Vidros, peças e acessórios com atendimento direto na loja, sem enrolação.</p>
     </div>
     <div class="servicos-grid">
         <article class="servico-card">
-            <span class="servico-num">01</span>
-            <h3>Para-brisas e vidros</h3>
-            <p>Para-brisas, vidro de porta e auto porta — com atendimento especializado e compromisso com o serviço.</p>
-            <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Preciso de para-brisa ou vidro automotivo.">Pedir orçamento <span class="btn-arrow">→</span></a>
+            <div class="servico-media">
+                <img src="assets/imagens/servicos/servico_vidros.jpg" alt="Para-brisas e vidros automotivos Farolete" loading="lazy" decoding="async">
+            </div>
+            <div class="servico-body">
+                <span class="servico-num">01</span>
+                <h3>Para-brisas e vidros</h3>
+                <p>Para-brisas, vidro de porta e auto porta, com atendimento especializado e compromisso com o serviço.</p>
+                <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Preciso de para-brisa ou vidro automotivo.">Pedir orçamento <span class="btn-arrow">→</span></a>
+            </div>
         </article>
         <article class="servico-card">
-            <span class="servico-num">02</span>
-            <h3>Iluminação</h3>
-            <p>Faróis, lanternas e lâmpadas pra deixar o carro seguro e em dia.</p>
-            <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Preciso de farol, lanterna ou lâmpada.">Consultar peça <span class="btn-arrow">→</span></a>
+            <div class="servico-media">
+                <img src="assets/imagens/servicos/servico_farois.jpg" alt="Faróis e iluminação automotiva Farolete" loading="lazy" decoding="async">
+            </div>
+            <div class="servico-body">
+                <span class="servico-num">02</span>
+                <h3>Iluminação</h3>
+                <p>Faróis, lanternas e lâmpadas pra deixar o carro seguro e em dia.</p>
+                <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Preciso de farol, lanterna ou lâmpada.">Consultar peça <span class="btn-arrow">→</span></a>
+            </div>
         </article>
         <article class="servico-card">
-            <span class="servico-num">03</span>
-            <h3>Peças e acabamento</h3>
-            <p>Para-choques, calotas, retrovisores, frisos, pingadeira, para-barro e mais.</p>
-            <a href="#catalogo" class="btn-ghost">Ver catálogo <span class="btn-arrow">→</span></a>
+            <div class="servico-media">
+                <img src="assets/imagens/servicos/servico_acabamento.jpg" alt="Peças e acabamento automotivo Farolete" loading="lazy" decoding="async">
+            </div>
+            <div class="servico-body">
+                <span class="servico-num">03</span>
+                <h3>Peças e acabamento</h3>
+                <p>Para-choques, calotas, retrovisores, frisos, pingadeira, para-barro e mais.</p>
+                <a href="#catalogo" class="btn-ghost">Ver catálogo <span class="btn-arrow">→</span></a>
+            </div>
         </article>
         <article class="servico-card">
-            <span class="servico-num">04</span>
-            <h3>Borrachas e palhetas</h3>
-            <p>Borrachas de vedação e palhetas — detalhes que fazem diferença no dia a dia.</p>
-            <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Preciso de borracha ou palheta.">Falar no WhatsApp <span class="btn-arrow">→</span></a>
+            <div class="servico-media">
+                <img src="assets/imagens/servicos/servico_borrachas.jpg" alt="Borrachas e palhetas Farolete" loading="lazy" decoding="async">
+            </div>
+            <div class="servico-body">
+                <span class="servico-num">04</span>
+                <h3>Borrachas e palhetas</h3>
+                <p>Borrachas de vedação e palhetas. Detalhes que fazem diferença no dia a dia.</p>
+                <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Preciso de borracha ou palheta.">Falar no WhatsApp <span class="btn-arrow">→</span></a>
+            </div>
         </article>
     </div>
 </section>
@@ -1106,7 +1149,7 @@
         <div class="section-head">
         <span class="label">Catálogo Farolete</span>
         <h2>Estoque real.<br>Peça certa.</h2>
-        <p>Fotos do nosso catálogo com identidade da casa — filtra por categoria ou deixa o carrossel rodar.</p>
+        <p>Fotos do nosso catálogo com identidade da casa. Filtra por categoria ou deixa o carrossel rodar.</p>
     </div>
 
     <div class="cat-filters" role="tablist" aria-label="Filtrar catálogo por categoria">
@@ -1147,20 +1190,17 @@
 
 <!-- SOBRE -->
 <section class="sobre reveal" id="sobre">
-    <div class="sobre-bg" aria-hidden="true">
-        <img src="assets/imagens/loja/loja_fachada_wide.jpg" alt="" loading="lazy" decoding="async">
-        <img src="assets/imagens/loja/loja_entrada.jpg" alt="" loading="lazy" decoding="async">
-        <img src="assets/imagens/loja/loja_porta.jpg" alt="" loading="lazy" decoding="async">
-        <img src="assets/imagens/loja/loja_interior.jpg" alt="" loading="lazy" decoding="async">
+    <div class="sobre-photo">
+        <img src="assets/imagens/fachada_hero.jpg" alt="Fachada da Farolete Casa de Peças na Av. Zumbi dos Palmares, Sarzedo" loading="lazy" decoding="async">
     </div>
     <div class="sobre-text">
         <span class="label">Quem somos</span>
         <h2>Desde 2014<br>cuidando do seu carro<br>em Sarzedo.</h2>
         <p>A Farolete é autopeças de verdade: <strong>amamos o que fazemos</strong>, com <strong>atendimento especializado</strong> e o compromisso de realizar o seu serviço.</p>
-        <p>Duas unidades em Sarzedo — na Zumbi dos Palmares e no Centro — pra quem busca <strong>bom atendimento e qualidade</strong>.</p>
+        <p>Na Av. Zumbi dos Palmares, em Sarzedo, pra quem busca <strong>bom atendimento e qualidade</strong>.</p>
         <div class="sobre-stats">
             <div class="sobre-stat"><strong>Desde 2014</strong><span>Em Sarzedo e região</span></div>
-            <div class="sobre-stat"><strong>2 unidades</strong><span>Zumbi e Centro</span></div>
+            <div class="sobre-stat"><strong>Zumbi 138</strong><span>Liberdade, Sarzedo</span></div>
             <div class="sobre-stat"><strong>WhatsApp</strong><span>Canal principal</span></div>
         </div>
         <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Quero conhecer a loja / tirar uma dúvida.">Falar com a loja <span class="btn-arrow">→</span></a>
@@ -1178,7 +1218,7 @@
     <div class="selos-grid">
         <div class="selo">
             <span class="selo-big">Desde 2014</span>
-            <p>Autopeças em Sarzedo e região — pra quem busca bom atendimento e qualidade.</p>
+            <p>Autopeças em Sarzedo e região, pra quem busca bom atendimento e qualidade.</p>
         </div>
         <div class="selo">
             <span class="selo-big">Especializado</span>
@@ -1212,8 +1252,8 @@
             <div class="acc-body"><p>Trabalhamos com para-brisas, faróis, lanternas, borrachas, lâmpadas, para-choques, calotas, vidro de porta, palhetas, retrovisores, frisos, para-barro e mais. Manda a marca/modelo no WhatsApp que a gente confirma disponibilidade.</p></div>
         </div>
         <div class="acc-item">
-            <button class="acc-trigger" type="button">Onde ficam as lojas? <div class="acc-icon"></div></button>
-            <div class="acc-body"><p>Temos duas unidades em Sarzedo: Av. Zumbi dos Palmares, 138 — Liberdade; e Rua dos Rodoviários, 292 — Centro.</p></div>
+            <button class="acc-trigger" type="button">Onde fica a loja? <div class="acc-icon"></div></button>
+            <div class="acc-body"><p>Av. Zumbi dos Palmares, 138, Bairro Liberdade, Sarzedo/MG.</p></div>
         </div>
         <div class="acc-item">
             <button class="acc-trigger" type="button">Qual o horário de funcionamento? <div class="acc-icon"></div></button>
@@ -1231,7 +1271,7 @@
 <section class="cta-final reveal">
     <div class="bg-glow" style="top:-25%; left:50%; margin-left:-25vw;" aria-hidden="true"></div>
     <h2>Precisa de algo<br>pro seu <span class="hl">carro?</span></h2>
-    <p>Vidro, peça ou acessório — fala com a Farolete.</p>
+    <p>Vidro, peça ou acessório? Fala com a Farolete.</p>
     <a href="https://wa.me/5531999971820" class="btn-whats whats-cta" data-msg="Olá! Vi a página da Farolete e quero saber mais.">
         <svg class="btn-icon" viewBox="0 0 32 32" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.001 3C9.11 3 3.5 8.61 3.5 15.5c0 2.6.77 5.02 2.09 7.05L3.5 29l6.62-2.06a12.44 12.44 0 005.88 1.48h.01c6.89 0 12.5-5.61 12.5-12.5S22.89 3 16.001 3zm0 22.75c-1.9 0-3.76-.51-5.38-1.47l-.39-.23-4.02 1.25 1.28-3.92-.25-.4a10.2 10.2 0 01-1.6-5.48c0-5.66 4.61-10.27 10.27-10.27S26.27 9.84 26.27 15.5 21.66 25.75 16.001 25.75zm5.62-7.7c-.31-.15-1.82-.9-2.1-1-.28-.1-.49-.15-.69.15-.21.31-.79 1-.97 1.2-.18.21-.36.23-.67.08-.31-.15-1.29-.48-2.46-1.53-.91-.81-1.52-1.81-1.7-2.12-.18-.31-.02-.47.13-.62.14-.14.31-.36.46-.54.15-.18.2-.31.31-.51.1-.21.05-.39-.02-.54-.08-.15-.69-1.67-.95-2.29-.25-.6-.5-.52-.69-.53-.18-.01-.38-.01-.59-.01s-.54.08-.82.39c-.28.31-1.08 1.05-1.08 2.57s1.1 2.98 1.26 3.19c.15.21 2.17 3.31 5.26 4.65.73.32 1.31.51 1.75.65.74.24 1.41.2 1.94.12.59-.09 1.82-.74 2.08-1.46.26-.72.26-1.33.18-1.46-.08-.13-.28-.2-.59-.36z"/></svg>
         <span>Falar com a Farolete</span>
@@ -1247,17 +1287,13 @@
         <h2>Nos encontre<br>em Sarzedo.</h2>
     </div>
     <div class="local-grid">
-        <div>
+        <div class="local-map-col">
             <div class="map-frame">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3748.1930113258836!2d-44.1440501!3d-20.0423567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa6c7d3e840e22f%3A0x8ce795158bce023b!2sFAROLETE!5e0!3m2!1spt-BR!2sbr!4v1783342037138!5m2!1spt-BR!2sbr"
                         loading="lazy"
                         referrerpolicy="strict-origin-when-cross-origin"
                         allowfullscreen
                         title="Localização da Farolete no Google Maps"></iframe>
-            </div>
-            <div class="map-footer">
-                <p>Duas unidades em Sarzedo — Liberdade e Centro</p>
-                <a href="https://www.google.com/maps/dir/?api=1&destination=Av.+Zumbi+dos+Palmares,+138+-+Liberdade,+Sarzedo+-+MG,+32450-000" class="btn-ghost" target="_blank" rel="noopener">Como chegar <span class="btn-arrow">→</span></a>
             </div>
         </div>
         <aside class="local-card">
@@ -1268,11 +1304,11 @@
                 <li><span class="day">Domingo</span><span class="time closed">Fechado</span></li>
             </ul>
             <div class="local-contacts">
-                <p class="addr"><strong>Liberdade</strong><br>Av. Zumbi dos Palmares, 138<br>Sarzedo/MG</p>
-                <p class="addr"><strong>Centro</strong><br>Rua dos Rodoviários, 292<br>Sarzedo/MG</p>
+                <p class="addr"><strong>Unidade Zumbi dos Palmares</strong><br>Av. Zumbi dos Palmares, 138<br>Bairro Liberdade · Sarzedo/MG</p>
                 <a href="tel:+553135778346">Tel. (31) 3577-8346</a>
                 <a href="https://wa.me/5531999971820" class="whats-cta" data-msg="Olá! Vi a página da Farolete e quero saber mais.">WhatsApp (31) 99997-1820</a>
             </div>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=Av.+Zumbi+dos+Palmares,+138+-+Liberdade,+Sarzedo+-+MG,+32450-000" class="btn-ghost" target="_blank" rel="noopener">Como chegar <span class="btn-arrow">→</span></a>
         </aside>
     </div>
 </section>
@@ -1284,8 +1320,8 @@
     <div>
         <div class="footer-logo-badge"><img src="assets/imagens/logo_badge_v2.png" alt="Farolete Casa de Peças"></div>
         <p class="footer-addr">
-            Zumbi dos Palmares, 138 — Liberdade · Rua dos Rodoviários, 292 — Centro<br>
-            Sarzedo/MG · Tel: (31) 3577-8346 · WhatsApp: (31) 99997-1820<br>
+            Av. Zumbi dos Palmares, 138, Liberdade, Sarzedo/MG<br>
+            Tel: (31) 3577-8346 · WhatsApp: (31) 99997-1820<br>
             Seg–Sex 8h–18h · Sáb 8h–12h · Dom fechado
         </p>
         <a href="https://www.instagram.com/farolete_sarzedo" target="_blank" rel="noopener" class="footer-social">
@@ -1357,7 +1393,7 @@
                 <a class="prod-card prod-card-mais" data-cat="__mais__" href="${WA_MAIS}" target="_blank" rel="noopener">
                     <div class="prod-mais-inner">
                         <span class="prod-mais-label">E muito mais</span>
-                        <p>O estoque da loja vai além destas fotos — consulta no WhatsApp.</p>
+                        <p>O estoque da loja vai além destas fotos. Consulta no WhatsApp.</p>
                         <span class="prod-mais-cta">Consultar peça</span>
                     </div>
                 </a>`;
