@@ -2,6 +2,7 @@
 (function (global) {
   global.FaroleteSiteConfig = {
     whatsapp: '5531999971820',
+    phone: '553135778346',
     gtmId: 'GTM-K9C67C98',
     metaPixelId: '',
     googleAdsId: '',
