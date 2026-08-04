@@ -137,16 +137,19 @@
   async function postWebhook(lead, webhookUrl) {
     if (!webhookUrl) return;
     try {
+      // no-cors + text/plain: evita o preflight OPTIONS que o Apps Script
+      // (e a maioria dos webhooks tipo Make/n8n) nao responde, o que faria
+      // o POST cair silenciosamente mesmo com a URL certa configurada.
       await fetch(webhookUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(lead),
-        mode: 'cors',
+        mode: 'no-cors',
         keepalive: true
       });
     } catch (e) {
       try {
-        navigator.sendBeacon(webhookUrl, new Blob([JSON.stringify(lead)], { type: 'application/json' }));
+        navigator.sendBeacon(webhookUrl, new Blob([JSON.stringify(lead)], { type: 'text/plain;charset=utf-8' }));
       } catch (e2) {}
     }
   }

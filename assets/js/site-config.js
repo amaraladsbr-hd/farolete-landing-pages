@@ -8,6 +8,6 @@
     googleAdsId: '',
     tiktokPixelId: '',
     /** URL opcional (Make/n8n/Apps Script) que recebe POST JSON de cada lead */
-    leadsWebhook: ''
+    leadsWebhook: 'https://script.google.com/macros/s/AKfycbwghi4R2kKeHr_LnmL1PRAU92bSEVO9wnEDNNBhw2x_5ZZn1bxOTdaOGccW7IITe3EGZw/exec'
   };
 })(window);
