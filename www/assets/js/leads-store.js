@@ -3,14 +3,24 @@
   const LEADS_KEY = 'farolete_leads_v1';
   const TRACKING_KEY = 'farolete_tracking_v1';
   const UTM_KEY = 'farolete_utm_v1';
+  const STAGE_KEY = 'farolete_lead_stage_v1';
 
   const DEFAULT_TRACKING = {
     gtmId: 'GTM-K9C67C98',
     metaPixelId: '',
     googleAdsId: '',
     tiktokPixelId: '',
-    leadsWebhook: ''
+    leadsWebhook: '',
+    leadsReadKey: ''
   };
+
+  const DEFAULT_STAGES = [
+    { id: 'novo', label: 'Novo', color: '#ffc93c' },
+    { id: 'contatado', label: 'Contatado', color: '#5aa9ff' },
+    { id: 'orcamento', label: 'Orçamento enviado', color: '#b388ff' },
+    { id: 'fechado', label: 'Fechado', color: '#3dd68c' },
+    { id: 'perdido', label: 'Perdido', color: '#ff5a3c' }
+  ];
 
   function uid() {
     return 'l_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -78,10 +88,96 @@
       metaPixelId: String(cfg.metaPixelId || '').trim(),
       googleAdsId: String(cfg.googleAdsId || '').trim(),
       tiktokPixelId: String(cfg.tiktokPixelId || '').trim(),
-      leadsWebhook: String(cfg.leadsWebhook || '').trim()
+      leadsWebhook: String(cfg.leadsWebhook || '').trim(),
+      leadsReadKey: String(cfg.leadsReadKey || '').trim()
     };
     localStorage.setItem(TRACKING_KEY, JSON.stringify(clean));
     return clean;
+  }
+
+  /** Le os leads direto da planilha (via doGet do Apps Script). */
+  async function fetchRemoteLeads(cfg) {
+    const c = cfg || getTracking();
+    if (!c.leadsWebhook) return [];
+    const url = c.leadsWebhook + '?key=' + encodeURIComponent(c.leadsReadKey || '');
+    const res = await fetch(url, { method: 'GET', mode: 'cors' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const rows = await res.json();
+    if (rows && rows.error) throw new Error(rows.error);
+    if (!Array.isArray(rows)) return [];
+    return rows.map(normalizeRemoteLead).filter(Boolean);
+  }
+
+  function normalizeRemoteLead(row) {
+    if (!row || !row.id) return null;
+    return {
+      id: String(row.id),
+      createdAt: row.createdAt || '',
+      name: row.name || '',
+      phone: row.phone || '',
+      phoneDigits: onlyDigits(row.phoneDigits || row.phone || ''),
+      page: row.page || '',
+      pageTitle: row.pageTitle || '',
+      message: row.message || '',
+      source: row.source || '',
+      utm: {
+        utm_source: row.utm_source || '',
+        utm_medium: row.utm_medium || '',
+        utm_campaign: row.utm_campaign || '',
+        utm_content: row.utm_content || '',
+        utm_term: row.utm_term || '',
+        gclid: row.gclid || '',
+        fbclid: row.fbclid || '',
+        ttclid: row.ttclid || '',
+        landingPage: row.landingPage || ''
+      },
+      referrer: row.referrer || '',
+      userAgent: row.userAgent || '',
+      remote: true
+    };
+  }
+
+  /** Funil (Kanban) — etapa/observacoes ficam neste navegador (nao voltam pra planilha). */
+  function getStageMap() {
+    try {
+      const raw = localStorage.getItem(STAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveStageMap(map) {
+    localStorage.setItem(STAGE_KEY, JSON.stringify(map));
+  }
+
+  function getStage(id) {
+    const map = getStageMap();
+    return (map[id] && map[id].stage) || DEFAULT_STAGES[0].id;
+  }
+
+  function setStage(id, stage, notes) {
+    const map = getStageMap();
+    const prev = map[id] || {};
+    map[id] = { stage: stage || prev.stage || DEFAULT_STAGES[0].id, notes: notes != null ? notes : (prev.notes || ''), updatedAt: new Date().toISOString() };
+    saveStageMap(map);
+    return map[id];
+  }
+
+  function getNotes(id) {
+    const map = getStageMap();
+    return (map[id] && map[id].notes) || '';
+  }
+
+  /** Junta leads da planilha com os salvos localmente (fallback), sem duplicar por id, aplicando etapa do funil. */
+  function mergeLeads(remoteLeads, localLeads) {
+    const byId = new Map();
+    (localLeads || []).forEach(l => byId.set(l.id, l));
+    (remoteLeads || []).forEach(l => byId.set(l.id, l)); // planilha tem prioridade quando ha o mesmo id
+    const merged = Array.from(byId.values());
+    merged.forEach(l => { l.stage = getStage(l.id); });
+    merged.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+    return merged;
   }
 
   function captureUtmFromUrl() {
@@ -159,6 +255,7 @@
     TRACKING_KEY,
     UTM_KEY,
     DEFAULT_TRACKING,
+    DEFAULT_STAGES,
     uid,
     getLeads,
     saveLeads,
@@ -167,6 +264,11 @@
     clearLeads,
     getTracking,
     saveTracking,
+    fetchRemoteLeads,
+    mergeLeads,
+    getStage,
+    setStage,
+    getNotes,
     captureUtmFromUrl,
     getStoredUtm,
     onlyDigits,

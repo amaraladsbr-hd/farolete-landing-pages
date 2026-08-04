@@ -166,6 +166,53 @@
   }
   .toast.show{ opacity:1; }
 
+  /* Dashboard */
+  .dash-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-top:0.4rem; }
+  .dash-grid .panel-wide{ grid-column:1 / -1; }
+  @media (max-width:900px){ .dash-grid{ grid-template-columns:1fr; } }
+  .funnel{ display:flex; flex-direction:column; gap:0.7rem; }
+  .funnel-row{ display:grid; grid-template-columns:130px 1fr 34px; gap:0.7rem; align-items:center; font-size:0.85rem; }
+  .funnel-track{ background:var(--panel-2); height:10px; border:1px solid var(--line); }
+  .funnel-fill{ height:100%; }
+
+  /* Kanban */
+  .kanban-toolbar{ display:flex; gap:0.6rem; flex-wrap:wrap; margin-bottom:1.2rem; }
+  .kanban-toolbar input, .kanban-toolbar select{
+    background:var(--panel-2); border:1px solid var(--line); color:var(--white);
+    padding:0.65rem 0.8rem; font:inherit;
+  }
+  .kanban-toolbar input{ flex:1; min-width:200px; }
+  .kanban-board{ display:grid; grid-auto-flow:column; grid-auto-columns:260px; gap:1rem; overflow-x:auto; padding-bottom:1rem; }
+  .kanban-col{ background:var(--panel); border:1px solid var(--line); display:flex; flex-direction:column; min-height:200px; }
+  .kanban-col-head{
+    display:flex; align-items:center; justify-content:space-between; padding:0.75rem 0.9rem;
+    border-bottom:1px solid var(--line); font-family:'Barlow Condensed', sans-serif; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.6px; font-size:0.82rem;
+  }
+  .kanban-col-head .dot{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:0.4rem; }
+  .kanban-col-body{ padding:0.6rem; display:flex; flex-direction:column; gap:0.6rem; min-height:120px; flex:1; }
+  .kanban-col-body.drag-over{ background:rgba(255,201,60,0.06); }
+  .kanban-card{ background:var(--panel-2); border:1px solid rgba(255,201,60,0.2); padding:0.7rem 0.8rem; cursor:grab; }
+  .kanban-card h4{ font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:0.9rem; text-transform:uppercase; margin-bottom:0.2rem; }
+  .kanban-card p{ color:var(--muted); font-size:0.78rem; }
+  .kanban-card .tags{ margin-top:0.4rem; display:flex; flex-wrap:wrap; gap:0.25rem; }
+
+  /* Modal */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(0,0,0,0.6); display:flex;
+    align-items:center; justify-content:center; z-index:60; padding:1.2rem;
+  }
+  .modal-backdrop[hidden]{ display:none; }
+  .modal-card{ width:100%; max-width:480px; background:var(--panel); border:1px solid var(--line); padding:1.4rem; max-height:88vh; overflow:auto; }
+  .modal-card h3{ font-family:'Anton', sans-serif; font-size:1.15rem; text-transform:uppercase; color:var(--amber); margin-bottom:0.3rem; }
+  .modal-card .sub{ color:var(--muted); font-size:0.85rem; margin-bottom:1rem; }
+  .modal-actions{ display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:1rem; justify-content:flex-end; }
+
+  .banner{ padding:0.8rem 1rem; border:1px solid var(--line); margin-bottom:1.2rem; font-size:0.88rem; }
+  .banner-error{ border-color:rgba(255,90,60,0.4); color:var(--danger); background:rgba(255,90,60,0.08); }
+  .banner-loading{ color:var(--muted); }
+  .banner[hidden]{ display:none; }
+
   #app{ display:none; }
   body.is-authed #app{ display:block; }
   body.is-authed #loginGate{ display:none; }
@@ -233,6 +280,8 @@
 
 <nav class="tabs" role="tablist">
   <button type="button" class="tab-btn active" data-tab="catalogo" role="tab">Catálogo</button>
+  <button type="button" class="tab-btn" data-tab="dashboard" role="tab">Dashboard</button>
+  <button type="button" class="tab-btn" data-tab="kanban" role="tab">Kanban</button>
   <button type="button" class="tab-btn" data-tab="leads" role="tab">Leads <span id="leadsBadge"></span></button>
   <button type="button" class="tab-btn" data-tab="rastreamento" role="tab">Rastreamento</button>
 </nav>
@@ -284,8 +333,69 @@
   </div>
 </section>
 
+<!-- TAB DASHBOARD -->
+<section class="tab-panel" id="tab-dashboard">
+  <div class="banner banner-error" id="dashError" hidden></div>
+  <div class="stats-row" id="dashStats"></div>
+  <div class="dash-grid">
+    <section class="panel">
+      <h2>Funil</h2>
+      <div class="funnel" id="dashFunnel"></div>
+    </section>
+    <section class="panel">
+      <h2>Origem (utm_source)</h2>
+      <div id="dashSources"></div>
+    </section>
+    <section class="panel panel-wide">
+      <h2>Leads recentes</h2>
+      <div class="leads-table-wrap">
+        <table class="leads">
+          <thead><tr><th>Data</th><th>Nome</th><th>Telefone</th><th>Etapa</th><th>Origem</th></tr></thead>
+          <tbody id="dashRecentBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- TAB KANBAN -->
+<section class="tab-panel" id="tab-kanban">
+  <div class="banner banner-error" id="kanbanError" hidden></div>
+  <div class="kanban-toolbar">
+    <input type="search" id="kanbanSearch" placeholder="Buscar nome ou telefone…">
+    <button type="button" class="btn-ghost" id="btnRefreshKanban">Atualizar da planilha</button>
+  </div>
+  <div class="kanban-board" id="kanbanBoard"></div>
+</section>
+
+<!-- MODAL LEAD -->
+<div class="modal-backdrop" id="leadModal" hidden>
+  <div class="modal-card">
+    <h3 id="modalTitle">Lead</h3>
+    <p class="sub" id="modalSub"></p>
+    <div class="field">
+      <label for="modalStage">Etapa</label>
+      <select id="modalStage"></select>
+    </div>
+    <div class="field">
+      <label for="modalNotes">Observações</label>
+      <textarea id="modalNotes" placeholder="Anotações sobre este lead…"></textarea>
+    </div>
+    <div class="field">
+      <label>Origem / UTM</label>
+      <div id="modalUtm" class="hint" style="margin-top:0;"></div>
+    </div>
+    <div class="modal-actions">
+      <a class="btn-ghost" id="modalWpp" target="_blank" rel="noopener">Abrir WhatsApp</a>
+      <button type="button" class="btn-ghost" id="modalClose">Fechar</button>
+      <button type="button" class="btn" id="modalSave">Salvar</button>
+    </div>
+  </div>
+</div>
+
 <!-- TAB LEADS -->
 <section class="tab-panel" id="tab-leads">
+  <div class="banner banner-error" id="leadsError" hidden></div>
   <div class="stats-row">
     <div class="stat-box"><strong id="statTotal">0</strong><span>Leads totais</span></div>
     <div class="stat-box"><strong id="statToday">0</strong><span>Hoje</span></div>
@@ -295,16 +405,17 @@
     <div class="panel-head">
       <h2>Leads capturados</h2>
       <div class="header-actions">
+        <button type="button" class="btn-ghost" id="btnRefreshLeads">Atualizar da planilha</button>
         <button type="button" class="btn-ghost" id="btnExportLeads">Exportar CSV</button>
         <button type="button" class="btn-ghost" id="btnExportLeadsJson">Exportar JSON</button>
         <label class="btn-ghost" for="importLeadsFile">Importar JSON</label>
         <input type="file" id="importLeadsFile" accept="application/json,.json" hidden>
-        <button type="button" class="btn-danger" id="btnClearLeads">Limpar todos</button>
+        <button type="button" class="btn-danger" id="btnClearLeads">Limpar locais</button>
       </div>
     </div>
     <p class="hint" style="margin-top:0;margin-bottom:1rem;">
       Cada clique no WhatsApp do site/LP pede nome + telefone com DDD. UTMs da URL (utm_source, campanha, gclid, fbclid…) ficam salvos com o lead.
-      Para receber leads de visitantes em outro computador, configure um <strong>Webhook</strong> na aba Rastreamento (Make, n8n ou Google Apps Script).
+      Os leads mostrados aqui vêm da planilha Google (configurada na aba Rastreamento) somados aos salvos neste navegador.
     </p>
     <div class="leads-table-wrap">
       <table class="leads">
@@ -313,6 +424,7 @@
             <th>Data</th>
             <th>Nome</th>
             <th>Telefone</th>
+            <th>Etapa</th>
             <th>Página</th>
             <th>UTMs / origem</th>
             <th></th>
@@ -348,8 +460,12 @@
           <input id="tiktokPixelId" placeholder="Ex: CXXXXXXXXXXXXXXX" autocomplete="off">
         </div>
         <div class="field">
-          <label for="leadsWebhook">Webhook de leads (opcional)</label>
-          <input id="leadsWebhook" placeholder="https://hook… / Apps Script / Make">
+          <label for="leadsWebhook">Webhook de leads (Apps Script)</label>
+          <input id="leadsWebhook" placeholder="https://script.google.com/macros/s/…/exec">
+        </div>
+        <div class="field">
+          <label for="leadsReadKey">Chave de leitura de leads (READ_KEY)</label>
+          <input id="leadsReadKey" placeholder="a mesma chave do doGet no Apps Script" autocomplete="off">
         </div>
         <div class="form-actions">
           <button type="submit" class="btn">Salvar rastreamento</button>
@@ -358,6 +474,8 @@
         <p class="hint">
           O GTM <strong>GTM-K9C67C98</strong> já vem ativo no site e nas LPs.
           Pixel e demais IDs: salve aqui (vale neste navegador) e use <strong>Baixar site-config.js</strong> pra publicar o arquivo em <code>assets/js/site-config.js</code>.
+          O Webhook + Chave de leitura são o que permitem as abas Dashboard/Kanban/Leads mostrarem os leads reais da planilha (ver <code>docs/apps-script-leads.gs</code>).
+          <strong>A chave de leitura NUNCA vai pro site-config.js publicado</strong> (ela dá acesso a nome/telefone de todos os leads) — clique em "Salvar rastreamento" pra guardá-la só neste navegador, e repita em cada navegador que for usar o admin.
         </p>
       </form>
     </section>
@@ -368,6 +486,7 @@
       <div class="field"><label>Google Ads</label><p id="statusAds" class="muted">—</p></div>
       <div class="field"><label>TikTok</label><p id="statusTt" class="muted">—</p></div>
       <div class="field"><label>Webhook</label><p id="statusHook" class="muted">—</p></div>
+      <div class="field"><label>Chave de leitura</label><p id="statusReadKey" class="muted">—</p></div>
       <p class="hint">
         Evento GTM disparado no lead: <code>farolete_lead</code> (com nome, telefone e UTMs no dataLayer).
         Também dispara Contact/Lead no Meta Pixel quando o ID estiver preenchido.
@@ -456,7 +575,7 @@ function startAdmin(){
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-      if (btn.dataset.tab === 'leads') renderLeads();
+      if (['dashboard', 'kanban', 'leads'].includes(btn.dataset.tab)) loadLeads();
       if (btn.dataset.tab === 'rastreamento') fillTracking();
     });
   });
@@ -642,9 +761,191 @@ function startAdmin(){
     e.target.value = '';
   });
 
-  /* ─── LEADS ─── */
+  /* ─── LEADS: carregamento (planilha + local) ─── */
+  const leadsState = { list: [], loading: false, error: '' };
+
+  async function loadLeads(){
+    if (leadsState.loading) return;
+    leadsState.loading = true;
+    leadsState.error = '';
+    showLeadsBanners();
+    const cfg = FaroleteLeads.getTracking();
+    let remote = [];
+    if (cfg.leadsWebhook) {
+      try {
+        remote = await FaroleteLeads.fetchRemoteLeads(cfg);
+      } catch (err) {
+        leadsState.error = 'Não foi possível ler a planilha (' + err.message + '). Mostrando só os leads salvos neste navegador.';
+      }
+    }
+    leadsState.list = FaroleteLeads.mergeLeads(remote, FaroleteLeads.getLeads());
+    leadsState.loading = false;
+    showLeadsBanners();
+    renderDashboard();
+    renderKanban();
+    renderLeads();
+  }
+
+  function showLeadsBanners(){
+    const msg = leadsState.loading ? 'Carregando leads da planilha…' : (leadsState.error || '');
+    ['dashError', 'kanbanError', 'leadsError'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.toggle('banner-loading', leadsState.loading);
+      el.classList.toggle('banner-error', !leadsState.loading && !!leadsState.error);
+      el.textContent = msg;
+      el.hidden = !msg;
+    });
+  }
+
+  function stageInfo(id){
+    return FaroleteLeads.DEFAULT_STAGES.find(s => s.id === id) || FaroleteLeads.DEFAULT_STAGES[0];
+  }
+
+  function utmChips(l){
+    const utm = l.utm || {};
+    return ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid']
+      .filter(k => utm[k])
+      .map(k => `<span class="utm-chip">${escapeHtml(k.replace('utm_',''))}: ${escapeHtml(utm[k])}</span>`)
+      .join('') || '<span class="muted">direto / sem UTM</span>';
+  }
+
+  /* ─── DASHBOARD ─── */
+  function renderDashboard(){
+    const leads = leadsState.list;
+    const today = new Date().toISOString().slice(0, 10);
+    const weekAgo = Date.now() - 7 * 24 * 3600 * 1000;
+    const stats = [
+      { lbl: 'Leads totais', num: leads.length },
+      { lbl: 'Hoje', num: leads.filter(l => (l.createdAt || '').slice(0, 10) === today).length },
+      { lbl: 'Últimos 7 dias', num: leads.filter(l => new Date(l.createdAt).getTime() >= weekAgo).length },
+      { lbl: 'Fechados', num: leads.filter(l => l.stage === 'fechado').length }
+    ];
+    document.getElementById('dashStats').innerHTML = stats.map(s =>
+      `<div class="stat-box"><strong>${s.num}</strong><span>${s.lbl}</span></div>`
+    ).join('');
+
+    const byStage = {};
+    FaroleteLeads.DEFAULT_STAGES.forEach(s => { byStage[s.id] = 0; });
+    leads.forEach(l => { byStage[l.stage] = (byStage[l.stage] || 0) + 1; });
+    const max = Math.max(1, ...Object.values(byStage));
+    document.getElementById('dashFunnel').innerHTML = FaroleteLeads.DEFAULT_STAGES.map(s => {
+      const n = byStage[s.id] || 0;
+      const pct = Math.round((n / max) * 100);
+      return `<div class="funnel-row"><span>${escapeHtml(s.label)}</span><div class="funnel-track"><div class="funnel-fill" style="width:${pct}%;background:${s.color}"></div></div><span>${n}</span></div>`;
+    }).join('');
+
+    const bySource = {};
+    leads.forEach(l => {
+      const src = (l.utm && l.utm.utm_source) || 'direto';
+      bySource[src] = (bySource[src] || 0) + 1;
+    });
+    const srcKeys = Object.keys(bySource).sort((a, b) => bySource[b] - bySource[a]);
+    document.getElementById('dashSources').innerHTML = srcKeys.length
+      ? srcKeys.map(k => `<div class="field" style="display:flex;justify-content:space-between;margin-bottom:0.5rem;"><span>${escapeHtml(k)}</span><strong>${bySource[k]}</strong></div>`).join('')
+      : '<p class="empty">Nenhuma origem ainda.</p>';
+
+    const recent = leads.slice(0, 8);
+    document.getElementById('dashRecentBody').innerHTML = recent.length
+      ? recent.map(l => {
+          const when = l.createdAt ? new Date(l.createdAt).toLocaleString('pt-BR') : '—';
+          return `<tr><td>${escapeHtml(when)}</td><td><strong>${escapeHtml(l.name)}</strong></td><td>${escapeHtml(l.phone)}</td><td>${escapeHtml(stageInfo(l.stage).label)}</td><td>${escapeHtml((l.utm && l.utm.utm_source) || 'direto')}</td></tr>`;
+        }).join('')
+      : '<tr><td colspan="5" class="empty">Nenhum lead ainda.</td></tr>';
+  }
+
+  /* ─── KANBAN ─── */
+  function renderKanban(){
+    const q = (document.getElementById('kanbanSearch').value || '').toLowerCase().trim();
+    const list = leadsState.list.filter(l => !q || (l.name || '').toLowerCase().includes(q) || (l.phone || '').includes(q));
+    const board = document.getElementById('kanbanBoard');
+    board.innerHTML = FaroleteLeads.DEFAULT_STAGES.map(s => {
+      const cards = list.filter(l => l.stage === s.id);
+      const cardsHtml = cards.map(l => {
+        const utm = l.utm || {};
+        const tags = [];
+        if (utm.utm_source) tags.push(`<span class="utm-chip">${escapeHtml(utm.utm_source)}</span>`);
+        if (utm.utm_campaign) tags.push(`<span class="utm-chip">${escapeHtml(utm.utm_campaign)}</span>`);
+        return `<article class="kanban-card" draggable="true" data-id="${l.id}">
+          <h4>${escapeHtml(l.name || 'Sem nome')}</h4>
+          <p>${escapeHtml(l.phone || '')}</p>
+          ${tags.length ? `<div class="tags">${tags.join('')}</div>` : ''}
+        </article>`;
+      }).join('');
+      return `<div class="kanban-col">
+        <div class="kanban-col-head"><span><span class="dot" style="background:${s.color}"></span>${escapeHtml(s.label)}</span><span>${cards.length}</span></div>
+        <div class="kanban-col-body" data-stage="${s.id}">${cardsHtml}</div>
+      </div>`;
+    }).join('');
+
+    board.querySelectorAll('.kanban-card').forEach(card => {
+      card.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', card.dataset.id);
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      card.addEventListener('click', () => openLeadModal(card.dataset.id));
+    });
+    board.querySelectorAll('.kanban-col-body').forEach(body => {
+      body.addEventListener('dragover', e => { e.preventDefault(); body.classList.add('drag-over'); });
+      body.addEventListener('dragleave', () => body.classList.remove('drag-over'));
+      body.addEventListener('drop', e => {
+        e.preventDefault();
+        body.classList.remove('drag-over');
+        const id = e.dataTransfer.getData('text/plain');
+        const stage = body.dataset.stage;
+        if (!id || !stage) return;
+        FaroleteLeads.setStage(id, stage);
+        const lead = leadsState.list.find(l => l.id === id);
+        if (lead) lead.stage = stage;
+        renderDashboard();
+        renderKanban();
+        renderLeads();
+      });
+    });
+  }
+
+  document.getElementById('kanbanSearch').addEventListener('input', renderKanban);
+  document.getElementById('btnRefreshKanban').addEventListener('click', loadLeads);
+  document.getElementById('btnRefreshLeads').addEventListener('click', loadLeads);
+
+  /* ─── MODAL LEAD ─── */
+  const leadModal = document.getElementById('leadModal');
+  let modalLeadId = null;
+
+  function openLeadModal(id){
+    const lead = leadsState.list.find(l => l.id === id);
+    if (!lead) return;
+    modalLeadId = id;
+    document.getElementById('modalTitle').textContent = lead.name || 'Lead';
+    document.getElementById('modalSub').textContent = (lead.phone || '') + ' · ' + (lead.createdAt ? new Date(lead.createdAt).toLocaleString('pt-BR') : '—');
+    const stageSelect = document.getElementById('modalStage');
+    stageSelect.innerHTML = FaroleteLeads.DEFAULT_STAGES.map(s => `<option value="${s.id}">${escapeHtml(s.label)}</option>`).join('');
+    stageSelect.value = lead.stage;
+    document.getElementById('modalNotes').value = FaroleteLeads.getNotes(id);
+    document.getElementById('modalUtm').innerHTML = utmChips(lead);
+    const wpp = document.getElementById('modalWpp');
+    wpp.href = lead.phoneDigits ? ('https://wa.me/55' + lead.phoneDigits) : '#';
+    leadModal.hidden = false;
+  }
+
+  document.getElementById('modalClose').addEventListener('click', () => { leadModal.hidden = true; });
+  leadModal.addEventListener('click', e => { if (e.target === leadModal) leadModal.hidden = true; });
+  document.getElementById('modalSave').addEventListener('click', () => {
+    if (!modalLeadId) return;
+    const stage = document.getElementById('modalStage').value;
+    const notes = document.getElementById('modalNotes').value;
+    FaroleteLeads.setStage(modalLeadId, stage, notes);
+    const lead = leadsState.list.find(l => l.id === modalLeadId);
+    if (lead) lead.stage = stage;
+    leadModal.hidden = true;
+    renderDashboard();
+    renderKanban();
+    renderLeads();
+    showToast('Lead atualizado');
+  });
+
+  /* ─── LISTA DE LEADS ─── */
   function renderLeads(){
-    const leads = FaroleteLeads.getLeads();
+    const leads = leadsState.list;
     const body = document.getElementById('leadsBody');
     const empty = document.getElementById('leadsEmpty');
     const badge = document.getElementById('leadsBadge');
@@ -658,20 +959,18 @@ function startAdmin(){
     body.innerHTML = '';
     empty.hidden = leads.length > 0;
     leads.forEach(l => {
-      const utm = l.utm || {};
-      const chips = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid']
-        .filter(k => utm[k])
-        .map(k => `<span class="utm-chip">${escapeHtml(k.replace('utm_',''))}: ${escapeHtml(utm[k])}</span>`)
-        .join('') || '<span class="muted">direto / sem UTM</span>';
       const tr = document.createElement('tr');
+      tr.style.cursor = 'pointer';
       const when = l.createdAt ? new Date(l.createdAt).toLocaleString('pt-BR') : '—';
       tr.innerHTML = `
         <td>${escapeHtml(when)}</td>
         <td><strong>${escapeHtml(l.name)}</strong></td>
-        <td><a href="https://wa.me/55${escapeHtml(l.phoneDigits || '')}" target="_blank" rel="noopener">${escapeHtml(l.phone)}</a></td>
+        <td><a href="https://wa.me/55${escapeHtml(l.phoneDigits || '')}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${escapeHtml(l.phone)}</a></td>
+        <td>${escapeHtml(stageInfo(l.stage).label)}</td>
         <td class="muted">${escapeHtml(l.pageTitle || l.page || '—')}<br><small>${escapeHtml(l.page || '')}</small></td>
-        <td>${chips}</td>
-        <td><button type="button" class="btn-danger" data-lead-del="${l.id}">Excluir</button></td>`;
+        <td>${utmChips(l)}</td>
+        <td>${l.remote ? '' : `<button type="button" class="btn-danger" data-lead-del="${l.id}">Excluir</button>`}</td>`;
+      tr.addEventListener('click', (e) => { if (!e.target.closest('[data-lead-del]')) openLeadModal(l.id); });
       body.appendChild(tr);
     });
   }
@@ -679,25 +978,26 @@ function startAdmin(){
   document.getElementById('leadsBody').addEventListener('click', (e) => {
     const id = e.target.getAttribute('data-lead-del');
     if (!id) return;
-    if (!confirm('Excluir este lead?')) return;
+    e.stopPropagation();
+    if (!confirm('Excluir este lead salvo neste navegador? (leads da planilha continuam lá, apague direto no Sheets)')) return;
     FaroleteLeads.deleteLead(id);
-    renderLeads();
+    loadLeads();
     showToast('Lead excluído');
   });
 
   document.getElementById('btnClearLeads').addEventListener('click', () => {
-    if (!confirm('Apagar TODOS os leads?')) return;
+    if (!confirm('Apagar os leads salvos neste navegador? (os da planilha continuam lá)')) return;
     FaroleteLeads.clearLeads();
-    renderLeads();
-    showToast('Leads limpos');
+    loadLeads();
+    showToast('Leads locais limpos');
   });
 
   document.getElementById('btnExportLeads').addEventListener('click', () => {
-    const leads = FaroleteLeads.getLeads();
-    const header = ['data','nome','telefone','pagina','titulo','utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid','mensagem'];
+    const leads = leadsState.list;
+    const header = ['data','nome','telefone','etapa','pagina','titulo','utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid','mensagem'];
     const rows = leads.map(l => {
       const u = l.utm || {};
-      return [l.createdAt, l.name, l.phone, l.page, l.pageTitle, u.utm_source, u.utm_medium, u.utm_campaign, u.utm_content, u.utm_term, u.gclid, u.fbclid, (l.message || '').replace(/\n/g,' ')]
+      return [l.createdAt, l.name, l.phone, stageInfo(l.stage).label, l.page, l.pageTitle, u.utm_source, u.utm_medium, u.utm_campaign, u.utm_content, u.utm_term, u.gclid, u.fbclid, (l.message || '').replace(/\n/g,' ')]
         .map(v => '"' + String(v || '').replace(/"/g, '""') + '"').join(',');
     });
     const blob = new Blob([[header.join(',')].concat(rows).join('\n')], { type: 'text/csv;charset=utf-8' });
@@ -710,7 +1010,7 @@ function startAdmin(){
   });
 
   document.getElementById('btnExportLeadsJson').addEventListener('click', () => {
-    const blob = new Blob([JSON.stringify(FaroleteLeads.getLeads(), null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(leadsState.list, null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'farolete-leads.json';
@@ -736,7 +1036,7 @@ function startAdmin(){
         });
         merged.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
         FaroleteLeads.saveLeads(merged);
-        renderLeads();
+        loadLeads();
         showToast('Leads importados');
       } catch (err) { showToast('JSON inválido'); }
     };
@@ -752,12 +1052,14 @@ function startAdmin(){
     document.getElementById('googleAdsId').value = cfg.googleAdsId || '';
     document.getElementById('tiktokPixelId').value = cfg.tiktokPixelId || '';
     document.getElementById('leadsWebhook').value = cfg.leadsWebhook || '';
+    document.getElementById('leadsReadKey').value = cfg.leadsReadKey || '';
     const on = (v) => v ? `<span class="badge-on">Ativo · ${escapeHtml(v)}</span>` : '<span class="badge-off">Não configurado</span>';
     document.getElementById('statusGtm').innerHTML = on(cfg.gtmId);
     document.getElementById('statusMeta').innerHTML = on(cfg.metaPixelId);
     document.getElementById('statusAds').innerHTML = on(cfg.googleAdsId);
     document.getElementById('statusTt').innerHTML = on(cfg.tiktokPixelId);
     document.getElementById('statusHook').innerHTML = on(cfg.leadsWebhook);
+    document.getElementById('statusReadKey').innerHTML = on(cfg.leadsReadKey);
   }
 
   document.getElementById('trackingForm').addEventListener('submit', (e) => {
@@ -767,7 +1069,8 @@ function startAdmin(){
       metaPixelId: document.getElementById('metaPixelId').value,
       googleAdsId: document.getElementById('googleAdsId').value,
       tiktokPixelId: document.getElementById('tiktokPixelId').value,
-      leadsWebhook: document.getElementById('leadsWebhook').value
+      leadsWebhook: document.getElementById('leadsWebhook').value,
+      leadsReadKey: document.getElementById('leadsReadKey').value
     });
     fillTracking();
     showToast('Rastreamento salvo');
@@ -776,6 +1079,10 @@ function startAdmin(){
   document.getElementById('btnDownloadConfig').addEventListener('click', () => {
     const cfg = FaroleteLeads.getTracking();
     const wa = (window.FaroleteSiteConfig && FaroleteSiteConfig.whatsapp) || '5531999971820';
+    // leadsReadKey fica DE FORA de propósito: esse arquivo é publicado no site
+    // publicamente (view-source aberto), e a chave de leitura protege o doGet
+    // que devolve nome/telefone/mensagem de todos os leads. Ela só deve viver
+    // no localStorage de quem usa o admin (preencha de novo em cada navegador).
     const js = `/* Farolete — config pública de rastreamento (publicar junto com o site) */\n(function (global) {\n  global.FaroleteSiteConfig = {\n    whatsapp: '${wa}',\n    gtmId: '${(cfg.gtmId || '').replace(/'/g, "\\'")}',\n    metaPixelId: '${(cfg.metaPixelId || '').replace(/'/g, "\\'")}',\n    googleAdsId: '${(cfg.googleAdsId || '').replace(/'/g, "\\'")}',\n    tiktokPixelId: '${(cfg.tiktokPixelId || '').replace(/'/g, "\\'")}',\n    leadsWebhook: '${(cfg.leadsWebhook || '').replace(/'/g, "\\'")}'\n  };\n})(window);\n`;
     const blob = new Blob([js], { type: 'text/javascript' });
     const a = document.createElement('a');
@@ -783,11 +1090,11 @@ function startAdmin(){
     a.download = 'site-config.js';
     a.click();
     URL.revokeObjectURL(a.href);
-    showToast('Baixe e substitua assets/js/site-config.js');
+    showToast('Baixe e substitua assets/js/site-config.js (a chave de leitura NAO vai nesse arquivo — fica só no navegador do admin)');
   });
 
   renderCatalog();
-  renderLeads();
+  loadLeads();
   fillTracking();
 }
 
