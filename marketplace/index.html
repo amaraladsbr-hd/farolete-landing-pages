@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<!--
+  Farolete Loja — marketplace
+  Banner: arte completa (width 100% / height auto, sem crop).
+  Fluxo: categoria → produto → carrinho → WhatsApp. Fatos do kickoff.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Farolete Loja | Catálogo completo de autopeças em Sarzedo</title>
+<meta name="description" content="Vitrine Farolete Casa de Peças: navegue pelo catálogo completo por categoria, monte o pedido e confirme no WhatsApp.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://marketplace.farolete.com.br/">
+<link rel="icon" href="assets/imagens/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/imagens/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/imagens/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#1c120e">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Farolete Casa de Peças">
+<meta property="og:title" content="Farolete Loja | Catálogo completo de autopeças em Sarzedo">
+<meta property="og:description" content="Navegue pelo catálogo completo por categoria, monte o pedido e confirme no WhatsApp.">
+<meta property="og:url" content="https://marketplace.farolete.com.br/">
+<meta property="og:image" content="https://marketplace.farolete.com.br/assets/imagens/banner_estoque.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Farolete Loja | Catálogo completo">
+<meta name="twitter:description" content="Navegue pelo catálogo completo por categoria e confirme o pedido no WhatsApp.">
+<meta name="twitter:image" content="https://marketplace.farolete.com.br/assets/imagens/banner_estoque.jpg">
+<script src="assets/js/site-config.js"></script>
+<script src="assets/js/catalog-store.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brown:#1c120e;
+  --brown-2:#2f1d15;
+  --brown-3:#4a3226;
+  --amber:#ffc93c;
+  --amber-deep:#e8b41f;
+  --wa:#1f9e56;
+  --wa-dark:#188a49;
+  --ink:#1a1410;
+  --muted:#6b635c;
+  --line:#e8e4de;
+  --bg:#faf9f7;
+  --card:#fff;
+  --danger:#e11d48;
+  --radius:14px;
+  --wrap:min(1200px, calc(100% - 2rem));
+  --shadow:0 12px 36px rgba(28,18,14,.09);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"DM Sans",system-ui,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+.wrap{width:var(--wrap);margin-inline:auto}
+
+/* —— Top —— */
+.topbar{
+  background:var(--brown);color:#d4cbc3;font-size:.8rem;
+}
+.topbar .wrap{
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  padding:.5rem 0;align-items:center;
+}
+.topbar a{color:#fff}
+.topbar a:hover{color:var(--amber)}
+
+/* —— Header —— */
+.header{
+  background:var(--brown-2);position:sticky;top:0;z-index:70;
+  box-shadow:0 1px 0 rgba(255,255,255,.04);
+}
+.header-inner{
+  display:grid;grid-template-columns:auto 1fr auto;gap:1rem;
+  align-items:center;padding:.8rem 0;
+}
+.logo{display:flex;align-items:center;gap:.7rem}
+.logo img{
+  height:48px;width:auto;background:transparent;border-radius:0;padding:0;
+}
+.logo strong{
+  font-family:Archivo,sans-serif;color:#fff;font-size:1.05rem;
+  font-weight:800;letter-spacing:.04em;line-height:1.05;
+}
+.logo span{display:block;color:#b8aea4;font-size:.72rem;font-weight:500}
+.search{
+  display:flex;align-items:center;gap:.55rem;background:#fff;
+  border-radius:999px;padding:.72rem 1.1rem;min-width:0;
+}
+.search svg{opacity:.4;flex:0 0 auto}
+.search input{border:0;outline:0;width:100%;min-width:0;background:transparent}
+.cart-btn{
+  position:relative;width:48px;height:48px;border-radius:12px;
+  background:var(--wa);display:grid;place-items:center;color:#fff;
+  transition:background .2s, transform .2s;
+}
+.cart-btn:hover{background:var(--wa-dark);transform:translateY(-1px)}
+.cart-btn .badge{
+  position:absolute;top:-5px;right:-5px;min-width:20px;height:20px;
+  padding:0 5px;border-radius:999px;background:var(--danger);color:#fff;
+  font-size:.68rem;font-weight:800;display:inline-flex;align-items:center;
+  justify-content:center;border:2px solid var(--brown-2);
+}
+
+/* —— Cats —— */
+.cats-bar{background:var(--brown);border-top:1px solid rgba(255,255,255,.05)}
+.cats-bar .wrap{
+  display:flex;gap:.1rem;overflow-x:auto;scrollbar-width:none;padding:.15rem 0;
+}
+.cats-bar .wrap::-webkit-scrollbar{display:none}
+.cat-link{
+  flex:0 0 auto;color:#d4cbc3;padding:.8rem .95rem;font-size:.8rem;
+  font-family:Archivo,sans-serif;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;white-space:nowrap;opacity:.8;position:relative;
+  transition:opacity .2s, color .2s;
+}
+.cat-link:hover,.cat-link.active{opacity:1;color:#fff}
+.cat-link.active::after{
+  content:"";position:absolute;left:.65rem;right:.65rem;bottom:0;height:3px;
+  background:var(--amber);border-radius:3px 3px 0 0;
+}
+
+/* —— Banner carousel (arte completa, sem crop) —— */
+.banners{
+  background:#0b0b0b;
+  padding:1.1rem 0 0;
+}
+.banners-frame{
+  width:var(--wrap);margin-inline:auto;
+  position:relative;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  background:#0b0b0b;
+}
+.banner-track{
+  display:flex;
+  transition:transform .5s cubic-bezier(.22,.8,.2,1);
+  will-change:transform;
+}
+.banner-slide{
+  flex:0 0 100%;
+  width:100%;
+  min-width:100%;
+}
+.banner-slide a{
+  display:block;
+  line-height:0;
+}
+.banner-slide img{
+  width:100%;
+  height:auto;          /* proporção nativa — imagem inteira */
+  object-fit:contain;
+  background:#0b0b0b;
+}
+.banner-nav{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:space-between;
+  pointer-events:none;padding:0 .55rem;z-index:2;
+}
+.banner-nav button{
+  pointer-events:auto;width:40px;height:40px;border-radius:999px;
+  background:rgba(0,0,0,.45);color:#fff;display:grid;place-items:center;
+  backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.15);
+  transition:background .2s;
+}
+.banner-nav button:hover{background:rgba(0,0,0,.7)}
+.banner-dots{
+  display:flex;justify-content:center;gap:.4rem;
+  padding:.85rem 0 0;
+}
+.banner-dots button{
+  width:8px;height:8px;border-radius:999px;background:#c4b8ac;
+  transition:width .2s, background .2s;
+}
+.banner-dots button.active{width:22px;background:var(--amber)}
+
+/* —— Trust —— */
+.trust{
+  background:var(--card);border-bottom:1px solid var(--line);
+  margin-top:1.1rem;
+}
+.trust .wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:1.2rem 0;
+}
+@media(min-width:860px){.trust .wrap{grid-template-columns:repeat(4,1fr)}}
+.trust-item{display:flex;gap:.7rem;align-items:flex-start}
+.trust-item i{
+  flex:0 0 40px;height:40px;border-radius:11px;
+  background:#fff6d9;color:#8a6a10;border:1px solid #f0e0a8;
+  display:grid;place-items:center;
+}
+.trust-item strong{display:block;font-size:.92rem;font-family:Archivo,sans-serif;font-weight:700}
+.trust-item span{display:block;font-size:.8rem;color:var(--muted)}
+
+/* —— Buttons —— */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  min-height:44px;padding:.65rem 1.1rem;border-radius:10px;font-weight:700;
+  font-family:Archivo,sans-serif;font-size:.88rem;letter-spacing:.02em;
+  transition:transform .2s, background .2s, border-color .2s;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa:hover{background:var(--wa-dark)}
+.btn-amber{background:var(--amber);color:var(--brown)}
+.btn-amber:hover{background:var(--amber-deep)}
+.btn-line{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+.btn-line:hover{border-color:#cfc6ba;background:#f7f5f2}
+.btn-sm{min-height:40px;padding:.45rem .7rem;font-size:.78rem;border-radius:9px}
+.btn-block{width:100%}
+
+/* —— Sections —— */
+.section{padding:2rem 0 0}
+.section-head{
+  display:flex;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:1rem;
+}
+.section-head h2{
+  font-family:Archivo,sans-serif;font-size:1.35rem;font-weight:800;letter-spacing:-.02em;
+}
+.section-head a{color:#9a7a12;font-weight:700;font-size:.9rem}
+.section-head a:hover{text-decoration:underline}
+
+.promo{
+  margin-top:1.6rem;
+}
+.promo-card{
+  background:linear-gradient(115deg, var(--brown) 0%, var(--brown-2) 50%, #5a3d28 100%);
+  border-radius:16px;padding:1.5rem 1.6rem;color:#fff;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;
+}
+.promo-card h2{
+  font-family:Archivo,sans-serif;font-size:clamp(1.1rem,2.2vw,1.4rem);
+  font-weight:800;max-width:28ch;
+}
+.promo-card p{color:#cfc4b8;font-size:.92rem;margin-top:.35rem;max-width:42ch}
+.promo-card .btn{background:var(--amber);color:var(--brown)}
+
+/* Depts */
+.dept-track{
+  display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:.2rem 0 1rem;scrollbar-width:thin;
+}
+.dept-card{
+  flex:0 0 min(190px, 46vw);scroll-snap-align:start;
+  background:var(--brown);border-radius:16px;overflow:hidden;min-height:260px;
+  display:flex;flex-direction:column;position:relative;isolation:isolate;
+  transition:transform .22s, box-shadow .22s;
+}
+.dept-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.dept-card::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(circle at 50% 30%, rgba(255,201,60,.2), transparent 58%);
+}
+.dept-card img{
+  width:100%;height:140px;object-fit:contain;padding:.7rem;margin:.55rem .7rem 0;
+  background:#fff;border-radius:10px;
+}
+.dept-card .body{padding:0 .9rem 1rem;margin-top:auto;text-align:center}
+.dept-card h3{
+  color:#fff;font-family:Archivo,sans-serif;font-size:.9rem;font-weight:800;
+  text-transform:uppercase;margin-bottom:.55rem;
+}
+.dept-card .chip{
+  display:inline-flex;background:var(--amber);color:var(--brown);
+  font-size:.7rem;font-weight:800;padding:.32rem .65rem;border-radius:6px;
+}
+
+/* Products */
+.rail{padding:1.5rem 0 0}
+.rail-head{
+  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:.85rem;
+}
+.rail-head h3{font-family:Archivo,sans-serif;font-size:1.15rem;font-weight:800}
+.rail-head a{color:#9a7a12;font-weight:700;font-size:.88rem}
+.rail-track{
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(210px,1fr);
+  gap:.9rem;overflow-x:auto;padding-bottom:.4rem;scrollbar-width:thin;
+}
+@media(min-width:960px){
+  .rail-track{grid-auto-flow:row;grid-template-columns:repeat(4,1fr);overflow:visible}
+}
+
+.grid-page{display:none;padding:1.5rem 0 2.5rem}
+.grid-page.on{display:block}
+.home-blocks{display:none}
+.home-blocks.on{display:block}
+.grid-meta{color:var(--muted);font-size:.9rem;margin-bottom:1rem}
+.products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.85rem}
+@media(min-width:700px){.products-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1040px){.products-grid{grid-template-columns:repeat(4,1fr);gap:1rem}}
+
+.pcard{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:.85rem;display:flex;flex-direction:column;gap:.4rem;
+  transition:box-shadow .22s, border-color .22s, transform .22s;
+}
+.pcard:hover{box-shadow:var(--shadow);border-color:#d9d2c8;transform:translateY(-2px)}
+.pcard .tag{
+  align-self:flex-start;background:var(--brown);color:#fff;
+  font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  padding:.28rem .5rem;border-radius:999px;font-family:Archivo,sans-serif;
+}
+.pcard .media{
+  aspect-ratio:1;background:#fff;border:1px solid #eee;
+  border-radius:12px;display:grid;place-items:center;cursor:pointer;padding:.55rem;
+}
+.pcard .media img{width:100%;height:100%;object-fit:contain}
+.pcard h4{
+  font-family:Archivo,sans-serif;font-size:.9rem;font-weight:800;
+  text-transform:uppercase;line-height:1.25;cursor:pointer;min-height:2.4em;
+}
+.pcard .sku{font-size:.78rem;color:var(--muted)}
+.pcard .wa-link{
+  display:inline-flex;align-items:center;gap:.35rem;color:var(--wa-dark);
+  font-size:.8rem;font-weight:600;
+}
+.pcard .wa-link:hover{text-decoration:underline}
+.pcard .actions{display:flex;gap:.4rem;margin-top:auto;padding-top:.3rem}
+.pcard .actions .btn{flex:1}
+
+.empty{
+  padding:2.5rem 1rem;text-align:center;color:var(--muted);
+  border:1px dashed var(--line);border-radius:var(--radius);background:#fff;
+}
+
+/* Footer */
+.footer{background:var(--brown);color:#d4cbc3;margin-top:2.5rem}
+.footer .hazard{
+  height:6px;
+  background:repeating-linear-gradient(135deg,#1c120e 0 11px, var(--amber) 11px 22px);
+}
+.footer-inner{padding:2.3rem 0 1.4rem}
+.footer-grid{display:grid;gap:1.5rem}
+@media(min-width:800px){.footer-grid{grid-template-columns:1.4fr 1fr 1fr}}
+.footer img{height:56px;width:auto;margin-bottom:.8rem;background:transparent;padding:0;border-radius:0}
+.footer strong{
+  display:block;color:#fff;margin-bottom:.4rem;font-size:.8rem;
+  letter-spacing:.08em;text-transform:uppercase;font-family:Archivo,sans-serif;
+}
+.footer p,.footer a,.footer li{color:#a89f95;font-size:.9rem}
+.footer ul{list-style:none;display:grid;gap:.3rem}
+.footer a:hover{color:var(--amber)}
+.footer-legal{
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:1rem 0 1.3rem;font-size:.78rem;color:#857b72;
+}
+
+.fab{
+  position:fixed;right:1rem;bottom:1rem;z-index:75;
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--wa);color:#fff;font-weight:700;
+  padding:.85rem 1.1rem;border-radius:999px;
+  box-shadow:0 10px 28px rgba(31,158,86,.35);
+  transition:transform .2s, background .2s;
+}
+.fab:hover{background:var(--wa-dark);transform:translateY(-2px)}
+
+/* Overlay / drawer / modal */
+.overlay{
+  position:fixed;inset:0;background:rgba(28,18,14,.5);z-index:80;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.overlay.open{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:#fff;z-index:90;
+  transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);
+  display:flex;flex-direction:column;box-shadow:var(--shadow);
+}
+.drawer.open{transform:none}
+.drawer-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1rem 1.1rem;border-bottom:1px solid var(--line);
+}
+.drawer-head h2{font-family:Archivo,sans-serif;font-size:1.1rem;font-weight:800}
+.drawer-body{flex:1;overflow:auto;padding:1rem 1.1rem}
+.drawer-foot{padding:1rem 1.1rem;border-top:1px solid var(--line);background:#f7f5f2}
+.cart-item{
+  display:grid;grid-template-columns:64px 1fr auto;gap:.7rem;
+  padding:.8rem 0;border-bottom:1px solid var(--line);
+}
+.cart-item img{
+  width:64px;height:64px;object-fit:contain;background:#f3efe9;
+  border-radius:10px;border:1px solid var(--line);
+}
+.cart-item h4{font-size:.9rem;font-weight:700}
+.cart-item .meta{color:var(--muted);font-size:.8rem}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:.35rem}
+.qty button{width:32px;height:32px}
+.qty span{min-width:28px;text-align:center;font-weight:700}
+.remove{color:#b91c1c;font-size:.8rem;margin-top:.3rem}
+.field{margin-bottom:.7rem}
+.field label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:.25rem}
+.field input{
+  width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:.55rem .75rem;
+}
+.note{font-size:.82rem;color:var(--muted);margin:.6rem 0 .85rem}
+.close-x{width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:1.2rem}
+
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal.open{display:flex}
+.modal-card{
+  width:min(880px,100%);max-height:92vh;overflow:auto;background:#fff;
+  border-radius:16px;display:grid;position:relative;box-shadow:var(--shadow);
+}
+@media(min-width:760px){.modal-card{grid-template-columns:1fr 1fr}}
+.modal-media{background:#f3efe9;min-height:240px;display:grid;place-items:center;padding:1.4rem}
+.modal-media img{max-height:340px;width:100%;object-fit:contain}
+.modal-copy{padding:1.4rem}
+.modal-copy .tag{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.modal-copy h3{font-family:Archivo,sans-serif;font-size:1.5rem;font-weight:800;margin:.35rem 0 .7rem}
+.modal-copy > p{color:var(--muted);margin-bottom:1rem}
+.modal .close-x{position:absolute;right:.7rem;top:.7rem;z-index:2}
+
+.toast{
+  position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%) translateY(140%);
+  background:var(--ink);color:#fff;padding:.7rem 1rem;border-radius:999px;z-index:120;
+  transition:transform .25s;font-size:.9rem;white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:720px){
+  .header-inner{grid-template-columns:1fr auto}
+  .search{grid-column:1/-1;order:3}
+  .logo span,.logo strong{display:none}
+  .fab span{display:none}
+  .fab{padding:.9rem}
+  .banners{padding-top:.75rem}
+  .banners-frame{border-radius:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span>Av. Zumbi dos Palmares, 138 — Liberdade, Sarzedo/MG</span>
+    <span>
+      <a href="tel:+553135778346">(31) 3577-8346</a>
+      · <a href="https://www.farolete.com.br/">Site institucional</a>
+    </span>
+  </div>
+</div>
+
+<header class="header">
+  <div class="wrap header-inner">
+    <a class="logo" href="/" aria-label="Farolete Loja">
+      <img src="assets/imagens/logo_transparent.png" alt="Farolete Casa de Peças">
+      <div>
+        <strong>FAROLETE</strong>
+        <span>Casa de Peças</span>
+      </div>
+    </a>
+    <label class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="q" type="search" placeholder="Buscar peça ou modelo do veículo..." autocomplete="off">
+    </label>
+    <button class="cart-btn" type="button" id="open-cart" aria-label="Abrir carrinho">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 7h14l-1.5 8.5H8.2L7 7z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M7 7L6 3H3" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="10" cy="20" r="1.5" fill="#fff"/><circle cx="17" cy="20" r="1.5" fill="#fff"/></svg>
+      <span class="badge" id="cart-badge" hidden>0</span>
+    </button>
+  </div>
+</header>
+
+<nav class="cats-bar" aria-label="Categorias">
+  <div class="wrap" id="cats"></div>
+</nav>
+
+<!-- Banner: imagem inteira, carrossel automático -->
+<section class="banners" aria-label="Destaques">
+  <div class="banners-frame" id="bannerFrame">
+    <div class="banner-track" id="bannerTrack">
+      <article class="banner-slide">
+        <a href="#departamentos" aria-label="Ver catálogo Farolete">
+          <img
+            src="assets/imagens/banner_estoque.jpg"
+            alt="Farolete Casa de Peças — peças em estoque desde 2014. Ver catálogo."
+            width="2400"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+          >
+        </a>
+      </article>
+      <article class="banner-slide">
+        <a href="#departamentos" aria-label="Ver categorias Farolete">
+          <img
+            src="assets/imagens/banner_casa.jpg?v=2"
+            alt="Farolete — sua casa de peças em Sarzedo, desde 2014."
+            width="2400"
+            height="750"
+            loading="lazy"
+            decoding="async"
+          >
+        </a>
+      </article>
+    </div>
+    <div class="banner-nav" id="bannerNav">
+      <button type="button" id="bannerPrev" aria-label="Anterior">‹</button>
+      <button type="button" id="bannerNext" aria-label="Próximo">›</button>
+    </div>
+  </div>
+  <div class="banner-dots" id="bannerDots"></div>
+</section>
+
+<section class="trust">
+  <div class="wrap">
+    <div class="trust-item">
+      <i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 7h16v11H4zM8 7V5a4 4 0 018 0v2" stroke="currentColor" stroke-width="2"/></svg></i>
+      <div><strong>Escolha na vitrine</strong><span>Categorias e busca rápida</span></div>
+    </div>
+    <div class="trust-item">
+      <i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-4.5 7-11a7 7 0 10-14 0c0 6.5 7 11 7 11z" stroke="currentColor" stroke-width="2"/></svg></i>
+      <div><strong>Loja em Sarzedo</strong><span>Liberdade · Zumbi dos Palmares, 138</span></div>
+    </div>
+    <div class="trust-item">
+      <i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></i>
+      <div><strong>Mix de autopeças</strong><span>Vidros, faróis, visual e mais</span></div>
+    </div>
+    <div class="trust-item">
+      <i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11 11 0 0 0 2.1 17.2L1 23l5.9-1.1A11 11 0 1 0 20.5 3.5z"/></svg></i>
+      <div><strong>Orçamento no Zap</strong><span>Confirmação com a loja</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="home-blocks on" id="homeBlocks">
+  <section class="promo">
+    <div class="wrap">
+      <div class="promo-card">
+        <div>
+          <h2>Amamos o que fazemos. Atendimento especializado.</h2>
+          <p>Realizar seu serviço é nosso compromisso — Farolete Casa de Peças, desde 2014.</p>
+        </div>
+        <a class="btn" href="#departamentos">Ver categorias</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="departamentos">
+    <div class="wrap">
+      <div class="section-head"><h2>Explore por departamento</h2></div>
+      <div class="dept-track" id="deptTrack"></div>
+    </div>
+  </section>
+
+  <div id="rails"></div>
+</div>
+
+<section class="grid-page" id="gridPage">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="gridTitle">Catálogo</h2>
+      <a href="#" id="backHome">← Voltar ao início</a>
+    </div>
+    <p class="grid-meta" id="gridMeta"></p>
+    <div class="products-grid" id="grid"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="hazard" aria-hidden="true"></div>
+  <div class="wrap footer-inner">
+    <div class="footer-grid">
+      <div>
+        <img src="assets/imagens/logo_transparent.png" alt="Farolete Casa de Peças">
+        <p>Autopeças em Sarzedo desde 2014. Atendimento especializado — realizar seu serviço é nosso compromisso.</p>
+      </div>
+      <div>
+        <strong>Contatos</strong>
+        <ul>
+          <li><a href="https://wa.me/5531999971820">WhatsApp (31) 99997-1820</a></li>
+          <li><a href="tel:+553135778346">Fixo (31) 3577-8346</a></li>
+          <li><a href="mailto:farolete2024@gmail.com">farolete2024@gmail.com</a></li>
+          <li><a href="https://instagram.com/faroletesarzedo" target="_blank" rel="noopener noreferrer">@faroletesarzedo</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Localização</strong>
+        <ul>
+          <li>Av. Zumbi dos Palmares, 138</li>
+          <li>Liberdade — Sarzedo/MG</li>
+          <li>Seg–sex 8h–18h · Sáb 8h–12h</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="wrap footer-legal">Farolete Casa de Peças · CNPJ 35.708.960/0001-95 · Vitrine demonstrativa — pedido final no WhatsApp.</div>
+</footer>
+
+<a class="fab" id="fabWa" href="https://wa.me/5531999971820" target="_blank" rel="noopener noreferrer">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A11 11 0 0 0 2.1 17.2L1 23l5.9-1.1A11 11 0 1 0 20.5 3.5z"/></svg>
+  <span>WhatsApp</span>
+</a>
+
+<div class="overlay" id="overlay" hidden></div>
+
+<aside class="drawer" id="cart-drawer" aria-label="Carrinho" aria-hidden="true">
+  <div class="drawer-head">
+    <h2>Carrinho (<span id="cart-qty">0</span>)</h2>
+    <button class="close-x" type="button" id="close-cart" aria-label="Fechar">×</button>
+  </div>
+  <div class="drawer-body" id="cart-body"></div>
+  <div class="drawer-foot">
+    <div class="field">
+      <label for="cart-veiculo">Veículo (opcional)</label>
+      <input id="cart-veiculo" placeholder="Ex.: Gol 2015">
+    </div>
+    <p class="note">Valores sob consulta. A Farolete confirma disponibilidade no WhatsApp.</p>
+    <button class="btn btn-wa btn-block" type="button" id="checkout-wa">Enviar pedido no WhatsApp</button>
+  </div>
+</aside>
+
+<div class="modal" id="product-modal" role="dialog" aria-modal="true" aria-labelledby="p-title">
+  <div class="modal-card">
+    <button class="close-x" type="button" id="close-product" aria-label="Fechar">×</button>
+    <div class="modal-media"><img id="p-img" alt=""></div>
+    <div class="modal-copy">
+      <p class="tag" id="p-cat"></p>
+      <h3 id="p-title"></h3>
+      <p>Informe o veículo para agilizar. Depois adicione ao carrinho ou peça no WhatsApp.</p>
+      <div class="field"><label for="p-veiculo">Marca / modelo</label><input id="p-veiculo" placeholder="Ex.: Onix"></div>
+      <div class="field"><label for="p-ano">Ano</label><input id="p-ano" placeholder="Ex.: 2018" inputmode="numeric"></div>
+      <div class="field"><label for="p-qty">Quantidade</label><input id="p-qty" type="number" min="1" value="1"></div>
+      <p class="note"><strong>Sob consulta</strong> · pagamento na loja (cartão e PIX)</p>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn-line" type="button" id="p-add">+ Carrinho</button>
+        <button class="btn btn-wa" type="button" id="p-wa">Pedir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status">Adicionado</div>
+
+<script>
+(function(){
+  const WA = (window.FaroleteSiteConfig && FaroleteSiteConfig.whatsapp) || '5531999971820';
+  const waMsg = (t) => 'https://wa.me/' + WA + '?text=' + encodeURIComponent(t);
+  const fab = document.getElementById('fabWa');
+  if (fab) fab.href = waMsg('Olá! Vim pela loja Farolete e quero atendimento.');
+
+  const CART_KEY = 'farolete_loja_cart_v1';
+  const catsEl = document.getElementById('cats');
+  const deptTrack = document.getElementById('deptTrack');
+  const rails = document.getElementById('rails');
+  const grid = document.getElementById('grid');
+  const homeBlocks = document.getElementById('homeBlocks');
+  const gridPage = document.getElementById('gridPage');
+  const gridTitle = document.getElementById('gridTitle');
+  const gridMeta = document.getElementById('gridMeta');
+  const q = document.getElementById('q');
+  const badge = document.getElementById('cart-badge');
+  const drawer = document.getElementById('cart-drawer');
+  const overlay = document.getElementById('overlay');
+  const cartBody = document.getElementById('cart-body');
+  const cartQty = document.getElementById('cart-qty');
+  const toast = document.getElementById('toast');
+  const modal = document.getElementById('product-modal');
+
+  let filter = 'all';
+  let query = '';
+  let current = null;
+  let bannerIndex = 0;
+
+  /* Banner — arte completa (height:auto). Carrossel quando houver 2+ slides. */
+  const track = document.getElementById('bannerTrack');
+  const dots = document.getElementById('bannerDots');
+  const nav = document.getElementById('bannerNav');
+  const slides = [...track.querySelectorAll('.banner-slide')];
+  const n = slides.length;
+  let bannerTimer = null;
+
+  function syncBanner(){
+    track.style.transform = 'translateX(-' + (bannerIndex * 100) + '%)';
+    [...dots.children].forEach((d, i) => d.classList.toggle('active', i === bannerIndex));
+  }
+  function restartBanner(){
+    clearInterval(bannerTimer);
+    if (n < 2) return;
+    bannerTimer = setInterval(() => {
+      bannerIndex = (bannerIndex + 1) % n;
+      syncBanner();
+    }, 5000);
+  }
+
+  if (n > 1) {
+    nav.hidden = false;
+    dots.hidden = false;
+    slides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', 'Banner ' + (i + 1));
+      if (i === 0) b.classList.add('active');
+      b.onclick = () => { bannerIndex = i; syncBanner(); restartBanner(); };
+      dots.appendChild(b);
+    });
+    document.getElementById('bannerPrev').onclick = () => {
+      bannerIndex = (bannerIndex - 1 + n) % n; syncBanner(); restartBanner();
+    };
+    document.getElementById('bannerNext').onclick = () => {
+      bannerIndex = (bannerIndex + 1) % n; syncBanner(); restartBanner();
+    };
+    const frame = document.getElementById('bannerFrame');
+    frame.addEventListener('pointerenter', () => clearInterval(bannerTimer));
+    frame.addEventListener('pointerleave', restartBanner);
+    restartBanner();
+  }
+
+  const catList = [{id:'all', label:'Todos'}, ...Object.entries(FaroleteCatalog.CATEGORIES).map(([id,label])=>({id,label}))];
+  catList.forEach((c,i)=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='cat-link'+(i===0?' active':'');
+    b.dataset.cat=c.id;
+    b.textContent=c.label;
+    catsEl.appendChild(b);
+  });
+
+  function allProducts(){ return FaroleteCatalog.getProducts().map(p=>({...p})); }
+  function filtered(){
+    let list = allProducts();
+    if(filter!=='all') list = list.filter(p=>p.category===filter);
+    if(query){
+      const t=query.toLowerCase();
+      list = list.filter(p=>p.name.toLowerCase().includes(t) || FaroleteCatalog.categoryLabel(p.category).toLowerCase().includes(t));
+    }
+    return list;
+  }
+
+  function productCard(p){
+    const cat = FaroleteCatalog.categoryLabel(p.category);
+    return `<article class="pcard" data-id="${p.id}">
+      <span class="tag">${cat}</span>
+      <div class="media" data-open="${p.id}"><img src="${p.image}" alt="${p.name}" loading="lazy"></div>
+      <h4 data-open="${p.id}">${p.name}</h4>
+      <p class="sku">Sob consulta</p>
+      <a class="wa-link" href="${waMsg('Olá! Quero consultar: '+p.name)}" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11 11 0 0 0 2.1 17.2L1 23l5.9-1.1A11 11 0 1 0 20.5 3.5z"/></svg>
+        Consulte no WhatsApp
+      </a>
+      <div class="actions">
+        <button class="btn btn-line btn-sm" type="button" data-add="${p.id}">+ Carrinho</button>
+        <button class="btn btn-wa btn-sm" type="button" data-pedir="${p.id}">Pedir</button>
+      </div>
+    </article>`;
+  }
+
+  function showHome(){ homeBlocks.classList.add('on'); gridPage.classList.remove('on'); }
+  function showGrid(title, list){
+    homeBlocks.classList.remove('on');
+    gridPage.classList.add('on');
+    gridTitle.textContent = title;
+    gridMeta.textContent = list.length + (list.length===1?' produto':' produtos') + (query?` · busca “${query}”`:'');
+    grid.innerHTML = list.length ? list.map(productCard).join('') : '<div class="empty">Nenhuma peça encontrada.</div>';
+    window.scrollTo({top: document.querySelector('.cats-bar').offsetTop - 8, behavior:'smooth'});
+  }
+  function setActiveCat(id){
+    filter = id;
+    catsEl.querySelectorAll('.cat-link').forEach(x=>x.classList.toggle('active', x.dataset.cat===id));
+  }
+
+  function renderDepts(){
+    deptTrack.innerHTML = Object.entries(FaroleteCatalog.CATEGORIES).map(([id,label])=>{
+      const sample = allProducts().find(p=>p.category===id);
+      const img = sample ? sample.image : 'assets/imagens/logo_transparent.png';
+      return `<button class="dept-card" type="button" data-dept="${id}">
+        <img src="${img}" alt="">
+        <div class="body"><h3>${label}</h3><span class="chip">Conferir ›</span></div>
+      </button>`;
+    }).join('');
+  }
+
+  function renderRails(){
+    rails.innerHTML = Object.entries(FaroleteCatalog.CATEGORIES).map(([id,label])=>{
+      const list = allProducts().filter(p=>p.category===id);
+      if(!list.length) return '';
+      return `<section class="rail" id="rail-${id}">
+        <div class="wrap">
+          <div class="rail-head">
+            <h3>${label}</h3>
+            <a href="#" data-seeall="${id}">Ver todos (${list.length}) ›</a>
+          </div>
+          <div class="rail-track">${list.map(productCard).join('')}</div>
+        </div>
+      </section>`;
+    }).join('');
+  }
+
+  function applyView(){
+    if(query || filter!=='all'){
+      showGrid(filter==='all' ? 'Resultados' : FaroleteCatalog.categoryLabel(filter), filtered());
+    } else showHome();
+  }
+
+  function loadCart(){ try{return JSON.parse(localStorage.getItem(CART_KEY)||'[]');}catch(e){return[];} }
+  function saveCart(items){ localStorage.setItem(CART_KEY, JSON.stringify(items)); renderCart(); }
+  function findProduct(id){ return allProducts().find(p=>p.id===id); }
+
+  function addToCart(product, qty, veiculo, ano){
+    const items = loadCart();
+    const note = [veiculo, ano].filter(Boolean).join(' · ');
+    const key = product.id+'|'+(note||'');
+    const existing = items.find(i => (i.id+'|'+(i.note||''))===key);
+    if(existing) existing.qty += qty;
+    else items.push({id:product.id,name:product.name,image:product.image,category:product.category,qty,note});
+    saveCart(items);
+    showToast('Adicionado ao carrinho');
+  }
+
+  function renderCart(){
+    const items = loadCart();
+    const total = items.reduce((s,i)=>s+i.qty,0);
+    badge.hidden = total===0;
+    badge.textContent = String(total);
+    cartQty.textContent = String(total);
+    if(!items.length){ cartBody.innerHTML = '<p class="note">Carrinho vazio.</p>'; return; }
+    cartBody.innerHTML = items.map((i,idx)=>`
+      <div class="cart-item">
+        <img src="${i.image}" alt="${i.name}">
+        <div>
+          <h4>${i.name}</h4>
+          <p class="meta">${FaroleteCatalog.categoryLabel(i.category)}${i.note?' · '+i.note:''}</p>
+          <div class="qty">
+            <button type="button" data-dec="${idx}">−</button>
+            <span>${i.qty}</span>
+            <button type="button" data-inc="${idx}">+</button>
+          </div>
+          <button class="remove" type="button" data-rm="${idx}">Remover</button>
+        </div>
+        <div class="meta">Sob consulta</div>
+      </div>`).join('');
+  }
+
+  function openCart(){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); overlay.hidden=false; overlay.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeCart(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); if(!modal.classList.contains('open')){ overlay.classList.remove('open'); overlay.hidden=true; document.body.style.overflow=''; } }
+  function showToast(msg){ toast.textContent=msg; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),1600); }
+
+  function openProduct(p){
+    current=p;
+    document.getElementById('p-img').src=p.image;
+    document.getElementById('p-img').alt=p.name;
+    document.getElementById('p-title').textContent=p.name;
+    document.getElementById('p-cat').textContent=FaroleteCatalog.categoryLabel(p.category);
+    document.getElementById('p-veiculo').value='';
+    document.getElementById('p-ano').value='';
+    document.getElementById('p-qty').value='1';
+    modal.classList.add('open'); overlay.hidden=false; overlay.classList.add('open'); document.body.style.overflow='hidden';
+  }
+  function closeProduct(){ modal.classList.remove('open'); current=null; if(!drawer.classList.contains('open')){ overlay.classList.remove('open'); overlay.hidden=true; document.body.style.overflow=''; } }
+
+  function orderCode(){
+    const d=new Date();
+    return 'FL'+String(d.getFullYear()).slice(2)+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+  }
+  function checkoutWhatsApp(){
+    const items=loadCart();
+    if(!items.length){ showToast('Carrinho vazio'); return; }
+    const code=orderCode();
+    const veiculo=document.getElementById('cart-veiculo').value.trim();
+    const lines=items.map(i=>`• ${i.qty}x ${i.name}${i.note?' ('+i.note+')':''}`);
+    const msg=[`Olá! Pedido Farolete ${code}`, veiculo?`Veículo: ${veiculo}`:null,'','Itens:',...lines,'','Valores sob consulta. Quero confirmar disponibilidade e combinar a retirada.'].filter(v=>v!==null).join('\n');
+    location.href=waMsg(msg);
+  }
+
+  catsEl.addEventListener('click', e=>{
+    const b=e.target.closest('.cat-link'); if(!b) return;
+    setActiveCat(b.dataset.cat); query=''; q.value=''; applyView();
+  });
+  q.addEventListener('input', ()=>{ query=q.value.trim(); applyView(); });
+  document.getElementById('backHome').addEventListener('click', e=>{
+    e.preventDefault(); query=''; q.value=''; setActiveCat('all'); showHome();
+  });
+  deptTrack.addEventListener('click', e=>{
+    const b=e.target.closest('[data-dept]'); if(!b) return;
+    setActiveCat(b.dataset.dept); applyView();
+  });
+
+  function onProductClick(e){
+    const add=e.target.closest('[data-add]');
+    const pedir=e.target.closest('[data-pedir]');
+    const open=e.target.closest('[data-open]');
+    const see=e.target.closest('[data-seeall]');
+    if(see){ e.preventDefault(); setActiveCat(see.dataset.seeall); applyView(); return; }
+    if(add){ const p=findProduct(add.dataset.add); if(p) addToCart(p,1,'',''); return; }
+    if(pedir){ const p=findProduct(pedir.dataset.pedir); if(p) openProduct(p); return; }
+    if(open){ const p=findProduct(open.dataset.open); if(p) openProduct(p); }
+  }
+  rails.addEventListener('click', onProductClick);
+  grid.addEventListener('click', onProductClick);
+
+  document.getElementById('open-cart').onclick=openCart;
+  document.getElementById('close-cart').onclick=closeCart;
+  overlay.onclick=()=>{ closeCart(); closeProduct(); };
+  document.getElementById('close-product').onclick=closeProduct;
+  document.getElementById('checkout-wa').onclick=checkoutWhatsApp;
+
+  cartBody.addEventListener('click', e=>{
+    const items=loadCart();
+    const inc=e.target.closest('[data-inc]');
+    const dec=e.target.closest('[data-dec]');
+    const rm=e.target.closest('[data-rm]');
+    if(inc){ items[+inc.dataset.inc].qty++; saveCart(items); }
+    if(dec){ const i=+dec.dataset.dec; items[i].qty=Math.max(1,items[i].qty-1); saveCart(items); }
+    if(rm){ items.splice(+rm.dataset.rm,1); saveCart(items); }
+  });
+
+  document.getElementById('p-add').onclick=()=>{
+    if(!current) return;
+    const qty=Math.max(1, parseInt(document.getElementById('p-qty').value,10)||1);
+    addToCart(current, qty, document.getElementById('p-veiculo').value.trim(), document.getElementById('p-ano').value.trim());
+    closeProduct(); openCart();
+  };
+  document.getElementById('p-wa').onclick=()=>{
+    if(!current) return;
+    const v=document.getElementById('p-veiculo').value.trim();
+    const a=document.getElementById('p-ano').value.trim();
+    const extra=[v&&('Veículo: '+v),a&&('Ano: '+a)].filter(Boolean).join(' · ');
+    location.href=waMsg(`Olá! Quero consultar: ${current.name}.${extra?' '+extra:''}`);
+  };
+
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeCart(); closeProduct(); } });
+
+  renderDepts();
+  renderRails();
+  renderCart();
+  showHome();
+})();
+</script>
+</body>
+</html>

@@ -76,7 +76,7 @@
     }
   ],
   "sameAs": [
-    "https://www.instagram.com/farolete_sarzedo"
+    "https://www.instagram.com/faroletesarzedo"
   ]
 }
 </script>
@@ -429,8 +429,8 @@
     .prod-frame{
         position:relative;
         aspect-ratio:4/3;
-        background:
-            radial-gradient(circle at 50% 45%, #2a2418 0%, #12100c 70%);
+        background:#f7f5f1;
+        border-bottom:1px solid rgba(255,201,60,0.18);
         display:flex; align-items:center; justify-content:center;
         padding:1rem 1rem 0.6rem;
     }
@@ -505,7 +505,8 @@
     .prod-card-mais:hover .prod-mais-cta{ background:var(--amber-deep); }
 
     .catalogo-cta{
-        display:flex; justify-content:center; margin-top:clamp(2.4rem, 4vw, 3.2rem); padding:0 6vw;
+        display:flex; justify-content:center; gap:0.9rem; flex-wrap:wrap;
+        margin-top:clamp(2.4rem, 4vw, 3.2rem); padding:0 6vw;
     }
 
     /* ─── SERVICOS ─── */
@@ -1011,6 +1012,7 @@
     </div>
     <ul class="nav-links">
         <li><a href="#servicos">Serviços</a></li>
+        <li><a href="loja.html">Loja</a></li>
         <li><a href="#catalogo">Catálogo</a></li>
         <li><a href="#sobre">Quem Somos</a></li>
         <li><a href="#localizacao">Local</a></li>
@@ -1170,6 +1172,9 @@
 
 
     <div class="catalogo-cta">
+        <a href="https://marketplace.farolete.com.br/" class="btn-ghost" target="_blank" rel="noopener">
+            Ver catálogo completo <span class="btn-arrow">→</span>
+        </a>
         <a href="https://wa.me/5531999971820" class="btn-whats whats-cta" data-msg="Olá! Vi o catálogo da Farolete e quero consultar uma peça.">
             <svg class="btn-icon" viewBox="0 0 32 32" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.001 3C9.11 3 3.5 8.61 3.5 15.5c0 2.6.77 5.02 2.09 7.05L3.5 29l6.62-2.06a12.44 12.44 0 005.88 1.48h.01c6.89 0 12.5-5.61 12.5-12.5S22.89 3 16.001 3zm0 22.75c-1.9 0-3.76-.51-5.38-1.47l-.39-.23-4.02 1.25 1.28-3.92-.25-.4a10.2 10.2 0 01-1.6-5.48c0-5.66 4.61-10.27 10.27-10.27S26.27 9.84 26.27 15.5 21.66 25.75 16.001 25.75zm5.62-7.7c-.31-.15-1.82-.9-2.1-1-.28-.1-.49-.15-.69.15-.21.31-.79 1-.97 1.2-.18.21-.36.23-.67.08-.31-.15-1.29-.48-2.46-1.53-.91-.81-1.52-1.81-1.7-2.12-.18-.31-.02-.47.13-.62.14-.14.31-.36.46-.54.15-.18.2-.31.31-.51.1-.21.05-.39-.02-.54-.08-.15-.69-1.67-.95-2.29-.25-.6-.5-.52-.69-.53-.18-.01-.38-.01-.59-.01s-.54.08-.82.39c-.28.31-1.08 1.05-1.08 2.57s1.1 2.98 1.26 3.19c.15.21 2.17 3.31 5.26 4.65.73.32 1.31.51 1.75.65.74.24 1.41.2 1.94.12.59-.09 1.82-.74 2.08-1.46.26-.72.26-1.33.18-1.46-.08-.13-.28-.2-.59-.36z"/></svg>
             <span>Consultar peça no WhatsApp</span>
@@ -1324,9 +1329,9 @@
             Tel: (31) 3577-8346 · WhatsApp: (31) 99997-1820<br>
             Seg–Sex 8h–18h · Sáb 8h–12h · Dom fechado
         </p>
-        <a href="https://www.instagram.com/farolete_sarzedo" target="_blank" rel="noopener" class="footer-social">
+        <a href="https://www.instagram.com/faroletesarzedo" target="_blank" rel="noopener" class="footer-social">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-            <span>@farolete_sarzedo</span>
+            <span>@faroletesarzedo</span>
         </a>
     </div>
     <div class="footer-info">
@@ -1381,7 +1386,6 @@
         if (!track || !window.FaroleteCatalog) return;
 
         const { getProducts, categoryLabel } = FaroleteCatalog;
-        const WA_MAIS = 'https://wa.me/5531999971820?text=' + encodeURIComponent('Olá! Quero consultar uma peça que não vi no catálogo do site.');
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         function escapeHtml(str){
@@ -1390,11 +1394,11 @@
 
         function maisCardHtml(){
             return `
-                <a class="prod-card prod-card-mais" data-cat="__mais__" href="${WA_MAIS}" target="_blank" rel="noopener">
+                <a class="prod-card prod-card-mais" data-cat="__mais__" href="https://marketplace.farolete.com.br/" target="_blank" rel="noopener">
                     <div class="prod-mais-inner">
                         <span class="prod-mais-label">E muito mais</span>
-                        <p>O estoque da loja vai além destas fotos. Consulta no WhatsApp.</p>
-                        <span class="prod-mais-cta">Consultar peça</span>
+                        <p>O estoque da loja vai além destas fotos. Veja o catálogo completo.</p>
+                        <span class="prod-mais-cta">Ver catálogo completo</span>
                     </div>
                 </a>`;
         }

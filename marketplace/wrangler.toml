@@ -1,0 +1,5 @@
+name = "marketplace"
+compatibility_date = "2024-09-19"
+
+[assets]
+directory = "."
