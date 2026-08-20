@@ -32,6 +32,7 @@
 <meta name="twitter:description" content="Busque por peça ou modelo e confirme no WhatsApp. Imagens meramente ilustrativas.">
 <meta name="twitter:image" content="https://marketplace.farolete.com.br/assets/imagens/banner_estoque.jpg">
 <script src="assets/js/site-config.js"></script>
+<script src="assets/js/leads-store.js"></script>
 <script src="assets/js/catalog-index.js"></script>
 <script src="assets/js/catalog-store.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -735,6 +736,7 @@ button{cursor:pointer;border:0;background:none}
   </div>
 </div>
 
+<script src="assets/js/lead-gate.js"></script>
 <script>
 (function(){
   const WA = (window.FaroleteSiteConfig && FaroleteSiteConfig.whatsapp) || '5531999971820';
@@ -1044,7 +1046,8 @@ button{cursor:pointer;border:0;background:none}
     const veiculo=document.getElementById('cart-veiculo').value.trim();
     const lines=items.map(i=>`• ${i.qty}x ${i.name}${i.note?' ('+i.note+')':''}`);
     const msg=[`Olá! Pedido Farolete ${code}`, veiculo?`Veículo: ${veiculo}`:null,'','Itens:',...lines,'','Valores sob consulta. Quero confirmar disponibilidade e combinar a retirada.'].filter(v=>v!==null).join('\n');
-    location.href=waMsg(msg);
+    if (window.FaroleteLeadGate) { closeCart(); window.FaroleteLeadGate.open(msg); }
+    else location.href=waMsg(msg);
   }
 
   /* Popup de retenção — após ~12s ou intenção de saída (1x/sessão) */
@@ -1144,7 +1147,9 @@ button{cursor:pointer;border:0;background:none}
     const v=document.getElementById('p-veiculo').value.trim();
     const a=document.getElementById('p-ano').value.trim();
     const extra=[v&&('Veículo: '+v),a&&('Ano: '+a)].filter(Boolean).join(' · ');
-    location.href=waMsg(`Olá! Quero consultar: ${current.name}.${extra?' '+extra:''}`);
+    const msg=`Olá! Quero consultar: ${current.name}.${extra?' '+extra:''}`;
+    if (window.FaroleteLeadGate) { closeProduct(); window.FaroleteLeadGate.open(msg); }
+    else location.href=waMsg(msg);
   };
 
   document.addEventListener('keydown', e=>{

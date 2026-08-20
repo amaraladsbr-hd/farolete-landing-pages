@@ -210,21 +210,9 @@
       try { ttq.track('Contact'); } catch (err) {}
     }
 
-    const utmBits = [];
-    if (utm.utm_source) utmBits.push('origem: ' + utm.utm_source);
-    if (utm.utm_medium) utmBits.push('meio: ' + utm.utm_medium);
-    if (utm.utm_campaign) utmBits.push('campanha: ' + utm.utm_campaign);
-
-    const fullMsg = [
-      pendingMsg,
-      '',
-      '—',
-      'Nome: ' + name,
-      'WhatsApp: ' + phoneCheck.formatted,
-      utmBits.length ? ('UTM: ' + utmBits.join(' | ')) : null
-    ].filter(Boolean).join('\n');
-
-    const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(fullMsg)}`;
+    // Mensagem do WhatsApp so leva o que a pessoa quer (produto/servico).
+    // Nome e telefone ficam so no lead salvo (localStorage + planilha), nao no texto.
+    const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(pendingMsg)}`;
     closeGate();
     const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (mobile) {

@@ -10,12 +10,15 @@
   .fl-gate-overlay{
     position:fixed; inset:0; z-index:9999;
     background:rgba(8,8,7,0.78); backdrop-filter:blur(6px);
-    display:flex; align-items:center; justify-content:center;
-    padding:1.2rem; opacity:0; pointer-events:none; transition:opacity 0.25s ease;
+    display:flex; align-items:flex-start; justify-content:center;
+    overflow-y:auto; -webkit-overflow-scrolling:touch;
+    padding:max(1rem, env(safe-area-inset-top)) 1rem max(1.2rem, env(safe-area-inset-bottom));
+    opacity:0; pointer-events:none; transition:opacity 0.25s ease;
   }
   .fl-gate-overlay.open{ opacity:1; pointer-events:auto; }
   .fl-gate-card{
-    width:100%; max-width:420px; background:#141210; color:#f7f4ee;
+    width:100%; max-width:420px; margin:min(8vh, 3rem) auto;
+    background:#141210; color:#f7f4ee;
     border:1px solid rgba(247,244,238,0.14);
     box-shadow:0 24px 60px rgba(0,0,0,0.5);
     padding:1.6rem 1.4rem 1.4rem; font-family:'Barlow', system-ui, sans-serif;
@@ -24,10 +27,10 @@
   .fl-gate-overlay.open .fl-gate-card{ transform:translateY(0); }
   .fl-gate-card h3{
     font-family:'Anton', Impact, sans-serif; font-weight:400;
-    font-size:1.55rem; text-transform:uppercase; letter-spacing:0.4px;
-    color:#ffc93c; margin:0 0 0.4rem;
+    font-size:1.45rem; text-transform:uppercase; letter-spacing:0.4px;
+    color:#ffc93c; margin:0 0 0.4rem; padding-right:1.6rem;
   }
-  .fl-gate-card p{ margin:0 0 1.2rem; color:#a39d91; font-size:0.92rem; line-height:1.5; }
+  .fl-gate-card p{ margin:0 0 1.1rem; color:#a39d91; font-size:0.92rem; line-height:1.5; }
   .fl-gate-field{ margin-bottom:0.9rem; }
   .fl-gate-field label{
     display:block; font-family:'Barlow Condensed', sans-serif; font-weight:600;
@@ -37,7 +40,7 @@
   .fl-gate-field input{
     width:100%; box-sizing:border-box; background:#1c1914;
     border:1px solid rgba(247,244,238,0.14); color:#f7f4ee;
-    padding:0.8rem 0.9rem; font:inherit; font-size:1rem;
+    padding:0.8rem 0.9rem; font:inherit; font-size:16px;
   }
   .fl-gate-field input:focus{ outline:1px solid #ffc93c; }
   .fl-gate-error{
@@ -46,7 +49,7 @@
   .fl-gate-error.show{ display:block; }
   .fl-gate-actions{ display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.6rem; }
   .fl-gate-btn{
-    flex:1; min-width:140px; border:none; cursor:pointer;
+    flex:1; min-width:120px; border:none; cursor:pointer;
     font-family:'Barlow Condensed', sans-serif; font-weight:700;
     letter-spacing:1px; text-transform:uppercase; font-size:0.88rem;
     padding:0.9rem 1rem; background:#ffc93c; color:#080807;
@@ -61,6 +64,10 @@
     color:#a39d91; font-size:1.4rem; cursor:pointer; line-height:1;
   }
   .fl-gate-wrap{ position:relative; }
+  @media (max-width:480px){
+    .fl-gate-card{ margin:0.6rem auto 2rem; padding:1.35rem 1.15rem 1.2rem; }
+    .fl-gate-card h3{ font-size:1.3rem; }
+  }
   `;
 
   const style = document.createElement('style');
@@ -101,17 +108,30 @@
   const phoneEl = overlay.querySelector('#flGatePhone');
   const errEl = overlay.querySelector('#flGateError');
 
+  function scrollFieldIntoView(el) {
+    setTimeout(() => {
+      try {
+        el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      } catch (err) {
+        el.scrollIntoView(true);
+      }
+    }, 280);
+  }
+
   function openGate(msg, el) {
     pendingMsg = msg || pendingMsg;
     pendingEl = el || null;
     errEl.classList.remove('show');
     errEl.textContent = '';
+    document.body.classList.add('fl-gate-open');
     overlay.classList.add('open');
+    overlay.scrollTop = 0;
     setTimeout(() => nameEl.focus(), 50);
   }
 
   function closeGate() {
     overlay.classList.remove('open');
+    document.body.classList.remove('fl-gate-open');
     pendingEl = null;
   }
 
@@ -126,6 +146,8 @@
   phoneEl.addEventListener('input', () => {
     phoneEl.value = maskPhone(phoneEl.value);
   });
+  nameEl.addEventListener('focus', () => scrollFieldIntoView(nameEl));
+  phoneEl.addEventListener('focus', () => scrollFieldIntoView(phoneEl));
 
   overlay.querySelector('.fl-gate-close').addEventListener('click', closeGate);
   overlay.querySelector('.fl-gate-cancel').addEventListener('click', closeGate);
@@ -188,23 +210,22 @@
       try { ttq.track('Contact'); } catch (err) {}
     }
 
-    const utmBits = [];
-    if (utm.utm_source) utmBits.push('origem: ' + utm.utm_source);
-    if (utm.utm_medium) utmBits.push('meio: ' + utm.utm_medium);
-    if (utm.utm_campaign) utmBits.push('campanha: ' + utm.utm_campaign);
-
-    const fullMsg = [
-      pendingMsg,
-      '',
-      '—',
-      'Nome: ' + name,
-      'WhatsApp: ' + phoneCheck.formatted,
-      utmBits.length ? ('UTM: ' + utmBits.join(' | ')) : null
-    ].filter(Boolean).join('\n');
-
-    const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(fullMsg)}`;
+    // Mensagem do WhatsApp so leva o que a pessoa quer (produto/servico).
+    // Nome e telefone ficam so no lead salvo (localStorage + planilha), nao no texto.
+    const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(pendingMsg)}`;
     closeGate();
-    window.open(url, '_blank', 'noopener');
+    const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (mobile) {
+      window.location.href = url;
+      return;
+    }
+    const go = document.createElement('a');
+    go.href = url;
+    go.target = '_blank';
+    go.rel = 'noopener noreferrer';
+    document.body.appendChild(go);
+    go.click();
+    go.remove();
   });
 
   function resolveMsg(el) {
@@ -238,6 +259,5 @@
     openGate(resolveMsg(a), a);
   }, true);
 
-  // Expõe para CTAs gerados depois (ex.: card "E muito mais")
   window.FaroleteLeadGate = { open: openGate, close: closeGate };
 })();
