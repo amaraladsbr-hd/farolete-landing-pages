@@ -8,9 +8,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Farolete Loja | Catálogo completo de autopeças em Sarzedo</title>
-<meta name="description" content="Vitrine Farolete Casa de Peças: navegue pelo catálogo completo por categoria, monte o pedido e confirme no WhatsApp.">
+<title>Farolete Loja | Autopeças em Sarzedo — peça ou veículo (Gol, Onix, Palio…)</title>
+<meta name="description" content="Busque por peça ou modelo na Farolete Casa de Peças (Sarzedo). Imagens meramente ilustrativas. Confirme veículo, ano e disponibilidade no WhatsApp.">
 <meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="keywords" content="Farolete, autopeças Sarzedo, para-brisa, farol, Palio, Uno, Gol, Onix, HB20, Fox, Strada">
 <link rel="canonical" href="https://marketplace.farolete.com.br/">
 <link rel="icon" href="assets/imagens/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/imagens/favicon-32.png">
@@ -21,16 +22,17 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Farolete Casa de Peças">
-<meta property="og:title" content="Farolete Loja | Catálogo completo de autopeças em Sarzedo">
-<meta property="og:description" content="Navegue pelo catálogo completo por categoria, monte o pedido e confirme no WhatsApp.">
+<meta property="og:title" content="Farolete Loja | Autopeças em Sarzedo">
+<meta property="og:description" content="Consulte peças por tipo ou veículo. Imagens ilustrativas — confirmação no WhatsApp.">
 <meta property="og:url" content="https://marketplace.farolete.com.br/">
 <meta property="og:image" content="https://marketplace.farolete.com.br/assets/imagens/banner_estoque.jpg">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Farolete Loja | Catálogo completo">
-<meta name="twitter:description" content="Navegue pelo catálogo completo por categoria e confirme o pedido no WhatsApp.">
+<meta name="twitter:title" content="Farolete Loja | Autopeças Sarzedo">
+<meta name="twitter:description" content="Busque por peça ou modelo e confirme no WhatsApp. Imagens meramente ilustrativas.">
 <meta name="twitter:image" content="https://marketplace.farolete.com.br/assets/imagens/banner_estoque.jpg">
 <script src="assets/js/site-config.js"></script>
+<script src="assets/js/catalog-index.js"></script>
 <script src="assets/js/catalog-store.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -170,7 +172,10 @@ button{cursor:pointer;border:0;background:none}
   position:absolute;inset:0;
   display:flex;align-items:center;justify-content:space-between;
   pointer-events:none;padding:0 .55rem;z-index:2;
+  opacity:0;transition:opacity .2s;
 }
+.banners-frame:hover .banner-nav,
+.banners-frame:focus-within .banner-nav{opacity:1}
 .banner-nav button{
   pointer-events:auto;width:40px;height:40px;border-radius:999px;
   background:rgba(0,0,0,.45);color:#fff;display:grid;place-items:center;
@@ -178,6 +183,11 @@ button{cursor:pointer;border:0;background:none}
   transition:background .2s;
 }
 .banner-nav button:hover{background:rgba(0,0,0,.7)}
+@media (hover:none),(max-width:720px){
+  .banner-nav{display:none!important}
+  .banners-frame{touch-action:pan-y;cursor:grab}
+  .banner-track{transition:transform .35s ease}
+}
 .banner-dots{
   display:flex;justify-content:center;gap:.4rem;
   padding:.85rem 0 0;
@@ -187,6 +197,49 @@ button{cursor:pointer;border:0;background:none}
   transition:width .2s, background .2s;
 }
 .banner-dots button.active{width:22px;background:var(--amber)}
+
+.note-illust{
+  font-size:.82rem;color:var(--muted);margin:.35rem 0 0;line-height:1.35;
+}
+.pcard .note-illust{font-size:.72rem;margin-top:.15rem}
+.vehicles{
+  padding:1.6rem 0 0;
+}
+.vehicles-track{
+  display:flex;gap:.5rem;overflow-x:auto;padding:.2rem 0 1rem;scrollbar-width:thin;
+}
+.vchip{
+  flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:999px;
+  padding:.55rem .9rem;font-size:.82rem;font-weight:700;color:var(--brown);
+  transition:background .2s, border-color .2s, transform .2s;
+}
+.vchip:hover,.vchip.active{background:var(--amber);border-color:var(--amber);transform:translateY(-1px)}
+.vchip span{display:block;font-size:.68rem;font-weight:600;color:var(--muted)}
+.vchip:hover span,.vchip.active span{color:var(--brown)}
+.sku-hits{
+  margin-top:1rem;padding:1rem;background:#fff;border:1px solid var(--line);border-radius:12px;
+}
+.sku-hits h4{font-family:Archivo,sans-serif;font-size:.95rem;margin-bottom:.55rem}
+.sku-hits ul{list-style:none;display:grid;gap:.35rem}
+.sku-hits li{font-size:.86rem;color:var(--muted);padding:.35rem 0;border-bottom:1px dashed var(--line)}
+.sku-hits li:last-child{border-bottom:0}
+
+/* Exit / stay popup */
+.stay{
+  position:fixed;inset:0;z-index:130;display:none;align-items:center;justify-content:center;
+  padding:1rem;background:rgba(28,18,14,.55);
+}
+.stay.open{display:flex}
+.stay-card{
+  width:min(420px,100%);background:#fff;border-radius:18px;padding:1.4rem 1.35rem 1.25rem;
+  box-shadow:var(--shadow);position:relative;text-align:left;
+}
+.stay-card h3{
+  font-family:Archivo,sans-serif;font-size:1.35rem;font-weight:800;margin:.2rem 0 .55rem;letter-spacing:-.02em;
+}
+.stay-card p{color:var(--muted);font-size:.95rem;margin-bottom:1rem}
+.stay-actions{display:flex;flex-direction:column;gap:.5rem}
+.stay .close-x{position:absolute;right:.7rem;top:.7rem}
 
 /* —— Trust —— */
 .trust{
@@ -469,7 +522,7 @@ button{cursor:pointer;border:0;background:none}
     </a>
     <label class="search">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      <input id="q" type="search" placeholder="Buscar peça ou modelo do veículo..." autocomplete="off">
+      <input id="q" type="search" placeholder="Buscar peça (farol…) ou veículo (Palio, Gol, Onix…)" autocomplete="off" aria-label="Buscar peça ou veículo">
     </label>
     <button class="cart-btn" type="button" id="open-cart" aria-label="Abrir carrinho">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 7h14l-1.5 8.5H8.2L7 7z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M7 7L6 3H3" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="10" cy="20" r="1.5" fill="#fff"/><circle cx="17" cy="20" r="1.5" fill="#fff"/></svg>
@@ -553,6 +606,17 @@ button{cursor:pointer;border:0;background:none}
     </div>
   </section>
 
+  <section class="section vehicles" id="vehicles" aria-label="Veículos com peças no estoque">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Busque pelo seu veículo</h2>
+        <a href="#departamentos">Ver por peça ›</a>
+      </div>
+      <p class="note-illust">Modelos com itens no catálogo Farolete (planilha de estoque). Toque para ver tipos de peça relacionados — disponibilidade e ano se confirmam no WhatsApp.</p>
+      <div class="vehicles-track" id="vehiclesTrack"></div>
+    </div>
+  </section>
+
   <section class="section" id="departamentos">
     <div class="wrap">
       <div class="section-head"><h2>Explore por departamento</h2></div>
@@ -570,6 +634,11 @@ button{cursor:pointer;border:0;background:none}
       <a href="#" id="backHome">← Voltar ao início</a>
     </div>
     <p class="grid-meta" id="gridMeta"></p>
+    <p class="note-illust" id="gridDisclaimer">Imagens meramente ilustrativas. Confirme veículo, ano e disponibilidade no WhatsApp.</p>
+    <div class="sku-hits" id="skuHits" hidden>
+      <h4 id="skuHitsTitle">Exemplos no estoque</h4>
+      <ul id="skuHitsList"></ul>
+    </div>
     <div class="products-grid" id="grid"></div>
   </div>
 </section>
@@ -634,8 +703,11 @@ button{cursor:pointer;border:0;background:none}
     <div class="modal-copy">
       <p class="tag" id="p-cat"></p>
       <h3 id="p-title"></h3>
+      <p class="note-illust" id="p-disclaimer">Imagem meramente ilustrativa. A peça do seu veículo é confirmada pela loja conforme modelo e ano.</p>
       <p>Informe o veículo para agilizar. Depois adicione ao carrinho ou peça no WhatsApp.</p>
-      <div class="field"><label for="p-veiculo">Marca / modelo</label><input id="p-veiculo" placeholder="Ex.: Onix"></div>
+      <p class="note-illust" id="p-vehicles" hidden></p>
+      <div class="field"><label for="p-veiculo">Marca / modelo</label><input id="p-veiculo" placeholder="Ex.: Onix" list="veiculo-list"></div>
+      <datalist id="veiculo-list"></datalist>
       <div class="field"><label for="p-ano">Ano</label><input id="p-ano" placeholder="Ex.: 2018" inputmode="numeric"></div>
       <div class="field"><label for="p-qty">Quantidade</label><input id="p-qty" type="number" min="1" value="1"></div>
       <p class="note"><strong>Sob consulta</strong> · pagamento na loja (cartão e PIX)</p>
@@ -648,6 +720,20 @@ button{cursor:pointer;border:0;background:none}
 </div>
 
 <div class="toast" id="toast" role="status">Adicionado</div>
+
+<div class="stay" id="stayPopup" role="dialog" aria-modal="true" aria-labelledby="stayTitle" hidden>
+  <div class="stay-card">
+    <button class="close-x" type="button" id="stayClose" aria-label="Fechar">×</button>
+    <p class="tag">Antes de sair…</p>
+    <h3 id="stayTitle">Não saia ainda</h3>
+    <p>Busque pelo modelo do seu carro (Palio, Gol, Onix…) ou pela peça. A Farolete confirma disponibilidade e valores no WhatsApp — atendimento especializado em Sarzedo.</p>
+    <div class="stay-actions">
+      <a class="btn btn-wa btn-block" id="stayWa" href="https://wa.me/5531999971820" target="_blank" rel="noopener noreferrer">Falar no WhatsApp agora</a>
+      <button class="btn btn-amber btn-block" type="button" id="staySearch">Buscar meu veículo</button>
+      <button class="btn btn-line btn-block" type="button" id="stayDismiss">Continuar na loja</button>
+    </div>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -720,6 +806,24 @@ button{cursor:pointer;border:0;background:none}
     const frame = document.getElementById('bannerFrame');
     frame.addEventListener('pointerenter', () => clearInterval(bannerTimer));
     frame.addEventListener('pointerleave', restartBanner);
+
+    /* Mobile: arrastar / swipe — setas ocultas via CSS */
+    let touchX = null;
+    frame.addEventListener('touchstart', (e) => {
+      touchX = e.changedTouches[0].clientX;
+      clearInterval(bannerTimer);
+    }, { passive: true });
+    frame.addEventListener('touchend', (e) => {
+      if (touchX == null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      touchX = null;
+      if (Math.abs(dx) < 40) { restartBanner(); return; }
+      if (dx < 0) bannerIndex = (bannerIndex + 1) % n;
+      else bannerIndex = (bannerIndex - 1 + n) % n;
+      syncBanner();
+      restartBanner();
+    }, { passive: true });
+
     restartBanner();
   }
 
@@ -733,47 +837,93 @@ button{cursor:pointer;border:0;background:none}
     catsEl.appendChild(b);
   });
 
+  const vehiclesTrack = document.getElementById('vehiclesTrack');
+  const skuHits = document.getElementById('skuHits');
+  const skuHitsTitle = document.getElementById('skuHitsTitle');
+  const skuHitsList = document.getElementById('skuHitsList');
+  const veiculoList = document.getElementById('veiculo-list');
+
   function allProducts(){ return FaroleteCatalog.getProducts().map(p=>({...p})); }
+
   function filtered(){
-    let list = allProducts();
-    if(filter!=='all') list = list.filter(p=>p.category===filter);
-    if(query){
-      const t=query.toLowerCase();
-      list = list.filter(p=>p.name.toLowerCase().includes(t) || FaroleteCatalog.categoryLabel(p.category).toLowerCase().includes(t));
-    }
-    return list;
+    const result = FaroleteCatalog.searchProducts(query, filter);
+    return result;
+  }
+
+  function escapeHtml(s){
+    return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
   function productCard(p){
     const cat = FaroleteCatalog.categoryLabel(p.category);
-    return `<article class="pcard" data-id="${p.id}">
-      <span class="tag">${cat}</span>
-      <div class="media" data-open="${p.id}"><img src="${p.image}" alt="${p.name}" loading="lazy"></div>
-      <h4 data-open="${p.id}">${p.name}</h4>
-      <p class="sku">Sob consulta</p>
+    const disc = p.disclaimer || 'Imagem meramente ilustrativa.';
+    const veh = (p.vehicles || []).slice(0, 6).join(', ');
+    const stock = p.stockSkus ? ` · ~${p.stockSkus} refs. no estoque` : '';
+    return `<article class="pcard" data-id="${escapeHtml(p.id)}">
+      <span class="tag">${escapeHtml(cat)}</span>
+      <div class="media" data-open="${escapeHtml(p.id)}"><img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)} — imagem meramente ilustrativa" loading="lazy"></div>
+      <h4 data-open="${escapeHtml(p.id)}">${escapeHtml(p.name)}</h4>
+      <p class="sku">Sob consulta${stock}</p>
+      <p class="note-illust">${escapeHtml(disc)}</p>
+      ${veh ? `<p class="note-illust">Ex.: ${escapeHtml(veh)}${(p.vehicles||[]).length>6?'…':''}</p>` : ''}
       <a class="wa-link" href="${waMsg('Olá! Quero consultar: '+p.name)}" target="_blank" rel="noopener noreferrer">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11 11 0 0 0 2.1 17.2L1 23l5.9-1.1A11 11 0 1 0 20.5 3.5z"/></svg>
         Consulte no WhatsApp
       </a>
       <div class="actions">
-        <button class="btn btn-line btn-sm" type="button" data-add="${p.id}">+ Carrinho</button>
-        <button class="btn btn-wa btn-sm" type="button" data-pedir="${p.id}">Pedir</button>
+        <button class="btn btn-line btn-sm" type="button" data-add="${escapeHtml(p.id)}">+ Carrinho</button>
+        <button class="btn btn-wa btn-sm" type="button" data-pedir="${escapeHtml(p.id)}">Pedir</button>
       </div>
     </article>`;
   }
 
-  function showHome(){ homeBlocks.classList.add('on'); gridPage.classList.remove('on'); }
-  function showGrid(title, list){
+  function renderSkuHits(matchedVehicle){
+    if(!matchedVehicle || !(matchedVehicle.samples||[]).length){
+      skuHits.hidden = true;
+      skuHitsList.innerHTML = '';
+      return;
+    }
+    skuHits.hidden = false;
+    skuHitsTitle.textContent = `Exemplos no estoque · ${matchedVehicle.brand ? matchedVehicle.brand + ' ' : ''}${matchedVehicle.name} (${matchedVehicle.stockSkus || matchedVehicle.samples.length}+ refs.)`;
+    skuHitsList.innerHTML = matchedVehicle.samples.slice(0, 12).map(s => `<li>${escapeHtml(s)}</li>`).join('');
+  }
+
+  function showHome(){
+    homeBlocks.classList.add('on');
+    gridPage.classList.remove('on');
+    skuHits.hidden = true;
+  }
+  function showGrid(title, list, matchedVehicle){
     homeBlocks.classList.remove('on');
     gridPage.classList.add('on');
     gridTitle.textContent = title;
-    gridMeta.textContent = list.length + (list.length===1?' produto':' produtos') + (query?` · busca “${query}”`:'');
-    grid.innerHTML = list.length ? list.map(productCard).join('') : '<div class="empty">Nenhuma peça encontrada.</div>';
+    const extra = matchedVehicle
+      ? ` · peças relacionadas a ${matchedVehicle.brand ? matchedVehicle.brand + ' ' : ''}${matchedVehicle.name}`
+      : (query ? ` · busca “${query}”` : '');
+    gridMeta.textContent = list.length + (list.length===1?' tipo de peça':' tipos de peça') + extra;
+    renderSkuHits(matchedVehicle);
+    grid.innerHTML = list.length ? list.map(productCard).join('') : '<div class="empty">Nada encontrado no estoque indexado. Tente outro modelo ou peça, ou fale no WhatsApp.</div>';
     window.scrollTo({top: document.querySelector('.cats-bar').offsetTop - 8, behavior:'smooth'});
   }
   function setActiveCat(id){
     filter = id;
     catsEl.querySelectorAll('.cat-link').forEach(x=>x.classList.toggle('active', x.dataset.cat===id));
+  }
+
+  function renderVehicles(){
+    const list = FaroleteCatalog.getVehicles().slice(0, 48);
+    if (veiculoList) {
+      veiculoList.innerHTML = FaroleteCatalog.getVehicles().map(v =>
+        `<option value="${escapeHtml(v.name)}">${escapeHtml((v.brand ? v.brand + ' ' : '') + v.name)}</option>`
+      ).join('');
+    }
+    if (!vehiclesTrack) return;
+    vehiclesTrack.innerHTML = list.map(v =>
+      `<button type="button" class="vchip" data-vehicle="${escapeHtml(v.name)}" aria-label="Buscar ${escapeHtml(v.name)}">
+        ${escapeHtml(v.name)}
+        <span>${escapeHtml(v.brand || '—')} · ${v.stockSkus || 0} refs.</span>
+      </button>`
+    ).join('');
   }
 
   function renderDepts(){
@@ -805,7 +955,16 @@ button{cursor:pointer;border:0;background:none}
 
   function applyView(){
     if(query || filter!=='all'){
-      showGrid(filter==='all' ? 'Resultados' : FaroleteCatalog.categoryLabel(filter), filtered());
+      const { products, matchedVehicle } = filtered();
+      const title = matchedVehicle
+        ? ((matchedVehicle.brand ? matchedVehicle.brand + ' ' : '') + matchedVehicle.name)
+        : (filter==='all' ? 'Resultados' : FaroleteCatalog.categoryLabel(filter));
+      showGrid(title, products, matchedVehicle);
+      if (vehiclesTrack) {
+        vehiclesTrack.querySelectorAll('.vchip').forEach(ch => {
+          ch.classList.toggle('active', matchedVehicle && FaroleteCatalog.normalize(ch.dataset.vehicle) === FaroleteCatalog.normalize(matchedVehicle.name));
+        });
+      }
     } else showHome();
   }
 
@@ -833,10 +992,10 @@ button{cursor:pointer;border:0;background:none}
     if(!items.length){ cartBody.innerHTML = '<p class="note">Carrinho vazio.</p>'; return; }
     cartBody.innerHTML = items.map((i,idx)=>`
       <div class="cart-item">
-        <img src="${i.image}" alt="${i.name}">
+        <img src="${i.image}" alt="${escapeHtml(i.name)}">
         <div>
-          <h4>${i.name}</h4>
-          <p class="meta">${FaroleteCatalog.categoryLabel(i.category)}${i.note?' · '+i.note:''}</p>
+          <h4>${escapeHtml(i.name)}</h4>
+          <p class="meta">${FaroleteCatalog.categoryLabel(i.category)}${i.note?' · '+escapeHtml(i.note):''}</p>
           <div class="qty">
             <button type="button" data-dec="${idx}">−</button>
             <span>${i.qty}</span>
@@ -849,21 +1008,30 @@ button{cursor:pointer;border:0;background:none}
   }
 
   function openCart(){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); overlay.hidden=false; overlay.classList.add('open'); document.body.style.overflow='hidden'; }
-  function closeCart(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); if(!modal.classList.contains('open')){ overlay.classList.remove('open'); overlay.hidden=true; document.body.style.overflow=''; } }
+  function closeCart(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); if(!modal.classList.contains('open') && !document.getElementById('stayPopup').classList.contains('open')){ overlay.classList.remove('open'); overlay.hidden=true; document.body.style.overflow=''; } }
   function showToast(msg){ toast.textContent=msg; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),1600); }
 
   function openProduct(p){
     current=p;
     document.getElementById('p-img').src=p.image;
-    document.getElementById('p-img').alt=p.name;
+    document.getElementById('p-img').alt=p.name + ' — imagem meramente ilustrativa';
     document.getElementById('p-title').textContent=p.name;
     document.getElementById('p-cat').textContent=FaroleteCatalog.categoryLabel(p.category);
+    document.getElementById('p-disclaimer').textContent = p.disclaimer || 'Imagem meramente ilustrativa. A peça do seu veículo é confirmada pela loja conforme modelo e ano.';
+    const pv = document.getElementById('p-vehicles');
+    if (p.vehicles && p.vehicles.length) {
+      pv.hidden = false;
+      pv.textContent = 'Modelos com estoque relacionado: ' + p.vehicles.slice(0, 20).join(', ') + (p.vehicles.length > 20 ? '…' : '');
+    } else {
+      pv.hidden = true;
+      pv.textContent = '';
+    }
     document.getElementById('p-veiculo').value='';
     document.getElementById('p-ano').value='';
     document.getElementById('p-qty').value='1';
     modal.classList.add('open'); overlay.hidden=false; overlay.classList.add('open'); document.body.style.overflow='hidden';
   }
-  function closeProduct(){ modal.classList.remove('open'); current=null; if(!drawer.classList.contains('open')){ overlay.classList.remove('open'); overlay.hidden=true; document.body.style.overflow=''; } }
+  function closeProduct(){ modal.classList.remove('open'); current=null; if(!drawer.classList.contains('open') && !document.getElementById('stayPopup').classList.contains('open')){ overlay.classList.remove('open'); overlay.hidden=true; document.body.style.overflow=''; } }
 
   function orderCode(){
     const d=new Date();
@@ -879,6 +1047,40 @@ button{cursor:pointer;border:0;background:none}
     location.href=waMsg(msg);
   }
 
+  /* Popup de retenção — após ~12s ou intenção de saída (1x/sessão) */
+  const stay = document.getElementById('stayPopup');
+  const STAY_KEY = 'farolete_stay_seen_v1';
+  function openStay(){
+    if (sessionStorage.getItem(STAY_KEY)) return;
+    if (modal.classList.contains('open') || drawer.classList.contains('open')) return;
+    sessionStorage.setItem(STAY_KEY, '1');
+    stay.hidden = false;
+    stay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeStay(){
+    stay.classList.remove('open');
+    stay.hidden = true;
+    if (!modal.classList.contains('open') && !drawer.classList.contains('open')) {
+      document.body.style.overflow = '';
+    }
+  }
+  setTimeout(openStay, 12000);
+  document.addEventListener('mouseout', (e) => {
+    if (e.clientY > 0 || e.relatedTarget) return;
+    openStay();
+  });
+  document.getElementById('stayClose').onclick = closeStay;
+  document.getElementById('stayDismiss').onclick = closeStay;
+  stay.addEventListener('click', (e) => { if (e.target === stay) closeStay(); });
+  document.getElementById('staySearch').onclick = () => {
+    closeStay();
+    q.focus();
+    q.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+  const stayWa = document.getElementById('stayWa');
+  if (stayWa) stayWa.href = waMsg('Olá! Estava na loja Farolete e quero atendimento antes de sair.');
+
   catsEl.addEventListener('click', e=>{
     const b=e.target.closest('.cat-link'); if(!b) return;
     setActiveCat(b.dataset.cat); query=''; q.value=''; applyView();
@@ -891,6 +1093,16 @@ button{cursor:pointer;border:0;background:none}
     const b=e.target.closest('[data-dept]'); if(!b) return;
     setActiveCat(b.dataset.dept); applyView();
   });
+  if (vehiclesTrack) {
+    vehiclesTrack.addEventListener('click', e => {
+      const chip = e.target.closest('[data-vehicle]');
+      if (!chip) return;
+      query = chip.dataset.vehicle;
+      q.value = query;
+      setActiveCat('all');
+      applyView();
+    });
+  }
 
   function onProductClick(e){
     const add=e.target.closest('[data-add]');
@@ -935,8 +1147,11 @@ button{cursor:pointer;border:0;background:none}
     location.href=waMsg(`Olá! Quero consultar: ${current.name}.${extra?' '+extra:''}`);
   };
 
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeCart(); closeProduct(); } });
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape'){ closeCart(); closeProduct(); closeStay(); }
+  });
 
+  renderVehicles();
   renderDepts();
   renderRails();
   renderCart();

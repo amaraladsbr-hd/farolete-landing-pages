@@ -174,13 +174,14 @@
 
     .btn-whats{
         position:relative;
-        display:inline-flex; align-items:center; gap:0.65rem; text-decoration:none;
+        display:inline-flex; align-items:center; justify-content:center; gap:0.65rem; text-decoration:none;
         font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:0.9rem;
         letter-spacing:1px; text-transform:uppercase; color:var(--ink); background:var(--amber);
-        padding:0.85rem 1.8rem; border:none; border-radius:4px;
+        padding:0.85rem 1.8rem; border:2px solid var(--amber); border-radius:8px;
         overflow:hidden; isolation:isolate; flex-shrink:0;
-        box-shadow:0 2px 0 rgba(0,0,0,0.25), 0 6px 16px rgba(255,201,60,0.18);
-        transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease;
+        min-height:48px;
+        box-shadow:0 2px 0 rgba(0,0,0,0.25), 0 6px 16px rgba(255,201,60,0.22);
+        transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease, background 0.25s, border-color 0.25s;
     }
     .btn-whats::before{
         content:''; position:absolute; inset:0; background:var(--amber-deep);
@@ -191,24 +192,46 @@
         transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
     }
     .btn-whats:hover{
-        transform:translateY(-3px) scale(1.015);
-        box-shadow:0 8px 0 rgba(0,0,0,0.25), 0 18px 30px rgba(255,201,60,0.35);
+        transform:translateY(-2px);
+        box-shadow:0 8px 0 rgba(0,0,0,0.2), 0 16px 28px rgba(255,201,60,0.32);
     }
     .btn-whats:hover::before{ transform:translateX(0); }
-    .btn-whats:hover .btn-icon{ transform:rotate(-10deg) scale(1.18); }
-    .btn-whats:active{ transform:translateY(-1px) scale(0.985); }
+    .btn-whats:hover .btn-icon{ transform:rotate(-8deg) scale(1.12); }
+    .btn-whats:active{ transform:translateY(0) scale(0.985); }
 
+    /* Ghost = outline âmbar visível (antes era só underline quase invisível) */
     .btn-ghost{
         position:relative;
-        display:inline-flex; align-items:center; gap:0.55rem; text-decoration:none;
-        font-family:'Barlow Condensed', sans-serif; font-weight:600; font-size:0.9rem;
-        letter-spacing:1px; text-transform:uppercase; color:var(--white);
-        border-bottom:2px solid var(--line); padding-bottom:4px;
-        transition:color 0.3s ease, border-color 0.3s ease, gap 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        display:inline-flex; align-items:center; justify-content:center; gap:0.55rem; text-decoration:none;
+        font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:0.88rem;
+        letter-spacing:1px; text-transform:uppercase;
+        color:var(--amber);
+        background:rgba(255,201,60,0.06);
+        border:1.5px solid rgba(255,201,60,0.65);
+        border-radius:8px;
+        padding:0.7rem 1.15rem;
+        min-height:44px;
+        transition:color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.3s ease, gap 0.3s ease;
     }
-    .btn-ghost:hover{ border-color:var(--amber); color:var(--amber); gap:0.95rem; }
-    .btn-ghost .btn-arrow{ transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+    .btn-ghost:hover{
+        color:var(--ink);
+        background:var(--amber);
+        border-color:var(--amber);
+        gap:0.85rem;
+        transform:translateY(-1px);
+    }
+    .btn-ghost .btn-arrow{ transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
     .btn-ghost:hover .btn-arrow{ transform:translateX(3px); }
+    .btn-ghost-solid{
+        color:var(--ink);
+        background:var(--amber);
+        border-color:var(--amber);
+    }
+    .btn-ghost-solid:hover{
+        background:var(--amber-deep);
+        border-color:var(--amber-deep);
+        color:var(--ink);
+    }
 
     /* ─── HERO ─── */
     .hero{
@@ -339,29 +362,38 @@
     }
     .section-head p{ color:var(--muted); max-width:560px; margin:1.3rem auto 0; font-size:1rem; line-height:1.7; }
 
-    /* ─── CATALOGO (banda carvão) ─── */
+    /* ─── CATALOGO (vitrine — fotos fundo branco) ─── */
     .catalogo{
         position:relative;
         background:
-            radial-gradient(ellipse at 12% 0%, rgba(255,201,60,0.07), transparent 42%),
-            radial-gradient(ellipse at 88% 100%, rgba(255,143,28,0.05), transparent 40%),
+            radial-gradient(ellipse at 50% 0%, rgba(255,201,60,0.06), transparent 48%),
             var(--panel);
         padding:var(--fold-pad) 0 calc(var(--fold-pad) * 0.85);
         border-bottom:1px solid var(--line);
     }
     .catalogo .section-head{ padding:0 6vw; }
+    .catalogo-note{
+        text-align:center;
+        color:var(--muted);
+        font-size:0.86rem;
+        line-height:1.5;
+        max-width:42rem;
+        margin:-0.2rem auto 1.4rem;
+        padding:0 6vw;
+    }
     .cat-filters{
-        display:flex; flex-wrap:wrap; gap:0.65rem; justify-content:center;
-        padding:0 6vw 1.6rem;
+        display:flex; flex-wrap:wrap; gap:0.55rem; justify-content:center;
+        padding:0 6vw 1.5rem;
     }
     .cat-filter{
         font-family:'Barlow Condensed', sans-serif; font-weight:600; font-size:0.85rem;
         letter-spacing:1px; text-transform:uppercase;
-        color:var(--muted); background:transparent;
-        border:1px solid var(--line); padding:0.65rem 1.15rem; cursor:pointer;
+        color:rgba(247,244,238,0.88); background:rgba(255,255,255,0.05);
+        border:1px solid rgba(255,201,60,0.28); padding:0.6rem 1.05rem; cursor:pointer;
+        border-radius:999px;
         transition:color 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
     }
-    .cat-filter:hover{ color:var(--amber); border-color:var(--amber); }
+    .cat-filter:hover{ color:var(--amber); border-color:rgba(255,201,60,0.65); background:rgba(255,201,60,0.08); }
     .cat-filter.active{
         color:var(--ink); background:var(--amber); border-color:var(--amber);
         box-shadow:0 0 18px rgba(255,201,60,0.22);
@@ -370,22 +402,20 @@
     .produtos-media{
         position:relative; overflow:hidden;
         background:
-            linear-gradient(180deg, rgba(255,201,60,0.06), transparent 28%),
-            repeating-linear-gradient(135deg, var(--ink) 0 10px, var(--amber) 10px 20px) top / 100% 8px no-repeat,
-            radial-gradient(ellipse at 50% 120%, rgba(255,201,60,0.08), transparent 55%),
-            linear-gradient(180deg, #0c0b09 0%, var(--brand-steel) 45%, #0c0b09 100%);
+            radial-gradient(ellipse 70% 55% at 50% 0%, rgba(255,201,60,0.07), transparent 60%),
+            linear-gradient(180deg, #100e0b 0%, #1a1510 42%, #0e0c0a 100%);
         border-top:1px solid var(--line);
         border-bottom:1px solid var(--line);
-        padding:2.4rem 0 2.6rem;
+        padding:2.2rem 0 2.4rem;
     }
     .produtos-media::before, .produtos-media::after{
-        content:''; position:absolute; top:8px; bottom:0; width:96px; z-index:3; pointer-events:none;
+        content:''; position:absolute; top:0; bottom:0; width:min(120px, 12vw); z-index:3; pointer-events:none;
     }
-    .produtos-media::before{ left:0; background:linear-gradient(90deg, var(--panel), transparent); }
-    .produtos-media::after{ right:0; background:linear-gradient(270deg, var(--panel), transparent); }
+    .produtos-media::before{ left:0; background:linear-gradient(90deg, #100e0b, transparent); }
+    .produtos-media::after{ right:0; background:linear-gradient(270deg, #0e0c0a, transparent); }
 
     .produtos-track{
-        display:flex; width:max-content; gap:1.15rem; padding:0.5rem 1.5rem;
+        display:flex; width:max-content; gap:1.25rem; padding:0.35rem 1.6rem 0.6rem;
         align-items:stretch;
         cursor:grab;
         touch-action:pan-y;
@@ -400,89 +430,100 @@
 
     .prod-card{
         position:relative; flex:0 0 auto;
-        width:clamp(220px, 23vw, 300px);
+        width:clamp(240px, 24vw, 320px);
         display:flex; flex-direction:column;
-        background:
-            radial-gradient(ellipse at 50% 35%, rgba(255,201,60,0.1), transparent 58%),
-            linear-gradient(165deg, #1a1712 0%, #0e0d0b 55%, #12100c 100%);
-        border:1px solid rgba(255,201,60,0.22);
+        background:#fff;
+        border:1px solid rgba(255,201,60,0.18);
+        border-radius:14px;
         overflow:hidden;
-        box-shadow:0 12px 32px rgba(0,0,0,0.45);
+        box-shadow:
+            0 1px 0 rgba(255,201,60,0.12) inset,
+            0 18px 40px rgba(0,0,0,0.38);
         transition:border-color 0.35s ease, transform 0.45s cubic-bezier(0.22,1,0.36,1), box-shadow 0.45s ease;
     }
     .prod-card::before{
         content:'';
-        position:absolute; top:10px; left:10px; width:22px; height:22px; z-index:2;
-        border-top:2px solid var(--amber);
-        border-left:2px solid var(--amber);
+        position:absolute; top:0; left:0; right:0; height:3px; z-index:2;
+        background:linear-gradient(90deg, var(--amber), var(--amber-deep));
         pointer-events:none;
-        opacity:0.9;
     }
-    .prod-card::after{
-        content:'';
-        position:absolute; bottom:58px; right:10px; width:22px; height:22px; z-index:2;
-        border-bottom:2px solid var(--amber);
-        border-right:2px solid var(--amber);
-        pointer-events:none;
-        opacity:0.55;
-    }
+    .prod-card::after{ display:none; }
     .prod-frame{
         position:relative;
-        aspect-ratio:4/3;
-        margin:0.8rem 0.8rem 0;
-        border-radius:6px;
-        background:#f2ede1;
-        box-shadow:inset 0 0 0 1px rgba(28,18,14,0.1), 0 8px 18px rgba(0,0,0,0.3);
+        aspect-ratio:1/1;
+        margin:0;
+        background:#ffffff;
         display:flex; align-items:center; justify-content:center;
-        padding:0.9rem;
+        padding:0.85rem 0.85rem 0.45rem;
+        overflow:hidden;
     }
+    .prod-frame::after{ display:none; }
     .prod-card img{
         width:100%; height:100%;
         object-fit:contain;
         display:block;
         -webkit-user-drag:none;
         transition:transform 0.55s cubic-bezier(0.22,1,0.36,1);
-        filter:contrast(1.04) saturate(1.06);
+        filter:contrast(1.03) saturate(1.04);
+        background:#fff;
     }
+    .prod-media-cap{ display:none; }
     .prod-card figcaption{
         position:relative; z-index:1;
         margin-top:auto;
-        padding:0.85rem 1rem 1rem;
-        background:linear-gradient(180deg, transparent, rgba(0,0,0,0.35));
-        border-top:1px solid rgba(255,201,60,0.15);
+        padding:0.85rem 1.1rem 1.05rem;
+        background:linear-gradient(180deg, #1a1510 0%, #120f0c 100%);
+        border-top:1px solid rgba(255,201,60,0.2);
         font-family:'Barlow Condensed', sans-serif; font-weight:600;
-        font-size:0.9rem; letter-spacing:1px; text-transform:uppercase;
+        font-size:0.95rem; letter-spacing:1px; text-transform:uppercase;
         color:var(--white); line-height:1.25;
+        display:block;
     }
     .prod-card .prod-tag{
         display:block; color:var(--amber); font-size:0.7rem; letter-spacing:1.6px;
-        margin-bottom:0.2rem;
+        margin-bottom:0.25rem;
+        font-family:inherit;
+        text-transform:uppercase;
+    }
+    .prod-card .prod-disc{
+        display:block;
+        margin-top:0.35rem;
+        font-family:'Barlow', sans-serif;
+        font-weight:400;
+        font-size:0.68rem;
+        letter-spacing:0.02em;
+        text-transform:none;
+        color:rgba(247,244,238,0.55);
+        line-height:1.35;
     }
     .prod-card:hover{
-        border-color:rgba(255,201,60,0.7);
-        transform:translateY(-8px);
-        box-shadow:0 22px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,201,60,0.28), 0 0 28px rgba(255,201,60,0.12);
+        border-color:rgba(255,201,60,0.55);
+        transform:translateY(-6px);
+        box-shadow:
+            0 1px 0 rgba(255,201,60,0.2) inset,
+            0 26px 52px rgba(0,0,0,0.5),
+            0 0 0 1px rgba(255,201,60,0.2);
         z-index:2;
     }
-    .prod-card:hover img{ transform:scale(1.045); }
+    .prod-card:hover img{ transform:scale(1.04); }
     .prod-card.is-hidden{ display:none; }
 
     .prod-card-mais{
         justify-content:center;
         min-height:100%;
         background:
-            radial-gradient(ellipse at 50% 40%, rgba(255,201,60,0.22), transparent 60%),
-            linear-gradient(165deg, #241c0e 0%, #100e0a 55%, #1a1408 100%);
-        border-color:rgba(255,201,60,0.55);
+            radial-gradient(ellipse at 50% 35%, rgba(255,201,60,0.18), transparent 58%),
+            linear-gradient(165deg, #241c0e 0%, #120f0c 55%, #1a1408 100%);
+        border-color:rgba(255,201,60,0.45);
         text-decoration:none;
         color:inherit;
     }
     .prod-card-mais::before{ opacity:1; }
-    .prod-card-mais::after{ bottom:10px; opacity:0.9; }
     .prod-mais-inner{
         flex:1; display:flex; flex-direction:column;
         align-items:center; justify-content:center; text-align:center;
         gap:0.85rem; padding:2rem 1.4rem;
+        min-height:clamp(280px, 28vw, 360px);
     }
     .prod-mais-label{
         font-family:'Anton', sans-serif;
@@ -499,10 +540,11 @@
         font-size:0.85rem; letter-spacing:1.5px; text-transform:uppercase;
         color:var(--ink); background:var(--amber);
         padding:0.55rem 1rem; margin-top:0.35rem;
+        border-radius:8px;
     }
     .prod-card-mais:hover{
-        border-color:rgba(255,201,60,0.9);
-        transform:translateY(-8px);
+        border-color:rgba(255,201,60,0.85);
+        transform:translateY(-6px);
     }
     .prod-card-mais:hover .prod-mais-cta{ background:var(--amber-deep); }
 
@@ -521,32 +563,55 @@
         border-bottom:1px solid var(--line);
     }
     .servicos-grid{
-        display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line);
+        display:grid; grid-template-columns:repeat(4, 1fr); gap:1rem;
         margin-top:0.5rem;
     }
     .servico-card{
         background:var(--panel);
         display:flex; flex-direction:column;
-        transition:background 0.3s ease;
+        border:1px solid var(--line);
+        border-radius:14px;
         overflow:hidden;
+        transition:background 0.3s ease, border-color 0.3s ease, transform 0.35s ease, box-shadow 0.35s ease;
     }
-    .servico-card:hover{ background:var(--panel-2); }
+    .servico-card:hover{
+        background:var(--panel-2);
+        border-color:rgba(255,201,60,0.4);
+        transform:translateY(-4px);
+        box-shadow:0 18px 40px rgba(0,0,0,0.35);
+    }
     .servico-media{
-        position:relative; aspect-ratio:4/3; overflow:hidden; background:#0c0b0a;
+        position:relative; aspect-ratio:4/3; overflow:hidden;
+        background:#1a1712;
     }
     .servico-media img{
         width:100%; height:100%; object-fit:cover; object-position:center;
-        filter:contrast(1.04) saturate(1.05);
+        filter:none;
+        image-rendering:auto;
         transition:transform 0.6s cubic-bezier(0.22,1,0.36,1);
     }
     .servico-media::after{
         content:'';
         position:absolute; inset:0; pointer-events:none;
-        background:linear-gradient(180deg, transparent 55%, rgba(8,8,7,0.35) 100%);
+        background:linear-gradient(180deg, transparent 70%, rgba(8,8,7,0.28) 100%);
+        box-shadow:inset 0 0 0 1px rgba(255,201,60,0.1);
     }
-    .servico-card:hover .servico-media img{ transform:scale(1.05); }
+    .servico-media-cap{
+        position:absolute; left:0.7rem; bottom:0.65rem; z-index:2;
+        font-family:'JetBrains Mono', monospace;
+        font-size:0.62rem; letter-spacing:0.02em;
+        color:rgba(247,244,238,0.88);
+        background:rgba(8,8,7,0.55);
+        backdrop-filter:blur(6px);
+        -webkit-backdrop-filter:blur(6px);
+        padding:0.28rem 0.5rem;
+        border-radius:4px;
+        border:1px solid rgba(247,244,238,0.12);
+        pointer-events:none;
+    }
+    .servico-card:hover .servico-media img{ transform:scale(1.03); }
     .servico-body{
-        padding:1.35rem 1.35rem 1.55rem;
+        padding:1.35rem 1.25rem 1.45rem;
         display:flex; flex-direction:column; gap:0.7rem; flex:1;
     }
     .servico-num{
@@ -558,7 +623,7 @@
         text-transform:uppercase; letter-spacing:0.4px; line-height:1.15;
     }
     .servico-card p{ color:var(--muted); font-size:0.92rem; line-height:1.6; flex-grow:1; }
-    .servico-card .btn-ghost{ align-self:flex-start; margin-top:0.2rem; }
+    .servico-card .btn-ghost{ align-self:stretch; width:100%; margin-top:0.25rem; }
 
     /* ─── CTA MID (banda âmbar cheia) ─── */
     .cta-mid{
@@ -581,9 +646,17 @@
         text-transform:uppercase; line-height:1.2;
     }
     .cta-mid h2 .hl{ text-decoration:underline; text-decoration-thickness:3px; text-underline-offset:6px; }
-    .cta-mid .btn-whats{ background:var(--ink); color:var(--amber); box-shadow:none; }
-    .cta-mid .btn-whats::before{ background:var(--amber-deep); }
-    .cta-mid .btn-whats:hover{ color:var(--ink); box-shadow:0 10px 24px rgba(0,0,0,0.3); }
+    .cta-mid .btn-whats{
+        background:var(--ink); color:var(--amber);
+        border-color:var(--ink);
+        box-shadow:0 4px 16px rgba(0,0,0,0.25);
+    }
+    .cta-mid .btn-whats::before{ background:var(--amber); }
+    .cta-mid .btn-whats:hover{
+        color:var(--ink);
+        border-color:var(--ink);
+        box-shadow:0 10px 24px rgba(0,0,0,0.3);
+    }
 
     /* ─── B2B (banda preta profunda) ─── */
     .b2b{
@@ -737,7 +810,14 @@
     .selo p{ font-size:0.85rem; color:var(--muted); line-height:1.5; }
     .selo.selo-cta{ background:var(--amber); color:var(--ink); }
     .selo.selo-cta .selo-big{ color:var(--ink); }
-    .selo.selo-cta p{ color:rgba(10,10,9,0.75); }
+    .selo.selo-cta p{ color:rgba(10,10,9,0.82); }
+    .selo.selo-cta a{
+        color:var(--ink);
+        font-weight:700;
+        text-decoration:underline;
+        text-underline-offset:3px;
+    }
+    .selo.selo-cta a:hover{ color:#3a2a10; }
     .selo.selo-cta a{ text-decoration:underline; font-weight:600; }
 
     /* ─── FAQ ─── */
@@ -963,7 +1043,7 @@
         .sobre-text p{ max-width:none; }
         .selos-grid{ grid-template-columns:repeat(2, 1fr); }
         .reviews-grid{ grid-template-columns:1fr; }
-        .servicos-grid{ grid-template-columns:1fr 1fr; }
+        .servicos-grid{ grid-template-columns:1fr 1fr; gap:0.85rem; }
         .info-bar{ grid-template-columns:1fr; }
         .local-grid{ grid-template-columns:1fr; }
         .map-frame{ aspect-ratio:4/3; min-height:220px; height:auto; }
@@ -1040,7 +1120,7 @@
                 <svg class="btn-icon" viewBox="0 0 32 32" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.001 3C9.11 3 3.5 8.61 3.5 15.5c0 2.6.77 5.02 2.09 7.05L3.5 29l6.62-2.06a12.44 12.44 0 005.88 1.48h.01c6.89 0 12.5-5.61 12.5-12.5S22.89 3 16.001 3zm0 22.75c-1.9 0-3.76-.51-5.38-1.47l-.39-.23-4.02 1.25 1.28-3.92-.25-.4a10.2 10.2 0 01-1.6-5.48c0-5.66 4.61-10.27 10.27-10.27S26.27 9.84 26.27 15.5 21.66 25.75 16.001 25.75zm5.62-7.7c-.31-.15-1.82-.9-2.1-1-.28-.1-.49-.15-.69.15-.21.31-.79 1-.97 1.2-.18.21-.36.23-.67.08-.31-.15-1.29-.48-2.46-1.53-.91-.81-1.52-1.81-1.7-2.12-.18-.31-.02-.47.13-.62.14-.14.31-.36.46-.54.15-.18.2-.31.31-.51.1-.21.05-.39-.02-.54-.08-.15-.69-1.67-.95-2.29-.25-.6-.5-.52-.69-.53-.18-.01-.38-.01-.59-.01s-.54.08-.82.39c-.28.31-1.08 1.05-1.08 2.57s1.1 2.98 1.26 3.19c.15.21 2.17 3.31 5.26 4.65.73.32 1.31.51 1.75.65.74.24 1.41.2 1.94.12.59-.09 1.82-.74 2.08-1.46.26-.72.26-1.33.18-1.46-.08-.13-.28-.2-.59-.36z"/></svg>
                 <span>Chamar no WhatsApp</span>
             </a>
-            <a href="#catalogo" class="btn-ghost">Ver catálogo <span class="btn-arrow">→</span></a>
+            <a href="#catalogo" class="btn-ghost btn-ghost-solid">Ver catálogo <span class="btn-arrow">→</span></a>
         </div>
     </div>
 </header>
@@ -1101,29 +1181,32 @@
     <div class="servicos-grid">
         <article class="servico-card">
             <div class="servico-media">
-                <img src="assets/imagens/servicos/servico_vidros.jpg" alt="Para-brisas e vidros automotivos Farolete" loading="lazy" decoding="async">
+                <img src="assets/imagens/servicos/servico_vidros.jpg?v=10" alt="Exemplos ilustrativos: para-brisa, vidro de porta e vidro — Farolete" loading="lazy" decoding="async">
+                <span class="servico-media-cap">Imagens meramente ilustrativas</span>
             </div>
             <div class="servico-body">
                 <span class="servico-num">01</span>
                 <h3>Para-brisas e vidros</h3>
-                <p>Para-brisas, vidro de porta e auto porta, com atendimento especializado e compromisso com o serviço.</p>
+                <p>Para-brisas, vidro de porta e vigia. Confirmamos o modelo do seu carro no WhatsApp.</p>
                 <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Preciso de para-brisa ou vidro automotivo.">Pedir orçamento <span class="btn-arrow">→</span></a>
             </div>
         </article>
         <article class="servico-card">
             <div class="servico-media">
-                <img src="assets/imagens/servicos/servico_farois.jpg" alt="Faróis e iluminação automotiva Farolete" loading="lazy" decoding="async">
+                <img src="assets/imagens/servicos/servico_farois.jpg?v=10" alt="Exemplos ilustrativos: farol, lanterna e lâmpada — Farolete" loading="lazy" decoding="async">
+                <span class="servico-media-cap">Imagens meramente ilustrativas</span>
             </div>
             <div class="servico-body">
                 <span class="servico-num">02</span>
                 <h3>Iluminação</h3>
-                <p>Faróis, lanternas e lâmpadas pra deixar o carro seguro e em dia.</p>
+                <p>Faróis, lanternas e lâmpadas. Disponibilidade conforme o veículo.</p>
                 <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Preciso de farol, lanterna ou lâmpada.">Consultar peça <span class="btn-arrow">→</span></a>
             </div>
         </article>
         <article class="servico-card">
             <div class="servico-media">
-                <img src="assets/imagens/servicos/servico_acabamento.jpg" alt="Peças e acabamento automotivo Farolete" loading="lazy" decoding="async">
+                <img src="assets/imagens/servicos/servico_acabamento.jpg?v=10" alt="Exemplos ilustrativos: para-choque, calota, retrovisor e friso — Farolete" loading="lazy" decoding="async">
+                <span class="servico-media-cap">Imagens meramente ilustrativas</span>
             </div>
             <div class="servico-body">
                 <span class="servico-num">03</span>
@@ -1134,12 +1217,13 @@
         </article>
         <article class="servico-card">
             <div class="servico-media">
-                <img src="assets/imagens/servicos/servico_borrachas.jpg" alt="Borrachas e palhetas Farolete" loading="lazy" decoding="async">
+                <img src="assets/imagens/servicos/servico_borrachas.jpg?v=10" alt="Exemplos ilustrativos: borracha, palhetas e calha de chuva — Farolete" loading="lazy" decoding="async">
+                <span class="servico-media-cap">Imagens meramente ilustrativas</span>
             </div>
             <div class="servico-body">
                 <span class="servico-num">04</span>
                 <h3>Borrachas e palhetas</h3>
-                <p>Borrachas de vedação e palhetas. Detalhes que fazem diferença no dia a dia.</p>
+                <p>Borrachas, palhetas e calhas. Temos mais opções no estoque.</p>
                 <a href="https://wa.me/5531999971820" class="btn-ghost whats-cta" data-msg="Olá! Preciso de borracha ou palheta.">Falar no WhatsApp <span class="btn-arrow">→</span></a>
             </div>
         </article>
@@ -1153,8 +1237,9 @@
         <div class="section-head">
         <span class="label">Catálogo Farolete</span>
         <h2>Estoque real.<br>Peça certa.</h2>
-        <p>Fotos do nosso catálogo com identidade da casa. Filtra por categoria ou deixa o carrossel rodar.</p>
+        <p>Vitrine por tipo de peça — filtre a categoria ou arraste o carrossel. Confirme veículo e disponibilidade no WhatsApp.</p>
     </div>
+    <p class="catalogo-note">Imagens meramente ilustrativas. A peça do seu carro é confirmada pela loja conforme modelo e ano.</p>
 
     <div class="cat-filters" role="tablist" aria-label="Filtrar catálogo por categoria">
         <button type="button" class="cat-filter active" data-cat="all" role="tab" aria-selected="true">Todas</button>
@@ -1163,7 +1248,7 @@
         <button type="button" class="cat-filter" data-cat="trancas" role="tab" aria-selected="false">Trancas</button>
         <button type="button" class="cat-filter" data-cat="visual" role="tab" aria-selected="false">Visual</button>
         <button type="button" class="cat-filter" data-cat="retrovisores" role="tab" aria-selected="false">Retrovisores</button>
-        <button type="button" class="cat-filter" data-cat="rodas" role="tab" aria-selected="false">Rodas</button>
+        <button type="button" class="cat-filter" data-cat="rodas" role="tab" aria-selected="false">Calotas</button>
         <button type="button" class="cat-filter" data-cat="outros" role="tab" aria-selected="false">Outros</button>
     </div>
 
@@ -1174,7 +1259,7 @@
 
 
     <div class="catalogo-cta">
-        <a href="https://marketplace.farolete.com.br/" class="btn-ghost" target="_blank" rel="noopener">
+        <a href="https://marketplace.farolete.com.br/" class="btn-ghost btn-ghost-solid" target="_blank" rel="noopener">
             Ver catálogo completo <span class="btn-arrow">→</span>
         </a>
         <a href="https://wa.me/5531999971820" class="btn-whats whats-cta" data-msg="Olá! Vi o catálogo da Farolete e quero consultar uma peça.">
@@ -1409,8 +1494,12 @@
             const products = getProducts();
             track.innerHTML = products.map(p => `
                 <figure class="prod-card" data-cat="${escapeHtml(p.category || 'outros')}">
-                    <div class="prod-frame"><img src="${p.image}" alt="${escapeHtml(p.name)}" draggable="false" decoding="async"></div>
-                    <figcaption><span class="prod-tag">${escapeHtml(categoryLabel(p.category))}</span>${escapeHtml(p.name)}</figcaption>
+                    <div class="prod-frame"><img src="${p.image}" alt="${escapeHtml(p.name)} — imagem meramente ilustrativa" draggable="false" decoding="async" loading="lazy"></div>
+                    <figcaption>
+                        <span class="prod-tag">${escapeHtml(categoryLabel(p.category))}</span>
+                        ${escapeHtml(p.name)}
+                        <span class="prod-disc">Imagem meramente ilustrativa</span>
+                    </figcaption>
                 </figure>`).join('') + maisCardHtml();
         }
 
