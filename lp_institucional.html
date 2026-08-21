@@ -792,6 +792,25 @@
     .review-card-stat .review-stars span{ background:var(--ink); }
     .review-card-stat p{ font-size:0.9rem; line-height:1.5; }
 
+    /* Tira continua de avaliacoes (mesmo cartao, rolando em vez de grid fixo) */
+    .reviews-strip{
+        overflow:hidden; margin-top:0.4rem;
+        mask-image:linear-gradient(90deg, transparent, black 4%, black 96%, transparent);
+        -webkit-mask-image:linear-gradient(90deg, transparent, black 4%, black 96%, transparent);
+    }
+    .reviews-track{
+        display:flex; width:max-content; gap:1px; background:var(--line);
+        animation:marquee 52s linear infinite;
+    }
+    .reviews-strip:hover .reviews-track{ animation-play-state:paused; }
+    .reviews-track .review-card{ width:min(320px, 82vw); flex:0 0 auto; padding:1.9rem 1.7rem; gap:0.9rem; }
+    .reviews-track .review-quote{ font-size:0.92rem; }
+    .reviews-source{
+        display:flex; align-items:center; justify-content:center; gap:0.5rem;
+        margin-top:1.6rem; font-size:0.78rem; color:var(--muted);
+        text-transform:uppercase; letter-spacing:1.2px; font-family:'Barlow Condensed', sans-serif; font-weight:600;
+    }
+
     /* ─── CONFIANCA (banda âmbar suave) ─── */
     .confianca{
         background:
@@ -1329,35 +1348,88 @@
 
 <div class="hazard-fold" aria-hidden="true"></div>
 
-<!-- FAQ -->
-<div class="faq-band">
-    <div class="bg-glow" style="top:8%; left:-8%; width:min(72vw, 820px);" aria-hidden="true"></div>
-    <div class="bg-glow glow-2" style="bottom:-18%; right:-12%; width:min(58vw, 640px);" aria-hidden="true"></div>
-<section class="faq reveal" id="duvidas">
-    <div class="faq-head">
-        <span class="label">Dúvidas frequentes</span>
-        <h2>Tudo o que você<br>precisa saber.</h2>
+<!-- AVALIACOES -->
+<section class="avaliacoes reveal">
+    <div class="section-head">
+        <span class="label">Quem já comprou</span>
+        <h2>Avaliações reais<br>no Google.</h2>
     </div>
-    <div class="accordion">
-        <div class="acc-item">
-            <button class="acc-trigger" type="button">Vocês têm peça pro meu carro? <div class="acc-icon"></div></button>
-            <div class="acc-body"><p>Trabalhamos com para-brisas, faróis, lanternas, borrachas, lâmpadas, para-choques, calotas, vidro de porta, palhetas, retrovisores, frisos, para-barro e mais. Manda a marca/modelo no WhatsApp que a gente confirma disponibilidade.</p></div>
-        </div>
-        <div class="acc-item">
-            <button class="acc-trigger" type="button">Onde fica a loja? <div class="acc-icon"></div></button>
-            <div class="acc-body"><p>Av. Zumbi dos Palmares, 138, Bairro Liberdade, Sarzedo/MG.</p></div>
-        </div>
-        <div class="acc-item">
-            <button class="acc-trigger" type="button">Qual o horário de funcionamento? <div class="acc-icon"></div></button>
-            <div class="acc-body"><p>Segunda a sexta das 8h às 18h. Sábado das 8h às 12h. Domingo fechado.</p></div>
-        </div>
-        <div class="acc-item">
-            <button class="acc-trigger" type="button">Quais formas de pagamento são aceitas? <div class="acc-icon"></div></button>
-            <div class="acc-body"><p>Aceitamos PIX e cartão.</p></div>
+    <div class="reviews-strip">
+        <div class="reviews-track">
+            <article class="review-card review-card-stat">
+                <span class="selo-big">5,0</span>
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p>Média das avaliações da Farolete no Google, direto de clientes reais.</p>
+            </article>
+            <article class="review-card">
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p class="review-quote">"Pessoal super honesto e atencioso. Atendimento nota 10. Super indico!"</p>
+                <div class="review-meta"><strong>Fernanda Iona Lacerda Tonaco</strong><span>Google · avaliação verificada</span></div>
+            </article>
+            <article class="review-card">
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p class="review-quote">"Comprei as peças do meu carro tudo nessa loja, peças muito boa, excelente qualidade. A moça que me atendeu, a Roseli, me deu todo suporte que precisei. Sou muito grata à Farolete pelo atendimento e pela qualidade das peças. Sucesso :)"</p>
+                <div class="review-meta"><strong>Miriã Sander</strong><span>Google · avaliação verificada</span></div>
+            </article>
+            <article class="review-card">
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p class="review-quote">"Super recomendo, atendimento de excelência, prestação de serviço com muita qualidade e transparência, equipe super profissional."</p>
+                <div class="review-meta"><strong>Emerson Josué</strong><span>Google · avaliação verificada</span></div>
+            </article>
+            <article class="review-card">
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p class="review-quote">"Preço bom, serviço de qualidade."</p>
+                <div class="review-meta"><strong>Jucimar Santos</strong><span>Google · avaliação verificada</span></div>
+            </article>
+            <article class="review-card">
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p class="review-quote">"Ótimo atendimento."</p>
+                <div class="review-meta"><strong>Ana Oliveira</strong><span>Google · avaliação verificada</span></div>
+            </article>
+            <article class="review-card">
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p class="review-quote">"Recomendo muito, comprei várias peças pro meu carro: retrovisores, entre outros. Atendentes super atenciosos."</p>
+                <div class="review-meta"><strong>Luiz Amaral</strong><span>Google · avaliação verificada</span></div>
+            </article>
+            <article class="review-card review-card-stat" aria-hidden="true">
+                <span class="selo-big">5,0</span>
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p>Média das avaliações da Farolete no Google, direto de clientes reais.</p>
+            </article>
+            <article class="review-card" aria-hidden="true">
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p class="review-quote">"Pessoal super honesto e atencioso. Atendimento nota 10. Super indico!"</p>
+                <div class="review-meta"><strong>Fernanda Iona Lacerda Tonaco</strong><span>Google · avaliação verificada</span></div>
+            </article>
+            <article class="review-card" aria-hidden="true">
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p class="review-quote">"Comprei as peças do meu carro tudo nessa loja, peças muito boa, excelente qualidade. A moça que me atendeu, a Roseli, me deu todo suporte que precisei. Sou muito grata à Farolete pelo atendimento e pela qualidade das peças. Sucesso :)"</p>
+                <div class="review-meta"><strong>Miriã Sander</strong><span>Google · avaliação verificada</span></div>
+            </article>
+            <article class="review-card" aria-hidden="true">
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p class="review-quote">"Super recomendo, atendimento de excelência, prestação de serviço com muita qualidade e transparência, equipe super profissional."</p>
+                <div class="review-meta"><strong>Emerson Josué</strong><span>Google · avaliação verificada</span></div>
+            </article>
+            <article class="review-card" aria-hidden="true">
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p class="review-quote">"Preço bom, serviço de qualidade."</p>
+                <div class="review-meta"><strong>Jucimar Santos</strong><span>Google · avaliação verificada</span></div>
+            </article>
+            <article class="review-card" aria-hidden="true">
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p class="review-quote">"Ótimo atendimento."</p>
+                <div class="review-meta"><strong>Ana Oliveira</strong><span>Google · avaliação verificada</span></div>
+            </article>
+            <article class="review-card" aria-hidden="true">
+                <div class="review-stars"><span></span><span></span><span></span><span></span><span></span></div>
+                <p class="review-quote">"Recomendo muito, comprei várias peças pro meu carro: retrovisores, entre outros. Atendentes super atenciosos."</p>
+                <div class="review-meta"><strong>Luiz Amaral</strong><span>Google · avaliação verificada</span></div>
+            </article>
         </div>
     </div>
+    <p class="reviews-source">Avaliações reais de clientes no Google</p>
 </section>
-</div>
 
 <!-- CTA FINAL -->
 <section class="cta-final reveal">
@@ -1404,6 +1476,38 @@
         </aside>
     </div>
 </section>
+
+<div class="hazard-fold" aria-hidden="true"></div>
+
+<!-- FAQ -->
+<div class="faq-band">
+    <div class="bg-glow" style="top:8%; left:-8%; width:min(72vw, 820px);" aria-hidden="true"></div>
+    <div class="bg-glow glow-2" style="bottom:-18%; right:-12%; width:min(58vw, 640px);" aria-hidden="true"></div>
+<section class="faq reveal" id="duvidas">
+    <div class="faq-head">
+        <span class="label">Dúvidas frequentes</span>
+        <h2>Tudo o que você<br>precisa saber.</h2>
+    </div>
+    <div class="accordion">
+        <div class="acc-item">
+            <button class="acc-trigger" type="button">Vocês têm peça pro meu carro? <div class="acc-icon"></div></button>
+            <div class="acc-body"><p>Trabalhamos com para-brisas, faróis, lanternas, borrachas, lâmpadas, para-choques, calotas, vidro de porta, palhetas, retrovisores, frisos, para-barro e mais. Manda a marca/modelo no WhatsApp que a gente confirma disponibilidade.</p></div>
+        </div>
+        <div class="acc-item">
+            <button class="acc-trigger" type="button">Onde fica a loja? <div class="acc-icon"></div></button>
+            <div class="acc-body"><p>Av. Zumbi dos Palmares, 138, Bairro Liberdade, Sarzedo/MG.</p></div>
+        </div>
+        <div class="acc-item">
+            <button class="acc-trigger" type="button">Qual o horário de funcionamento? <div class="acc-icon"></div></button>
+            <div class="acc-body"><p>Segunda a sexta das 8h às 18h. Sábado das 8h às 12h. Domingo fechado.</p></div>
+        </div>
+        <div class="acc-item">
+            <button class="acc-trigger" type="button">Quais formas de pagamento são aceitas? <div class="acc-icon"></div></button>
+            <div class="acc-body"><p>Aceitamos PIX e cartão.</p></div>
+        </div>
+    </div>
+</section>
+</div>
 
 <div class="hazard-fold" aria-hidden="true"></div>
 
