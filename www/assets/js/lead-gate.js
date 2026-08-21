@@ -87,8 +87,8 @@
       <div class="fl-gate-error" id="flGateError"></div>
       <form id="flGateForm" autocomplete="on">
         <div class="fl-gate-field">
-          <label for="flGateName">Nome completo</label>
-          <input id="flGateName" name="name" type="text" required maxlength="80" placeholder="Seu nome" autocomplete="name">
+          <label for="flGateName">Nome</label>
+          <input id="flGateName" name="name" type="text" required maxlength="80" placeholder="Seu nome" autocomplete="given-name">
         </div>
         <div class="fl-gate-field">
           <label for="flGatePhone">Telefone / WhatsApp (com DDD)</label>
@@ -219,13 +219,11 @@
       window.location.href = url;
       return;
     }
-    const go = document.createElement('a');
-    go.href = url;
-    go.target = '_blank';
-    go.rel = 'noopener noreferrer';
-    document.body.appendChild(go);
-    go.click();
-    go.remove();
+    // window.open, nao um <a> clicado por JS: um clique sintetico em <a href="wa.me/...">
+    // dispara um evento de click de verdade, que o listener global la embaixo intercepta
+    // de novo (acha que e um link de WhatsApp clicado pelo usuario) e cancela a navegacao,
+    // reabrindo esse mesmo gate em loop.
+    window.open(url, '_blank', 'noopener,noreferrer');
   });
 
   function resolveMsg(el) {
